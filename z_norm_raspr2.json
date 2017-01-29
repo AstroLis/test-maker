@@ -1,0 +1,19 @@
+{
+"title":"Ќормальнное распрееление - интервал",
+"zadacha":"'—лучайна€ величина X распределена по закону с плотностью распределени€:'+MakeNormalDistr(A1,A2)",
+"vopros":{
+          "v1":"'Ќайти интервал $(M-3\\\\cdot \\\\sigma,M+3\\\\cdot \\\\sigma)$'"
+         }, 
+"param":{
+         "A1":"random.randint(-11,11)",
+         "A2":"random.randint(1,6)",
+         "A3":"random.randint(2,10)",
+         "A4":"random.randint(1,4)",
+         "A5":"random.randint(1,4)",
+         "A6":"(10-A4-A5)",
+         "A7":"A2*A2"
+        },
+"otvet":{
+         "o1":"'('+str(A1-3*A2)+','+str(A1+3*A2)+')'"         
+        }
+}

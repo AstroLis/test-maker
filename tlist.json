@@ -1,0 +1,7 @@
+{
+"1. Основы теории вероятностей":["z_bern1.json","z_clas-ver.json","z_bern_pua.json","z_opera_sobit.json","z_opera_sobit_sozhn.json","z_poln_ver.json","z_poln_ver2.json","z_poln_ver3.json","z_poln_ver_byes.json","z_slozh_umnozh.json","z_slozh_umnozh2.json","z_graph.json","z_shcem.json","z_shcem2.json"],
+"2. Случайные величины":["z_pl_raspr_exp.json","z_norm_raspr.json","z_norm_raspr2.json","z_matozh_gr.json","z_fraspr_nepr.json","z_matozh.json","z_matozh_table.json","z_matozh_table_2d.json","z_pl_raspr_ravn.json"],
+"3. Математическая статистика":["z_ispr_skvo2.json","z_ispr_skvo.json","z_ispr_dispr.json","z_viborka.json","z_viborka2.json"],
+"4. Случайные процессы":["z_chis_har_sl_pr.json"],
+"5. Теоретические вопросы":["Teor_tv1.json","Teor_tv2.json","Teor_tv3.json","Teor_tv4.json","Teor_tv5.json"]
+}

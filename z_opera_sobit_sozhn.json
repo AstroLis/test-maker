@@ -1,0 +1,25 @@
+{
+"title":"ќпераци над событи€м сложные",
+"zadacha":"'Cобыти€ $A_1, A_2, A_3, A_4$ св€заны с экспериментом $\\\\varepsilon$. «аписать событие F, заключающеес€ в том, что'",
+"vopros":{
+          "v1":"'произошло только одно из событий $A_1, A_2, A_3, A_4$'",
+          "v2":"'произошло только $A_1, A_2$'",
+          "v3":"'произошло только три событи€'",
+          "v4":"'произошли не все событи€ $A_1, A_2, A_3, A_4$'"
+         }, 
+"param":{
+         "A1":"random.randint(1,4)",
+         "A2":"0",
+         "A3":"0",
+         "A4":"0",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'$A_1 \\\\cdot \\\\overline{A_2} \\\\cdot \\\\overline{A_3} \\\\cdot \\\\overline{A_4}+\\\\overline{A_1} \\\\cdot A_2 \\\\cdot \\\\overline{A_3} \\\\cdot \\\\overline{A_4}+\\\\overline{A_1} \\\\cdot \\\\overline{A_2} \\\\cdot A_3 \\\\cdot \\\\overline{A_4}+\\\\overline{A_1} \\\\cdot \\\\overline{A_2} \\\\cdot \\\\overline{A_3} \\\\cdot A_4$'",
+         "o2":"'$A_1 \\\\cdot A_2 \\\\cdot \\\\overline{A_3} \\\\cdot \\\\overline{A_4}$'",
+         "o3":"'$A_1 \\\\cdot A_2 \\\\cdot A_3 \\\\cdot \\\\overline{A_4}+A_1 \\\\cdot A_2 \\\\cdot \\\\overline{A_3} \\\\cdot A_4+A_1 \\\\cdot \\\\overline{A_2} \\\\cdot A_3 \\\\cdot A_4+\\\\overline{A_1} \\\\cdot A_2 \\\\cdot A_3 \\\\cdot A_4$'",
+         "o4":"'$\\\\overline{A_1 \\\\cdot A_2 \\\\cdot A_3 \\\\cdot A_4}$'"         
+        }
+}
