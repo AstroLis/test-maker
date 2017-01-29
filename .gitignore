@@ -1,0 +1,11 @@
+*.aux
+*.bat
+*_count
+*.log
+*.tex
+*.dvi
+*.ps
+*.eps
+*.pdf
+*.txt
+*.zip
