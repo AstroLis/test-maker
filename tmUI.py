@@ -126,6 +126,7 @@ def make_page_head(TName,Nz,ii):
  th=[]
  th.append("\\flushright{"+str(TName)+"}\n\n")
  th.append("\\centering{ТЕСТ\n\n Теория Вероятностей и Математическая Статистика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
+ #th.append("\\centering{ТЕСТ по ТВ и МС. Вариант \\textnumero "+str(ii)+"("+str(TName)+")}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
  th.append("\\begin{tabular}{|c|");
  for tt in range(0,Nz):
    th.append("c|");
@@ -216,9 +217,9 @@ def make_test(*args):
     f.close()
     fsolv.close()
     tex_cmp = open('cmp_tex.bat', 'w')
-    tex_cmp.write('latex ' + test_name + '.tex\n')
-    tex_cmp.write('dvips  ' + test_name + '.dvi\n')
-    tex_cmp.write('ps2pdf ' + test_name + '.ps\n')
+    tex_cmp.write('latex "' + test_name + '.tex"\n')
+    tex_cmp.write('dvips  "' + test_name + '.dvi"\n')
+    tex_cmp.write('ps2pdf "' + test_name + '.ps"\n')
     #tex_cmp.write('latex ' + str(v_cou) + '_solv.tex\n')
     #tex_cmp.write('dvips  ' + str(v_cou) + '_solv.dvi\n')
     #tex_cmp.write('ps2pdf ' + str(v_cou) + '_solv.ps\n')
@@ -281,7 +282,6 @@ root.grid_rowconfigure(0, weight=1)
 jz=open("tlist.json","r")
 jzz=jz.read()
 themdata=json.loads(jzz)
-tasks_list=open("tlist.txt")
 task_data={}
 theme_data={}
 for theme in sorted(list(themdata.keys())):
