@@ -14,6 +14,6 @@
          "A7":"A2*A2"
         },
 "otvet":{
-         "o1":"int(math.sqrt(A2*A1/(A1-1))*1000)/1000"         
+         "o1":"'{:6.4f}'.format(math.sqrt(A2*A1/(A1-1)))"         
         }
 }
