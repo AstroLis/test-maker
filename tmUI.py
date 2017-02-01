@@ -106,7 +106,7 @@ def ParseTaskWithParams(data,**kwargs):
        if(strl>70):
         rt.append('\n')
     #rt.append('\nCorrect answer: '+str(ncu))
-    return (rt,str(ncu))
+    return (rt,str(ncu+1))
  
 def ParseTask(data):
    fl=1
