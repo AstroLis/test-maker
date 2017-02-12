@@ -16,8 +16,9 @@ def Cnm(n,m):
  return math.factorial(n)/(math.factorial(m)*math.factorial(n-m))
 
 def Shuf(x):
- random.shuffle(x)
- return x
+ xx=list(x)
+ random.shuffle(xx)
+ return xx
  
 def MakeTable(xyT,xHead,yHead,data,ff=2):
  tb=''
