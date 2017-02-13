@@ -155,14 +155,6 @@ def PrintCirq1(cname,imax):
  A=[xA,yA,rA]
  B=[xB,yB,rB]
  C=[xC,yC,rC]
- ccc.stroke(path.circle(A[0],A[1],A[2]))
- ccc.stroke(path.circle(B[0],B[1],B[2]))
- ccc.stroke(path.circle(C[0],C[1],C[2]))
- ccc.stroke(path.rect(-2, -2, 4, 4.5))
- ccc.text(A[0]-A[2],A[1]-A[2], "A", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
- ccc.text(B[0]+B[2],B[1]-B[2], "B", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
- ccc.text(C[0],C[1]+C[2]+0.2, "C", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
- ccc.text(-1.75,2.1, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
  
  pp=[]
  fnums=[0,1,2,3,4,5,6,7]
@@ -178,7 +170,16 @@ def PrintCirq1(cname,imax):
    y=2.*iy/ir
    for f in uf:
     if nforms[f]((x,y),A,B,C):
-     ccc.stroke(path.circle(x,y,0.01))       
+     ccc.stroke(path.circle(x,y,0.01),[color.gray(0.5)])   
+ ccc.stroke(path.circle(A[0],A[1],A[2]))
+ ccc.stroke(path.circle(B[0],B[1],B[2]))
+ ccc.stroke(path.circle(C[0],C[1],C[2]))
+ ccc.stroke(path.rect(-2, -2, 4, 4.5))
+ ccc.text(A[0]-A[2],A[1]-A[2], "A", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ ccc.text(B[0]+B[2],B[1]-B[2], "B", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ ccc.text(C[0],C[1]+C[2]+0.2, "C", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ ccc.text(-1.75,2.1, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+     
  ccc.writeEPSfile(cname)
  return set(uf)
  
@@ -195,13 +196,13 @@ tex_file.write("\\documentclass[12pt]{article}\n")
 tex_file.write("\\usepackage{graphics}\n")
 tex_file.write("\\usepackage[cp1251]{inputenc}\n")
 tex_file.write("\\usepackage[russian]{babel}\n")
-tex_file.write("\\usepackage[left=2cm,right=2cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+tex_file.write("\\usepackage[left=4cm,right=2cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
 tex_file.write("\\usepackage{caption}\n")
 tex_file.write("\\usepackage{subcaption}\n")
 tex_file.write("\\begin{document}\n")
 tex_file.write("\\pagenumbering{gobble}\n")
 tex_file.write("\\captionsetup{labelformat=empty}\n")
-for i in range(0,10):
+for i in range(0,25):
     tex_file.write("\\begin{figure}[!htb]\n")
     tex_file.write("\\centering\n")
     cname='circl'+str(i)
@@ -210,33 +211,34 @@ for i in range(0,10):
     for j in range(0,4):
      cn.append(cname+str(j))
      uf.append(PrintCirq1(cn[j],3))
-    tex_file.write("\\caption{Задача "+str(i)+". Какому рисунку соответствует выражение: \\\\")
+    #tex_file.write("\\caption{Задача "+str(i)+". Какому рисунку соответствует выражение: \\\\")
     fl=1
     rr=random.randint(0,3)
     res_file.write(str(i)+" - "+str(rr)+"\n")
-    tex_file.write("$")
-    for j in uf[rr]:
-     if not fl:
-      tex_file.write(' \\cup ')
-     tex_file.write(FormStr(nforms[j]))
-     fl=0
-    tex_file.write("$}\n")
+    #tex_file.write("$")
+    #for j in uf[rr]:
+    # if not fl:
+    #  tex_file.write(' \\cup ')
+    # tex_file.write(FormStr(nforms[j]))
+    # fl=0
+    #tex_file.write("$}\n")
     #tex_file.write("\\includegraphics{"+cname+".eps}\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[0]+".eps}\n")
-    tex_file.write("\\caption{ }\n")
+    #tex_file.write("\\caption{ }\n")
     tex_file.write("\\end{subfigure}\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[1]+".eps}\n")
-    tex_file.write("\\caption{ }\n")
-    tex_file.write("\\end{subfigure}\n")   
+    #tex_file.write("\\caption{ }\n")
+    tex_file.write("\\end{subfigure}\n")
+    tex_file.write("\n\\bigskip\n\\vskip 2cm\n\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[2]+".eps}\n")
-    tex_file.write("\\caption{ }\n")
+    #tex_file.write("\\caption{ }\n")
     tex_file.write("\\end{subfigure}\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[3]+".eps}\n")
-    tex_file.write("\\caption{ }\n")
+    #tex_file.write("\\caption{ }\n")
     tex_file.write("\\end{subfigure}\n")   
     tex_file.write("\\end{figure}\n")
 
