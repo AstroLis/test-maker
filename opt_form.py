@@ -2,25 +2,7 @@ import random,math
 from shutil import copyfile
 from pyx import *
 from math import sqrt
-def FormStr(aa):
- global nforms
- if aa==nforms[0]:
-  return '$A \cdot B \cdot C$'
- if aa==nforms[1]:
-  return '$\overline{A} \cdot B \cdot C$'
- if aa==nforms[2]:
-  return '$A \cdot \overline{B} \cdot C$'
- if aa==nforms[3]:
-  return '$A \cdot B \cdot \overline{C}$'
- if aa==nforms[4]:
-  return '$\overline{A} \cdot \overline{B} \cdot C$'
- if aa==nforms[5]:
-  return '$A \cdot \overline{B} \cdot \overline{C}$'
- if aa==nforms[6]:
-  return '$\overline{A} \cdot B \cdot \overline{C}$'
- if aa==nforms[7]:
-  return '$\overline{A} \cdot \overline{B} \cdot \overline{C}$'
- 
+
 def TestA(x,A): #1
  xA=sqrt(pow(x[0]-A[0],2)+pow(x[1]-A[1],2))
  if(xA<A[2]):
@@ -75,9 +57,9 @@ def NtoList(iPerf):
   iPerf=iPerf>>1
  return ff
 
-def NtoListB(iPerf):
+def NtoListB(iPerf,l):
  ff=[]
- for i in range(0,8):
+ for i in range(0,l):
   ff.append(iPerf%2)
   iPerf=iPerf>>1
  return ff
@@ -140,6 +122,29 @@ def DStrI(i):
   f=f>>1
  return strf
 
+def DStrIMask(i,m):
+ lett=['A','B','C','D','E','F','G']
+ strf=''
+ n=3
+ f=i
+ first=1
+ for ii in range(0,3):
+  bit=f%2
+  f=f>>1
+  mbit=m%2
+  m=m>>1
+  if(not mbit):
+   if not first:
+    strf+=' \\cdot '
+   else:
+    first=0
+   if(bit):
+    strf+=lett[ii]
+   else:
+    strf+='\\overline{'+lett[ii]+'}'
+ return strf
+
+
 def DStrFromN(n):
  ff=NtoList(n)
  strf="$"
@@ -155,6 +160,36 @@ def DStrFromN(n):
    strf="$\\emptyset$"
  return strf
 
+def DStrFrom2fN(n):
+ ff=NtoList(n)
+ if not len(ff)==2:
+  print('error in DStrFrom2fN, not 2forms:')
+  print(ff)
+  raise SystemExit(-1)
+ mask=ff[0]^ff[1]
+ strf="$"
+ strf+=DStrIMask(ff[0],mask)
+ strf+="$"
+ return strf
+
+def DStrFrom1fN(n):
+ ff=NtoList(n)
+ if(len(ff)==0):
+  return "$\\emptyset$"
+ maskl=[0,0,0]
+ mm=NtoListB(ff[0],3)
+ for i in range(1,len(ff)):
+  k=NtoListB(ff[i],3)
+  for j in range(0,3):
+   if not mm[j]==k[j]:
+    maskl[j]=1
+ mask=maskl[0]+maskl[1]*2+maskl[2]*4
+ strf="$"
+ strf+=DStrIMask(ff[0],mask)
+ strf+="$"
+ return strf
+
+
 def VVprod(v1,v2):
  s=0
  for i in range(0,len(v1)):
@@ -169,22 +204,44 @@ def VMprod(v,M):
   r.append(fv[i]*VVprod(fv,M[i]))
  return r
 
+def CheckBit(i,bit):
+ return (i>>bit)%2
 
+forms2=[]
 tf=open('test_sm.txt','w')
 tf.write("  0 1 2 3 4 5 6 7\n")
+get_bin = lambda x, n: format(x, 'b').zfill(n)
 for i in range(0,8):
  tf.write(str(i)+" ")
  for j in range(0,8):
   r=0
   if(CalcBits(i^j)==1):
    r=1
+   forms2.append(pow(2,i)+pow(2,j))
   tf.write(str(r)+" ")
  tf.write("\n")
 n_sets=3
 nforms=pow(2,n_sets) 
-adj_matr=[[int(CalcBits(i^j)==1) for i in range(0,nforms)] for j in range(0,nforms)]  
+adj_matr=[[int(CalcBits(i^j)==1) for i in range(0,nforms)] for j in range(0,nforms)]
 print(adj_matr)
-
+forms2=sorted(list(set(forms2)))
+forms1=[]
+for ib in range(0,3):
+ t0=0
+ t1=0
+ for i in range(0,8):
+  if CheckBit(i,ib):
+   t0+=pow(2,i)
+  else:
+   t1 += pow(2, i)
+ forms1.append(t0)
+ forms1.append(t1)
+print(forms1)
+forms1+=[0,0]
+#for i in forms2:
+# print(get_bin(i,8))
+# for j in range(0,8):
+#  print(CheckBit(i,j))
 
 v_cou=0 
 tex_file=open('cc'+str(v_cou)+'.tex','w')
@@ -204,16 +261,20 @@ tex_file.write("\\usepackage{subcaption}\n")
 tex_file.write("\\begin{document}\n")
 tex_file.write("\\pagenumbering{gobble}\n")
 tex_file.write("\\captionsetup{labelformat=empty}\n")
-for i in range(6,16,4):
+for i in range(0,len(forms1),4):
     tex_file.write("\\begin{figure}[!htb]\n")
     tex_file.write("\\centering\n")
     cname='circl'+str(i)
     cn=[]
     uf=[]
     for j in range(0,4):
+     ind=j+i
+     ff=forms1[ind]
      cn.append(cname+str(j))
-     PrintCirqPerf(cname+str(j),j+i,3)
-     uf.append(DStrFromN(j+i)+"  "+str(VMprod(j+i,adj_matr)))
+     PrintCirqPerf(cname+str(j),ff,n_sets)
+     #uf.append(DStrFromN(ff)+"="+DStrFrom2fN(ff)+"  "+str(VMprod(ff,adj_matr)))
+     uf.append(DStrFromN(ff) + "=" + DStrFrom1fN(ff))
+     #uf.append(DStrFromN(ff))
     fl=1
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[0]+".eps}\n")
