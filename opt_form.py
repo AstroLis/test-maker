@@ -167,9 +167,10 @@ def DStrFrom2fN(n):
   print(ff)
   raise SystemExit(-1)
  mask=ff[0]^ff[1]
- strf="$"
- strf+=DStrIMask(ff[0],mask)
- strf+="$"
+ #mask=7^mask
+ #strf="$"
+ strf=DStrIMask(ff[0],mask)
+ #strf+="$"
  return strf
 
 def DStrFrom1fN(n):
@@ -184,10 +185,79 @@ def DStrFrom1fN(n):
    if not mm[j]==k[j]:
     maskl[j]=1
  mask=maskl[0]+maskl[1]*2+maskl[2]*4
- strf="$"
- strf+=DStrIMask(ff[0],mask)
- strf+="$"
+ #strf="$"
+ strf=DStrIMask(ff[0],mask)
+ #strf+="$"
  return strf
+
+def CalcNFromForms123(forms123):
+ r=0
+ for i in forms123:
+  r=r|i[0]
+ return r
+
+def Filter3Forms(forms123,N):
+  rez=forms123
+  for f in forms123:
+   if(f[1]==3):
+    ff=[f3 for f3 in forms123 if not f3==f]
+    if CalcNFromForms123(ff)==N:
+     rez=Filter3Forms(ff,N)
+  return rez
+
+def Filter2Forms(forms123,N):
+  rez=forms123
+  for f in forms123:
+   if(f[1]==2):
+    ff=[f2 for f2 in forms123 if not f2==f]
+    if CalcNFromForms123(ff)==N:
+     rez=Filter2Forms(ff,N)
+     break
+  return rez
+
+def Optimize12Forms(forms1,forms2,N):
+ forms3=[pow(2,i) for i in range(0,8)]
+ rf=[]
+ for f in forms1:
+  if f&N==f:
+   rf.append((f,1))
+ for f in forms2:
+  if f & N == f:
+   rf.append((f, 2))
+ for f in forms3:
+  if f & N == f:
+   rf.append((f, 3))
+ rf3=Filter3Forms(rf,N)
+ rf2=Filter2Forms(rf3,N)
+ return rf2
+
+def GetBit(n):
+ for j in range(0,8):
+  if(n%2):
+   return j
+  n=n>>1
+
+def DStrFrom123Forms(forms123):
+ #ff=NtoList(n)
+ strf="$"
+ first=1
+ for f123 in forms123:
+  if not first:
+   strf+='+'
+  else:
+   first=0
+  if(f123[1]==3):
+   f=GetBit(f123[0])
+   strf+=DStrI(f)
+  if(f123[1]==2):
+   strf+=DStrFrom2fN(f123[0])
+  if (f123[1] == 1):
+   strf +=DStrFrom1fN(f123[0])
+ strf+="$"
+ if strf=="$$":
+   strf="$\\emptyset$"
+ return strf
+
 
 
 def VVprod(v1,v2):
@@ -237,7 +307,7 @@ for ib in range(0,3):
  forms1.append(t0)
  forms1.append(t1)
 print(forms1)
-forms1+=[0,0]
+
 #for i in forms2:
 # print(get_bin(i,8))
 # for j in range(0,8):
@@ -261,7 +331,8 @@ tex_file.write("\\usepackage{subcaption}\n")
 tex_file.write("\\begin{document}\n")
 tex_file.write("\\pagenumbering{gobble}\n")
 tex_file.write("\\captionsetup{labelformat=empty}\n")
-for i in range(0,len(forms1),4):
+#for i in range(0,len(forms1),4):
+for i in range(0,254,4):
     tex_file.write("\\begin{figure}[!htb]\n")
     tex_file.write("\\centering\n")
     cname='circl'+str(i)
@@ -269,12 +340,15 @@ for i in range(0,len(forms1),4):
     uf=[]
     for j in range(0,4):
      ind=j+i
-     ff=forms1[ind]
+     #ff=forms1[ind]
+     ff=ind
      cn.append(cname+str(j))
      PrintCirqPerf(cname+str(j),ff,n_sets)
+     #PrintCirqPerf(cname+str(j),ind,n_sets)
      #uf.append(DStrFromN(ff)+"="+DStrFrom2fN(ff)+"  "+str(VMprod(ff,adj_matr)))
-     uf.append(DStrFromN(ff) + "=" + DStrFrom1fN(ff))
-     #uf.append(DStrFromN(ff))
+     #uf.append(DStrFromN(ff) + "=" + DStrFrom1fN(ff))
+     of=Optimize12Forms(forms1, forms2, ff)
+     uf.append(DStrFromN(ff)+"="+DStrFrom123Forms(of))
     fl=1
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[0]+".eps}\n")
