@@ -73,7 +73,7 @@ def calc_cos(p0,p1,p2):
 # test tree
 
 
-def MakeGraphTM():
+def MakeGraphTM(nv=5,basic=0):
     random.seed()
     global id_count
     global ccc
@@ -95,7 +95,7 @@ def MakeGraphTM():
     ccc=canvas.canvas()
     sc=4
     s1=2
-    nv=5
+    #nv=10
     do_work=1
     itry=0
     while do_work:
@@ -197,16 +197,21 @@ def MakeGraphTM():
       continue     
     
     probs_all=[]
-    ccc.fill(path.circle(probs[0][0],probs[0][1], 0.2))
-    ccc.stroke(path.circle(probs[0][0],probs[0][1], 0.15))
-    ccc.stroke(path.circle(probs[fi][0],probs[fi][1], 0.2))
+    if(not basic):
+     ccc.fill(path.circle(probs[0][0],probs[0][1], 0.2))
+     ccc.stroke(path.circle(probs[0][0],probs[0][1], 0.15))
+     ccc.stroke(path.circle(probs[fi][0],probs[fi][1], 0.2))
     for jj in range(nv):
      pp=probs[jj]
-     ccc.stroke(path.circle(pp[0],pp[1], 0.1))
+     if(not basic):
+      ccc.stroke(path.circle(pp[0],pp[1], 0.1))
+     else:
+      ccc.fill(path.circle(pp[0],pp[1], 0.1))
      for ph in path_to[jj]:
       dxx=pp[0]+(probs[ph][0]-pp[0])*2/3.
       dyy=pp[1]+(probs[ph][1]-pp[1])*2/3.
-      ccc.stroke(path.line(pp[0], pp[1], dxx, dyy),[deco.earrow([deco.filled()])])
+      if(not basic):
+       ccc.stroke(path.line(pp[0], pp[1], dxx, dyy),[deco.earrow([deco.filled()])])
       ccc.stroke(path.line(pp[0], pp[1], probs[ph][0],probs[ph][1]))
      text_d0=0.0
      text_d1=0.0
@@ -267,3 +272,55 @@ def MakeGraphTM():
     vc.write(str(v_cou))
     vc.close()
     return (grfile,str(f_prob))
+ 
+def MakeGraphs():
+ v_cou=5
+ tex_file=open('graphs'+str(v_cou)+'.tex','w')
+ tex_cmp=open('cmp_tex.bat','w')
+ res_file=open('result.txt','w')
+ tex_cmp.write('latex graphs'+str(v_cou)+'.tex\n')
+ tex_cmp.write('dvips  graphs'+str(v_cou)+'.dvi\n')
+ tex_cmp.write('ps2pdf graphs'+str(v_cou)+'.ps\n')
+ tex_file.write("\\documentclass[12pt]{article}\n")
+ tex_file.write("\\usepackage{graphics}\n")
+ tex_file.write("\\usepackage[cp1251]{inputenc}\n")
+ tex_file.write("\\usepackage[russian]{babel}\n")
+ tex_file.write("\\usepackage[left=4cm,right=2cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ tex_file.write("\\usepackage{caption}\n")
+ tex_file.write("\\usepackage{subcaption}\n")
+ tex_file.write("\\begin{document}\n")
+ tex_file.write("\\pagenumbering{gobble}\n")
+ tex_file.write("\\captionsetup{labelformat=empty}\n")
+ tex_file.write("\\captionsetup[subfigure]{labelformat=empty}\n")
+ for i in range(0,30):
+    tex_file.write("\\begin{figure}[!htb]\n")
+    tex_file.write("\\centering\n")
+    cname='circl'+str(i)
+    cn=[]
+    uf=[]
+    for j in range(0,4):
+     cn.append(MakeGraphTM(8,1)[0])
+     uf.append("Вариант "+str(i*4+j))
+    #tex_file.write("\\caption{Задача "+str(i)+". Какому рисунку соответствует выражение: \\\\")
+    tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
+    tex_file.write("\\includegraphics{"+cn[0]+"}\n")
+    tex_file.write("\\caption{"+uf[0]+"}\n")
+    tex_file.write("\\end{subfigure}\n")
+    tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
+    tex_file.write("\\includegraphics{"+cn[1]+"}\n")
+    tex_file.write("\\caption{"+uf[1]+"}\n")
+    tex_file.write("\\end{subfigure}\n")
+    tex_file.write("\n\\bigskip\n\\vskip 2cm\n\n")
+    tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
+    tex_file.write("\\includegraphics{"+cn[2]+"}\n")
+    tex_file.write("\\caption{"+uf[2]+"}\n")
+    tex_file.write("\\end{subfigure}\n")
+    tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
+    tex_file.write("\\includegraphics{"+cn[3]+"}\n")
+    tex_file.write("\\caption{"+uf[3]+"}\n")
+    tex_file.write("\\end{subfigure}\n")   
+    tex_file.write("\\end{figure}\n")
+
+ tex_file.write("\\end{document}\n")
+MakeGraphs()  
+    

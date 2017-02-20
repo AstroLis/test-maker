@@ -1,0 +1,24 @@
+{
+"title":"Графы! Просто картинка",
+"zadacha":"",
+"vopros":{
+          "v1":"'\\\\begin{figure}[!htb] \\\\centering \\\\includegraphics[]{'+A1[0]+'} \\\\end{figure} '",
+          "v2":"'\\\\begin{figure}[!htb] \\\\centering \\\\includegraphics[]{'+A1[0]+'} \\\\end{figure} '",
+          "v3":"'\\\\begin{figure}[!htb] \\\\centering \\\\includegraphics[]{'+A1[0]+'} \\\\end{figure} '",
+          "v4":"'\\\\begin{figure}[!htb] \\\\centering \\\\includegraphics[]{'+A1[0]+'} \\\\end{figure} '",
+          "v5":"'\\\\begin{figure}[!htb] \\\\centering \\\\includegraphics[]{'+A1[0]+'} \\\\end{figure} '",
+          "v6":"'\\\\begin{figure}[!htb] \\\\centering \\\\includegraphics[]{'+A1[0]+'} \\\\end{figure} '"
+         }, 
+"param":{
+         "A1":"graph_tm.MakeGraphTM()",
+         "A2":"0",
+         "A3":"0",
+         "A4":"0",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"
+        },
+"otvet":{
+         "o1":"'{:6.4f}'.format(float(A1[1]))"      
+        }
+}
