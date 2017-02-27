@@ -294,3 +294,54 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1):
 #for i in smezh:
 # print (i)
  
+def MakeGraphs():
+ v_cou=5
+ tex_file=open('graphs'+str(v_cou)+'.tex','w')
+ tex_cmp=open('cmp_tex.bat','w')
+ res_file=open('result.txt','w')
+ tex_cmp.write('latex graphs'+str(v_cou)+'.tex\n')
+ tex_cmp.write('dvips  graphs'+str(v_cou)+'.dvi\n')
+ tex_cmp.write('ps2pdf graphs'+str(v_cou)+'.ps\n')
+ tex_file.write("\\documentclass[12pt]{article}\n")
+ tex_file.write("\\usepackage{graphics}\n")
+ tex_file.write("\\usepackage[cp1251]{inputenc}\n")
+ tex_file.write("\\usepackage[russian]{babel}\n")
+ tex_file.write("\\usepackage[left=4cm,right=2cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ tex_file.write("\\usepackage{caption}\n")
+ tex_file.write("\\usepackage{subcaption}\n")
+ tex_file.write("\\begin{document}\n")
+ tex_file.write("\\pagenumbering{gobble}\n")
+ tex_file.write("\\captionsetup{labelformat=empty}\n")
+ tex_file.write("\\captionsetup[subfigure]{labelformat=empty}\n")
+ for i in range(0,30):
+    tex_file.write("\\begin{figure}[!htb]\n")
+    tex_file.write("\\centering\n")
+    cname='circl'+str(i)
+    cn=[]
+    uf=[]
+    for j in range(0,4):
+     cn.append(MakeGraphTM(8,1)[0])
+     uf.append("Вариант "+str(i*4+j))
+    #tex_file.write("\\caption{Задача "+str(i)+". Какому рисунку соответствует выражение: \\\\")
+    tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
+    tex_file.write("\\includegraphics{"+cn[0]+"}\n")
+    tex_file.write("\\caption{"+uf[0]+"}\n")
+    tex_file.write("\\end{subfigure}\n")
+    tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
+    tex_file.write("\\includegraphics{"+cn[1]+"}\n")
+    tex_file.write("\\caption{"+uf[1]+"}\n")
+    tex_file.write("\\end{subfigure}\n")
+    tex_file.write("\n\\bigskip\n\\vskip 2cm\n\n")
+    tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
+    tex_file.write("\\includegraphics{"+cn[2]+"}\n")
+    tex_file.write("\\caption{"+uf[2]+"}\n")
+    tex_file.write("\\end{subfigure}\n")
+    tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
+    tex_file.write("\\includegraphics{"+cn[3]+"}\n")
+    tex_file.write("\\caption{"+uf[3]+"}\n")
+    tex_file.write("\\end{subfigure}\n")   
+    tex_file.write("\\end{figure}\n")
+
+ tex_file.write("\\end{document}\n")
+#MakeGraphs()  
+    
