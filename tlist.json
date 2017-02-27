@@ -4,5 +4,5 @@
 "3. Математическая статистика":["z_ispr_skvo2.json","z_ispr_skvo.json","z_ispr_dispr.json","z_viborka.json","z_viborka2.json"],
 "4. Случайные процессы":["z_chis_har_sl_pr.json"],
 "5. Теоретические вопросы":["Teor_tv1.json","Teor_tv2.json","Teor_tv4.json","Teor_tv5.json"],
-"6. Теория множеств":["z_oper_mnozh.json"]
+"6. Теория множеств":["z_oper_mnozh.json","z_graph_incin.json","z_graph_smezh.json","z_graph_incin_2.json","z_graph_smezh_2.json"]
 }

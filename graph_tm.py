@@ -73,7 +73,7 @@ def calc_cos(p0,p1,p2):
 # test tree
 
 
-def MakeGraphTM():
+def MakeGraphTM(nv=5,directed=1,calc_random_path=1):
     random.seed()
     global id_count
     global ccc
@@ -95,7 +95,7 @@ def MakeGraphTM():
     ccc=canvas.canvas()
     sc=4
     s1=2
-    nv=5
+    #nv=5
     do_work=1
     itry=0
     while do_work:
@@ -197,16 +197,22 @@ def MakeGraphTM():
       continue     
     
     probs_all=[]
-    ccc.fill(path.circle(probs[0][0],probs[0][1], 0.2))
-    ccc.stroke(path.circle(probs[0][0],probs[0][1], 0.15))
-    ccc.stroke(path.circle(probs[fi][0],probs[fi][1], 0.2))
+    if(calc_random_path):
+     ccc.fill(path.circle(probs[0][0],probs[0][1], 0.2))
+     ccc.stroke(path.circle(probs[0][0],probs[0][1], 0.15))
+     ccc.stroke(path.circle(probs[fi][0],probs[fi][1], 0.2))
     for jj in range(nv):
      pp=probs[jj]
-     ccc.stroke(path.circle(pp[0],pp[1], 0.1))
+     #if(directed):
+     # ccc.stroke(path.circle(pp[0],pp[1], 0.1))
+     #else:
+     ccc.fill(path.circle(pp[0],pp[1], 0.1))
+     
      for ph in path_to[jj]:
       dxx=pp[0]+(probs[ph][0]-pp[0])*2/3.
       dyy=pp[1]+(probs[ph][1]-pp[1])*2/3.
-      ccc.stroke(path.line(pp[0], pp[1], dxx, dyy),[deco.earrow([deco.filled()])])
+      if(directed):
+       ccc.stroke(path.line(pp[0], pp[1], dxx, dyy),[deco.earrow([deco.filled()])])
       ccc.stroke(path.line(pp[0], pp[1], probs[ph][0],probs[ph][1]))
      text_d0=0.0
      text_d1=0.0
@@ -220,7 +226,7 @@ def MakeGraphTM():
        text_d1+=d1[1]/dd
      if( not(text_d0==0 and text_d1==0)): 
       ntd=norm_((text_d0,text_d1)) 
-     ccc.text(pp[0]-0.5*ntd[0],pp[1]-0.5*ntd[1], str(jj), [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+     ccc.text(pp[0]-0.5*ntd[0],pp[1]-0.5*ntd[1], str(jj+1), [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
     n_try=100
     n_f=0
     n_l=0
@@ -250,6 +256,7 @@ def MakeGraphTM():
       print(kk)
     grfile="graph"+str(v_cou)+".eps"
     ccc.writeEPSfile("graph"+str(v_cou))
+    #ccc.writePDFfile("graph"+str(v_cou))
     maxL=0
     for tt in all_path:
      if(len(tt)>maxL):
@@ -262,8 +269,28 @@ def MakeGraphTM():
        if(jj<len(tt)-1):
         mult=mult*tt[jj][1]
      if(tt[len(tt)-1][0]==1):
-      f_prob+=1./mult
+      f_prob+=1./mult      
     vc = open('var_count', 'w')
     vc.write(str(v_cou))
     vc.close()
-    return (grfile,str(f_prob))
+    incin=[]
+    smezh=[[0 for i in range(0,nv)] for j in range(0,nv)]
+    for i in range(0,nv):
+     for p in path_to[i]:
+      if directed:
+       incin.append([0 if (not j==i and not j==p) else 1 if j==i else -1 for j in range(0,nv)])
+      else:
+       incin.append([0 if (not j==i and not j==p) else 1 for j in range(0,nv)])
+      
+      smezh[i][p]=1
+      if not directed:
+       smezh[p][i]=1         
+    return (grfile,str(f_prob),incin,smezh)
+#(a,b,incin,smezh)=MakeGraphTM(5,1)
+#print('incinden:')    
+#for i in incin:
+# print (i)
+#print('smzeh:')    
+#for i in smezh:
+# print (i)
+ 

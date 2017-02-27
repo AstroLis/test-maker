@@ -1,0 +1,19 @@
+{
+"title":"Графы, матрица инциндентности",
+"zadacha":"'Дан граф:'+NL+'\\\\begin{figure}[!htb] \\\\centering \\\\includegraphics[]{'+A1[0]+'} \\\\end{figure} '+NL",
+"vopros":{
+          "v1":"'Тогда матрица инциндентности:'"
+         }, 
+"param":{
+         "A1":"graph_tm.MakeGraphTM(5,1,0)",
+         "A2":"0",
+         "A3":"0",
+         "A4":"0",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"
+        },
+"otvet":{
+         "o1":"MakeMatrix(A1[2])"         
+        }
+}

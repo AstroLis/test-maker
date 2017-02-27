@@ -39,6 +39,21 @@ def MakeTable(xyT,xHead,yHead,data,ff=2):
   tb+=('\\\\ \\hline')
  tb+=('\\end{tabular}')
  return tb
+
+def MakeMatrix(data,ff=2):
+ tb=''
+ tb+=('$$ \\small \\begin{pmatrix}')
+ for y in data:
+  i=0
+  for x in y:
+   if i:
+    tb+='&'
+   else:
+    i=1   
+   tb+=('{:g}'.format(x))
+  tb+=('\\\\')
+ tb+=(' \\end{pmatrix}$$')
+ return tb
  
 
 def MakeNormalDistr(a,sigm):
@@ -98,15 +113,27 @@ def ParseTaskWithParams(data,**kwargs):
     rrr=[0,1,2,3]
     random.shuffle(rrr)
     ncu=rrr.index(ncu0)
-    strl=0
+    
+#    strl=0   
+#    for i in range(0,4):
+#     strl+=len(otvs[rrr[i]])
+#    for i in range(0,4):
+#      rt.append(str(i+1)+') '+otvs[rrr[i]]+'\\quad\n')
+#      if(i==1):
+#       if(strl>70):
+#        rt.append('\n')
     for i in range(0,4):
-     strl+=len(otvs[rrr[i]])
-    for i in range(0,4):
-      rt.append(str(i+1)+') '+otvs[rrr[i]]+'\\quad\n')
-      if(i==1):
-       if(strl>70):
-        rt.append('\n')
-    #rt.append('\nCorrect answer: '+str(ncu))
+      #rt.append('\\begin{minipage}[c]{0.24\\textwidth}\n')
+      rt.append('\\begin{minipage}[c]{0.02\\textwidth}\n')
+      #rt.append('\\small')
+      rt.append(str(i+1)+') ')
+      rt.append('\\end{minipage}\n')      
+      rt.append('\\begin{minipage}[c]{0.2\\textwidth}\n')
+      rt.append(otvs[rrr[i]])
+      rt.append('\\end{minipage}\n')      
+      #if(i==1):
+      #  rt.append('\n')
+    rt.append('\nCorrect answer: '+str(ncu+1))
     return (rt,str(ncu+1))
  
 def ParseTask(data):
