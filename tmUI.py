@@ -19,6 +19,9 @@ def Shuf(x):
  xx=list(x)
  random.shuffle(xx)
  return xx
+
+def RB(s):
+ return s.replace('[','\{').replace(']','\}') 
  
 def MakeTable(xyT,xHead,yHead,data,ff=2):
  tb=''
