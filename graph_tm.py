@@ -5,6 +5,20 @@ from pyx import *
 
 # simple binary tree
 # in this implementation, a node is inserted between an existing node and the root
+def MakeMatrix(data,ff=2):
+ tb=''
+ tb+=('$$ \\small \\begin{pmatrix}')
+ for y in data:
+  i=0
+  for x in y:
+   if i:
+    tb+='&'
+   else:
+    i=1   
+   tb+=('{:g}'.format(x))
+  tb+=('\\\\')
+ tb+=(' \\end{pmatrix}$$')
+ return tb
 
 
 def dist_(d1,d2):
@@ -73,7 +87,7 @@ def calc_cos(p0,p1,p2):
 # test tree
 
 
-def MakeGraphTM(nv=5,directed=1,calc_random_path=1):
+def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,random_weights=0):
     random.seed()
     global id_count
     global ccc
@@ -193,6 +207,10 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1):
         curri=inext
       if do_work:
        break                     
+     if filter_zero:
+      for p in path_a:
+       if not len(p):
+        do_work=1
      if do_work:
       continue     
     
@@ -281,10 +299,15 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1):
        incin.append([0 if (not j==i and not j==p) else 1 if j==i else -1 for j in range(0,nv)])
       else:
        incin.append([0 if (not j==i and not j==p) else 1 for j in range(0,nv)])
-      
-      smezh[i][p]=1
+      if weighted: 
+       sml=int(10*dist_(probs[i],probs[p]))
+       if random_weights:
+        sml=random.randint(1,20)
+      else:
+       sml=1      
+      smezh[i][p]=sml
       if not directed:
-       smezh[p][i]=1         
+       smezh[p][i]=sml         
     return (grfile,str(f_prob),incin,smezh)
 #(a,b,incin,smezh)=MakeGraphTM(5,1)
 #print('incinden:')    
@@ -341,7 +364,50 @@ def MakeGraphs():
     tex_file.write("\\caption{"+uf[3]+"}\n")
     tex_file.write("\\end{subfigure}\n")   
     tex_file.write("\\end{figure}\n")
-
  tex_file.write("\\end{document}\n")
-#MakeGraphs()  
+def MakeGraphsMatr():
+ v_cou=11
+ tex_file=open('graphs'+str(v_cou)+'.tex','w')
+ tex_cmp=open('cmp_tex.bat','w')
+ res_file=open('result.txt','w')
+ tex_cmp.write('latex graphs'+str(v_cou)+'.tex\n')
+ tex_cmp.write('dvips  graphs'+str(v_cou)+'.dvi\n')
+ tex_cmp.write('ps2pdf graphs'+str(v_cou)+'.ps\n')
+ tex_file.write("\\documentclass[12pt]{article}\n")
+ tex_file.write("\\usepackage{graphics}\n")
+ tex_file.write("\\usepackage{amsmath}\n")
+ tex_file.write("\\usepackage[cp1251]{inputenc}\n")
+ tex_file.write("\\usepackage[russian]{babel}\n")
+ tex_file.write("\\usepackage[left=4cm,right=2cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ tex_file.write("\\usepackage{caption}\n")
+ tex_file.write("\\usepackage{subcaption}\n")
+ tex_file.write("\\begin{document}\n")
+ tex_file.write("\\pagenumbering{gobble}\n")
+ tex_file.write("\\captionsetup{labelformat=empty}\n")
+ tex_file.write("\\captionsetup[subfigure]{labelformat=empty}\n")
+ for i in range(0,100):
+    if (i and not i%4):
+     tex_file.write('\\newpage\n')      
+    cname='circl'+str(i)
+    cn=[]
+    uf=[]
+    mf=[]
+    for j in range(0,1):
+     tmp=MakeGraphTM(8,1,0,1,1,1)
+     cn.append(tmp[0])
+     uf.append("Вариант: "+str(i+1+j))
+     mf.append(MakeMatrix(tmp[3]))
+    #tex_file.write("\\caption{Задача "+str(i)+". Какому рисунку соответствует выражение: \\\\")
+    tex_file.write('\\centering{'+uf[0]+'.}\n\n')      
+    tex_file.write('\\begin{minipage}[c]{0.45\\textwidth}\n')
+    tex_file.write("\\includegraphics{"+cn[0]+"}\n")
+    tex_file.write('\\end{minipage}\n')      
+    tex_file.write('\\begin{minipage}[c]{0.45\\textwidth}\n')
+    tex_file.write(mf[0])
+    tex_file.write('\\end{minipage}\n')      
+    tex_file.write("\n\\bigskip\n\\bigskip\n")
+    
+ tex_file.write("\\end{document}\n")
+
+MakeGraphsMatr()  
     
