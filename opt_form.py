@@ -308,6 +308,7 @@ for ib in range(0,3):
  forms1.append(t1)
 print(forms1)
 
+
 #for i in forms2:
 # print(get_bin(i,8))
 # for j in range(0,8):
@@ -331,8 +332,8 @@ tex_file.write("\\usepackage{subcaption}\n")
 tex_file.write("\\begin{document}\n")
 tex_file.write("\\pagenumbering{gobble}\n")
 tex_file.write("\\captionsetup{labelformat=empty}\n")
-#for i in range(0,len(forms1),4):
-for i in range(0,254,4):
+for i in range(0,len(forms1),4):
+#for i in range(0,24,4):
     tex_file.write("\\begin{figure}[!htb]\n")
     tex_file.write("\\centering\n")
     cname='circl'+str(i)
@@ -340,8 +341,8 @@ for i in range(0,254,4):
     uf=[]
     for j in range(0,4):
      ind=j+i
-     #ff=forms1[ind]
-     ff=ind
+     ff=forms1[ind]
+     #ff=ind
      cn.append(cname+str(j))
      PrintCirqPerf(cname+str(j),ff,n_sets)
      #PrintCirqPerf(cname+str(j),ind,n_sets)
