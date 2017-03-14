@@ -14,7 +14,7 @@ class BinaryTree():
     ccc=canvas.canvas()
     bx = 0.8
     by = 0.4
-    def __init__(self):
+    def __init__(self,vn):
       self.left = None
       self.right = None
       self.rootid = BinaryTree.id_count
@@ -24,6 +24,7 @@ class BinaryTree():
       self.type=0
       self.prob=random.randint(0,6)
       self.neg=random.randint(0,5)
+      self.var=vn
 
     def getLeftChild(self):
         return self.left
@@ -39,23 +40,27 @@ class BinaryTree():
         if(random.randint(0,1)):
           tt=random.randint(1,2)
           self.type=tt
-          self.left=BinaryTree()
-          self.right=BinaryTree()
+          childvn=random.randint(0,2)
+          self.left=BinaryTree(childvn)
+          self.right=BinaryTree((childvn+1)%3)
        else:
         self.left.randTree()
         self.right.randTree()
 def MakeFormulaFromTree(tree,oper):
     if tree != None:
         if(not tree.type):
-          return varNames[tree.neg%3]
+          return varNames[tree.var]
         else:
            lleft=MakeFormulaFromTree(tree.getLeftChild(),tree.prob)
            rright=MakeFormulaFromTree(tree.getRightChild(),tree.prob)
            res=lleft+' '+BoolOperands[tree.prob]+' '+rright
+           sign=''
+           if not tree.neg:
+               sign='-'
            if BoolOrder[oper]<BoolOrder[tree.prob]:
-               return '('+res+')'
+               return sign+'('+res+')'
            else:
-               return res
+               return sign+res
 
 def MakeFormulaTM(number_of_element=10):
  number_of_chemes=10
@@ -67,10 +72,10 @@ def MakeFormulaTM(number_of_element=10):
  yy=2
  #v_cou+=1
  max_p=number_of_element*2
- myTree1 = BinaryTree()
+ myTree1 = BinaryTree(1)
  while (BinaryTree.id_count!=max_p):
    BinaryTree.id_count = 1
-   myTree1 = BinaryTree()
+   myTree1 = BinaryTree(1)
    for i in range(10):
      myTree1.randTree()
  form=MakeFormulaFromTree(myTree1,0)
@@ -95,7 +100,7 @@ def MakeForrestFormulas():
  tex_file.write("\\begin{document}\n")
  tex_file.write("\\pagenumbering{gobble}\n")
  tex_file.write("\\captionsetup{labelformat=empty}\n")
- for i in range(0,100):
+ for i in range(0,10):
     tex_file.write("$$\n")
     tex_file.write(MakeFormulaTM(10)+'\n')
     tex_file.write("$$\n")
