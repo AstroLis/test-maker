@@ -1,6 +1,10 @@
-import random
+import random,sys
 from shutil import copyfile
 from pyx import *
+from tex_structures_tm import MakeTable
+from tex_structures_tm import MakeMatrix
+#sys.path.append('./tmUI.py')
+#from tmUI import MakeMatrix
 
 # for constructing boolean function tasks simple binary tree
 # in this implementation, a node is inserted between an existing node and the root
@@ -346,6 +350,7 @@ def MakeForrestFormulas():
  tex_file.write("\\usepackage[cp1251]{inputenc}\n")
  tex_file.write("\\usepackage[russian]{babel}\n")
  tex_file.write("\\usepackage[left=1cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ tex_file.write("\\usepackage{amsmath}\n")
  tex_file.write("\\usepackage{caption}\n")
  tex_file.write("\\usepackage{subcaption}\n")
  tex_file.write("\\begin{document}\n")
@@ -353,12 +358,25 @@ def MakeForrestFormulas():
  tex_file.write("\\captionsetup{labelformat=empty}\n")
  for i in range(0,30):
     (form1,nform2)=MakeFormulaTM(4)
+    trtab=[]
+    xHead=['$'+a+'$' for a in varNames]
+    yHead=[]
+    Nl=NtoList(nform2)
+    for ii in range(0,8):
+     if ii in Nl:
+      yHead.append(1)
+     else:
+      yHead.append(0)
+     trtab+=(NtoListB(ii,3))
+    strtab=MakeTable('f',xHead,yHead,trtab) 
     of = Optimize12Forms(forms1, forms2, nform2)
     sof=DStrFrom123Forms(of)
     tex_file.write("Formula "+str(i)+":\n$$\n")
     tex_file.write(form1+'\n$$\n Perfect form '+str(i)+': \n$$\n'+DStrFromNbool(nform2)+'\n$$\n')
     tex_file.write('Perfect form opt'+str(i)+': \n$$\n'+sof+'\n')
     tex_file.write("$$\n")
+    #tex_file.write('Truth table:\n'+MakeMatrix(trtab)+'\n')
+    tex_file.write('Truth table:\n'+strtab+'\n\n')
 
  tex_file.write("\\end{document}\n")
  
