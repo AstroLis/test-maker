@@ -38,7 +38,8 @@ def DStrIbool(i):
   if(bit):
    strf+=lett[ii]
   else:
-   strf+='\\neg '+lett[ii]
+   #strf+='\\neg '+lett[ii]
+   strf+='\\overline{'+lett[ii]+'}'
   f=f>>1
  return strf
 
@@ -52,7 +53,7 @@ def DStrFromNbool(n):
    strf+='\\vee '
   else:
    first=0
-  strf+=DStrIbool(f)
+  strf+='('+DStrIbool(f)+')'
  if strf=='':
    strf='\\emptyset'
  return strf
@@ -314,6 +315,22 @@ def MakeFormulaTM(number_of_element=10):
  print(form)
  return form
 
+ 
+def writeHead(tex_file): 
+ tex_file.write("\\documentclass[12pt]{article}\n")
+ tex_file.write("\\usepackage{graphics}\n")
+ tex_file.write("\\usepackage[cp1251]{inputenc}\n")
+ tex_file.write("\\usepackage[russian]{babel}\n")
+ tex_file.write("\\usepackage[left=1cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ tex_file.write("\\usepackage{amsmath}\n")
+ tex_file.write("\\usepackage{caption}\n")
+ tex_file.write("\\usepackage{subcaption}\n")
+ tex_file.write("\\begin{document}\n")
+ tex_file.write("\\pagenumbering{gobble}\n")
+ tex_file.write("\\captionsetup{labelformat=empty}\n")
+ return
+
+ 
 def MakeForrestFormulas():
  forms2 = []
  for i in range(0, 8):
@@ -345,24 +362,23 @@ def MakeForrestFormulas():
  tex_cmp.write('dvips  tree'+str(v_cou)+'.dvi\n')
  tex_cmp.write('ps2pdf tree'+str(v_cou)+'.ps\n')
 
- tex_file.write("\\documentclass[12pt]{article}\n")
- tex_file.write("\\usepackage{graphics}\n")
- tex_file.write("\\usepackage[cp1251]{inputenc}\n")
- tex_file.write("\\usepackage[russian]{babel}\n")
- tex_file.write("\\usepackage[left=1cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
- tex_file.write("\\usepackage{amsmath}\n")
- tex_file.write("\\usepackage{caption}\n")
- tex_file.write("\\usepackage{subcaption}\n")
- tex_file.write("\\begin{document}\n")
- tex_file.write("\\pagenumbering{gobble}\n")
- tex_file.write("\\captionsetup{labelformat=empty}\n")
- for i in range(0,30):
-    (form1,nform2)=MakeFormulaTM(4)
+ tex_file_sol=open('tree'+str(v_cou)+'_sol.tex','w')
+ tex_cmp.write('latex tree'+str(v_cou)+'_sol.tex\n')
+ tex_cmp.write('dvips  tree'+str(v_cou)+'_sol.dvi\n')
+ tex_cmp.write('ps2pdf tree'+str(v_cou)+'_sol.ps\n')
+
+ writeHead(tex_file)
+ writeHead(tex_file_sol)
+  
+ for i in range(0,100):
+    (form1,nform2)=MakeFormulaTM(10)
     trtab=[]
     xHead=['$'+a+'$' for a in varNames]
     yHead=[]
     Nl=NtoList(nform2)
-    for ii in range(0,8):
+    for jj in range(0,8):
+     ljj=NtoListB(jj,3)
+     ii=ljj[2]+2*ljj[1]+4*ljj[0]
      if ii in Nl:
       yHead.append(1)
      else:
@@ -371,14 +387,18 @@ def MakeForrestFormulas():
     strtab=MakeTable('f',xHead,yHead,trtab) 
     of = Optimize12Forms(forms1, forms2, nform2)
     sof=DStrFrom123Forms(of)
-    tex_file.write("Formula "+str(i)+":\n$$\n")
-    tex_file.write(form1+'\n$$\n Perfect form '+str(i)+': \n$$\n'+DStrFromNbool(nform2)+'\n$$\n')
-    tex_file.write('Perfect form opt'+str(i)+': \n$$\n'+sof+'\n')
-    tex_file.write("$$\n")
+    tex_file.write("Вариант "+str(i)+":\n$$\n f(x_1,x_2,x_3)="+form1+'\n$$\n\\bigskip\n')
+    tex_file.write('\\bigskip\n\\noindent\\rule{\\textwidth}{0.4pt}\n\n\\bigskip\n')
+    tex_file_sol.write("Вариант "+str(i)+":\n$$\n"+form1+'\n$$\n\\bigskip\n')
+    tex_file_sol.write('Perfect form '+str(i)+': \n$$\n'+DStrFromNbool(nform2)+'\n$$\n')
+    tex_file_sol.write('Perfect form opt '+str(i)+': \n$$\n'+sof+'\n')
+    tex_file_sol.write("$$\n")
     #tex_file.write('Truth table:\n'+MakeMatrix(trtab)+'\n')
-    tex_file.write('Truth table:\n'+strtab+'\n\n')
+    tex_file_sol.write('Truth table:\n'+strtab+'\n\n')
+    tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
 
  tex_file.write("\\end{document}\n")
+ tex_file_sol.write("\\end{document}\n")
  
 #MakeForrest()
 #print(MakeTreeTM())
