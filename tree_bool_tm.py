@@ -285,7 +285,7 @@ def MakeFormulaFromTree(tree,oper):
            if not tree.neg:
                sign='\\neg '
                resv=DoNeg(resv)
-           if BoolOrder[oper]<BoolOrder[tree.prob]:
+           if BoolOrder[oper]<=BoolOrder[tree.prob]:
                return (sign+'('+res+')',resv)
            else:
                return (sign+res,resv)
@@ -351,8 +351,8 @@ def MakeForrestFormulas():
  tex_file.write("\\begin{document}\n")
  tex_file.write("\\pagenumbering{gobble}\n")
  tex_file.write("\\captionsetup{labelformat=empty}\n")
- for i in range(0,100):
-    (form1,nform2)=MakeFormulaTM(10)
+ for i in range(0,30):
+    (form1,nform2)=MakeFormulaTM(4)
     of = Optimize12Forms(forms1, forms2, nform2)
     sof=DStrFrom123Forms(of)
     tex_file.write("Formula "+str(i)+":\n$$\n")
