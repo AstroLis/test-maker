@@ -10,9 +10,12 @@ from tex_structures_tm import MakeMatrix
 # in this implementation, a node is inserted between an existing node and the root
 BoolOperands=['\\wedge','\\vee','\\rightarrow','\\leftrightarrow','|','\\downarrow','\\oplus']
 BoolOrder=   [0       ,   1    ,       2      ,         3        , 0 ,     0       ,    3]
-varNames=    ['x_1','x_2','x_3']
-varVal  =    [170,204,240]
-
+varNames=    ['x_1','x_2','x_3','x_4']
+#varVal  =    [170,204,240]
+varVal  =    [43690,52428,61680,65280]
+#1100110011001100
+#1111000011110000
+#1111111100000000
 def NtoList(iPerf):
  ff=[]
  i=0
@@ -24,7 +27,7 @@ def NtoList(iPerf):
  return ff
 def DStrIbool(i):
  #analog of DStrI from optimal forms
- lett=['x_1','x_2','x_3','D','E','F','G']
+ lett=['x_1','x_2','x_3','x_4','E','F','G']
  strf=''
  n=3
  f=i
@@ -58,10 +61,10 @@ def DStrFromNbool(n):
    strf='\\emptyset'
  return strf
 
-def DoNeg(x1,nb=8):
+def DoNeg(x1,nb=16):
  mask=pow(2,nb)-1
  return mask^x1
-def DoOper(operand,x1,x2,nb=8):
+def DoOper(operand,x1,x2,nb=16):
  mask=pow(2,nb)-1
  if operand=='\\wedge':
   return x1&x2
@@ -271,9 +274,9 @@ class BinaryTree():
         if(random.randint(0,1)):
           tt=random.randint(1,2)
           self.type=tt
-          childvn=random.randint(0,2)
+          childvn=random.randint(0,3)
           self.left=BinaryTree(childvn)
-          self.right=BinaryTree((childvn+1)%3)
+          self.right=BinaryTree((childvn+1)%4)
        else:
         self.left.randTree()
         self.right.randTree()
@@ -286,7 +289,7 @@ def MakeFormulaFromTree(tree,oper):
            (rright,rv)=MakeFormulaFromTree(tree.getRightChild(),tree.prob)
            res=lleft+' '+BoolOperands[tree.prob]+' '+rright
            sign=''
-           resv=DoOper(BoolOperands[tree.prob],lv,rv,8)
+           resv=DoOper(BoolOperands[tree.prob],lv,rv,16)
            if not tree.neg:
                sign='\\neg '
                resv=DoNeg(resv)
@@ -371,28 +374,28 @@ def MakeForrestFormulas():
  writeHead(tex_file_sol)
   
  for i in range(0,100):
-    (form1,nform2)=MakeFormulaTM(10)
+    (form1,nform2)=MakeFormulaTM(5)
     trtab=[]
     xHead=['$'+a+'$' for a in varNames]
     yHead=[]
     Nl=NtoList(nform2)
-    for jj in range(0,8):
-     ljj=NtoListB(jj,3)
-     ii=ljj[2]+2*ljj[1]+4*ljj[0]
+    for jj in range(0,16):
+     ljj=NtoListB(jj,4)
+     ii=ljj[3]+2*ljj[2]+4*ljj[1]+8*ljj[0]
      if ii in Nl:
       yHead.append(1)
      else:
       yHead.append(0)
-     trtab+=(NtoListB(ii,3))
+     trtab+=(NtoListB(ii,4))
     strtab=MakeTable('f',xHead,yHead,trtab) 
-    of = Optimize12Forms(forms1, forms2, nform2)
-    sof=DStrFrom123Forms(of)
-    tex_file.write("Вариант "+str(i)+":\n$$\n f(x_1,x_2,x_3)="+form1+'\n$$\n\\bigskip\n')
+    #of = Optimize12Forms(forms1, forms2, nform2)
+    #sof=DStrFrom123Forms(of)
+    tex_file.write("Вариант "+str(i)+":\n$$\n f(x_1,x_2,x_3,x_4)="+form1+'\n$$\n\\bigskip\n')
     tex_file.write('\\bigskip\n\\noindent\\rule{\\textwidth}{0.4pt}\n\n\\bigskip\n')
     tex_file_sol.write("Вариант "+str(i)+":\n$$\n"+form1+'\n$$\n\\bigskip\n')
-    tex_file_sol.write('Perfect form '+str(i)+': \n$$\n'+DStrFromNbool(nform2)+'\n$$\n')
-    tex_file_sol.write('Perfect form opt '+str(i)+': \n$$\n'+sof+'\n')
-    tex_file_sol.write("$$\n")
+    #tex_file_sol.write('Perfect form '+str(i)+': \n$$\n'+DStrFromNbool(nform2)+'\n$$\n')
+    #tex_file_sol.write('Perfect form opt '+str(i)+': \n$$\n'+sof+'\n')
+    #tex_file_sol.write("$$\n")
     #tex_file.write('Truth table:\n'+MakeMatrix(trtab)+'\n')
     tex_file_sol.write('Truth table:\n'+strtab+'\n\n')
     tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
