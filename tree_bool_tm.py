@@ -296,7 +296,45 @@ def MakeFormulaFromTree(tree,oper):
            if BoolOrder[oper]<=BoolOrder[tree.prob]:
                return (sign+'('+res+')',resv)
            else:
-               return (sign+res,resv)
+              if(sign==''):
+               return (res,resv)
+              else:
+               return (sign+'('+res+')',resv)
+              
+def paintTree(tree,lvl,x1,y1):
+    #m=0.1
+    m=1
+    if tree != None:
+        #BinaryTree.ccc.fill(path.circle(x1,y1,m))
+        xr=x1-m*2
+        yr=y1-m
+        hvx=x1-m*3
+        hv1y=y1+m/2
+        hv2y=y1-m/2
+        if(not tree.type):
+          BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
+          text.set(text.LatexRunner)
+          BinaryTree.ccc.text(x1-1.5*m,y1, "$"+varNames[tree.var]+"$")  
+          return
+        else:
+           if not tree.neg:
+            BinaryTree.ccc.stroke(path.rect(xr,yr,m,m*2))
+            BinaryTree.ccc.stroke(path.line(xr,y1,xr-m,y1))
+            xr-=2*m
+            hvx-=2*m
+           BinaryTree.ccc.stroke(path.rect(xr,yr,m,m*2))
+           BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
+           BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx+m,hv1y))
+           BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx+m,hv2y))
+           yn1=hv1y+lvl*m
+           yn2=hv2y-lvl*m
+           lvl=lvl*0.5
+           BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx,yn1))
+           BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx,yn2))
+           #BinaryTree.ccc.stroke(path.line(x1,y1,x2,y0))
+           #BinaryTree.ccc.stroke(path.line(x1,y1,x2,y2))
+           paintTree(tree.getLeftChild(),lvl,hvx,yn1)
+           paintTree(tree.getRightChild(),lvl,hvx,yn2)
 
 def MakeFormulaTM(number_of_element=10):
  number_of_chemes=10
@@ -316,7 +354,18 @@ def MakeFormulaTM(number_of_element=10):
      myTree1.randTree()
  form=MakeFormulaFromTree(myTree1,0)
  print(form)
- return form
+ varc=open('var_count','r')
+ v_cou=int(varc.readline())
+ varc.close()
+ BinaryTree.ccc=canvas.canvas()
+ lvl=4
+ paintTree(myTree1, lvl, 0, 5)
+ BinaryTree.ccc.writeEPSfile("tree"+str(v_cou))
+ vc=open('var_count','w')
+ v_cou=v_cou+1
+ vc.write(str(v_cou))
+ vc.close()
+ return (form,"tree"+str(v_cou-1)+".eps")
 
  
 def writeHead(tex_file): 
@@ -373,8 +422,8 @@ def MakeForrestFormulas():
  writeHead(tex_file)
  writeHead(tex_file_sol)
   
- for i in range(0,100):
-    (form1,nform2)=MakeFormulaTM(5)
+ for i in range(0,10):
+    ((form1,nform2),cn)=MakeFormulaTM(5)
     trtab=[]
     xHead=['$'+a+'$' for a in varNames]
     yHead=[]
@@ -395,7 +444,7 @@ def MakeForrestFormulas():
     tex_file_sol.write("Вариант "+str(i)+":\n$$\n"+form1+'\n$$\n\\bigskip\n')
     #tex_file_sol.write('Perfect form '+str(i)+': \n$$\n'+DStrFromNbool(nform2)+'\n$$\n')
     #tex_file_sol.write('Perfect form opt '+str(i)+': \n$$\n'+sof+'\n')
-    #tex_file_sol.write("$$\n")
+    tex_file_sol.write("\\includegraphics{"+cn+"}\n")
     #tex_file.write('Truth table:\n'+MakeMatrix(trtab)+'\n')
     tex_file_sol.write('Truth table:\n'+strtab+'\n\n')
     tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
