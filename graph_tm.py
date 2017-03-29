@@ -86,16 +86,49 @@ def calc_cos(p0,p1,p2):
   return  sc_p_(diff_(p0,p1),diff_(p0,p2))/(dist_(p0,p1)*dist_(p0,p2))
 # test tree
 
+def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1):
+    global ccc
+    ccc = canvas.canvas()
+    if(calc_random_path):
+     ccc.fill(path.circle(probs[0][0],probs[0][1], 0.2))
+     ccc.stroke(path.circle(probs[0][0],probs[0][1], 0.15))
+     ccc.stroke(path.circle(probs[fi][0],probs[fi][1], 0.2))
+    for jj in range(nv):
+     pp=probs[jj]
+     #if(directed):
+     # ccc.stroke(path.circle(pp[0],pp[1], 0.1))
+     #else:
+     ccc.fill(path.circle(pp[0],pp[1], 0.1))
+     
+     for ph in path_to[jj]:
+      dxx=pp[0]+(probs[ph][0]-pp[0])*2/3.
+      dyy=pp[1]+(probs[ph][1]-pp[1])*2/3.
+      if(directed):
+       ccc.stroke(path.line(pp[0], pp[1], dxx, dyy),[deco.earrow([deco.filled()])])
+      ccc.stroke(path.line(pp[0], pp[1], probs[ph][0],probs[ph][1]))
+     text_d0=0.0
+     text_d1=0.0
+     for phi in path_a[jj]:
+      if(not phi==jj):
+       ph=probs[phi]
+       print(pp,ph)
+       d1=diff_(pp,ph)
+       dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
+       text_d0+=d1[0]/dd
+       text_d1+=d1[1]/dd
+     if( not(text_d0==0 and text_d1==0)): 
+      ntd=norm_((text_d0,text_d1)) 
+     ccc.text(pp[0]-0.5*ntd[0],pp[1]-0.5*ntd[1], str(jj+1), [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+    ccc.writeEPSfile(gr_name)
+
 
 def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,random_weights=0):
     random.seed()
     global id_count
-    global ccc
     global probs
     global probs_all
     global all_path
     id_count = 1
-    ccc = canvas.canvas()
     probs = []
     probs_all = []
     all_path = []
@@ -106,7 +139,6 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,rand
     v_cou+=1
     print('ii=',ii)
     id_count = 1
-    ccc=canvas.canvas()
     sc=4
     s1=2
     #nv=5
@@ -215,36 +247,8 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,rand
       continue     
     
     probs_all=[]
-    if(calc_random_path):
-     ccc.fill(path.circle(probs[0][0],probs[0][1], 0.2))
-     ccc.stroke(path.circle(probs[0][0],probs[0][1], 0.15))
-     ccc.stroke(path.circle(probs[fi][0],probs[fi][1], 0.2))
-    for jj in range(nv):
-     pp=probs[jj]
-     #if(directed):
-     # ccc.stroke(path.circle(pp[0],pp[1], 0.1))
-     #else:
-     ccc.fill(path.circle(pp[0],pp[1], 0.1))
-     
-     for ph in path_to[jj]:
-      dxx=pp[0]+(probs[ph][0]-pp[0])*2/3.
-      dyy=pp[1]+(probs[ph][1]-pp[1])*2/3.
-      if(directed):
-       ccc.stroke(path.line(pp[0], pp[1], dxx, dyy),[deco.earrow([deco.filled()])])
-      ccc.stroke(path.line(pp[0], pp[1], probs[ph][0],probs[ph][1]))
-     text_d0=0.0
-     text_d1=0.0
-     for phi in path_a[jj]:
-      if(not phi==jj):
-       ph=probs[phi]
-       print(pp,ph)
-       d1=diff_(pp,ph)
-       dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
-       text_d0+=d1[0]/dd
-       text_d1+=d1[1]/dd
-     if( not(text_d0==0 and text_d1==0)): 
-      ntd=norm_((text_d0,text_d1)) 
-     ccc.text(pp[0]-0.5*ntd[0],pp[1]-0.5*ntd[1], str(jj+1), [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+    PaintGraphTM("graph"+str(v_cou),probs,path_to,path_a,nv,directed,calc_random_path)
+    grfile="graph"+str(v_cou)+".eps"
     n_try=100
     n_f=0
     n_l=0
@@ -272,8 +276,6 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,rand
     calc_path(pth,0,0,1)
     for kk in all_path:
       print(kk)
-    grfile="graph"+str(v_cou)+".eps"
-    ccc.writeEPSfile("graph"+str(v_cou))
     #ccc.writePDFfile("graph"+str(v_cou))
     maxL=0
     for tt in all_path:
@@ -308,7 +310,7 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,rand
       smezh[i][p]=sml
       if not directed:
        smezh[p][i]=sml         
-    return (grfile,str(f_prob),incin,smezh)
+    return (grfile,str(f_prob),incin,smezh,probs,path_to,path_a)
 #(a,b,incin,smezh)=MakeGraphTM(5,1)
 #print('incinden:')    
 #for i in incin:
@@ -385,7 +387,7 @@ def MakeGraphsMatr():
  tex_file.write("\\pagenumbering{gobble}\n")
  tex_file.write("\\captionsetup{labelformat=empty}\n")
  tex_file.write("\\captionsetup[subfigure]{labelformat=empty}\n")
- for i in range(0,100):
+ for i in range(0,8):
     if (i and not i%4):
      tex_file.write('\\newpage\n')      
     cname='circl'+str(i)
