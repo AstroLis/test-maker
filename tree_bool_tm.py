@@ -1,4 +1,4 @@
-import random,sys
+﻿import random,sys,math
 from shutil import copyfile
 from pyx import *
 from tex_structures_tm import MakeTable
@@ -270,17 +270,17 @@ class BinaryTree():
     def getNodeValue(self):
         return self.rootid
 
-    def randTree(self):
+    def randTree(self,num_vars=4):
        if(not self.type):
         if(random.randint(0,1)):
           tt=random.randint(1,2)
           self.type=tt
-          childvn=random.randint(0,3)
+          childvn=random.randint(0,num_vars-1)
           self.left=BinaryTree(childvn)
-          self.right=BinaryTree((childvn+1)%4)
+          self.right=BinaryTree((childvn+1)%num_vars)
        else:
-        self.left.randTree()
-        self.right.randTree()
+        self.left.randTree(num_vars)
+        self.right.randTree(num_vars)
 def MakeFormulaFromTree(tree,oper):
     if tree != None:
         if(not tree.type):
@@ -347,7 +347,7 @@ def plotBoolSchemElem(cc,operand,x,y,m):
 
 def paintTree(tree,lvl,x1,y1):
     #m=0.1
-    m=1
+    m=0.7
     if tree != None:
         #BinaryTree.ccc.fill(path.circle(x1,y1,m))
         xr=x1-m*2
@@ -357,7 +357,7 @@ def paintTree(tree,lvl,x1,y1):
         hv2y=y1-m/2
         if(not tree.type):
           #BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
-          BinaryTree.ccc.text(x1-0.5*m,y1, "$"+varNames[tree.var]+"$")
+          BinaryTree.ccc.text(x1-0.5*m-0.1,y1, "$"+varNames[tree.var]+"$")
           return
         else:
            if not tree.neg:
@@ -373,8 +373,10 @@ def paintTree(tree,lvl,x1,y1):
            BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx+m,hv2y))
            multl=tree.left.width
            multr=tree.right.width
-           yn1=hv1y+multl*m
-           yn2=hv2y-multr*m
+           ml2= 1 if multl else 0
+           mr2= 1 if multr else 0
+           yn1=hv1y+multl*m+ml2*0.1*m
+           yn2=hv2y-multr*m-mr2*0.1*m
            lvl=lvl*0.5
            BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx,yn1))
            BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx,yn2))
@@ -383,7 +385,7 @@ def paintTree(tree,lvl,x1,y1):
            paintTree(tree.getLeftChild(),lvl,hvx,yn1)
            paintTree(tree.getRightChild(),lvl,hvx,yn2)
 
-def MakeFormulaTM(number_of_element=10):
+def MakeFormulaTM(number_of_element=10,number_of_vars=4):
  number_of_chemes=10
  BinaryTree.id_count=1
  #varc=open('var_count','r')
@@ -398,7 +400,7 @@ def MakeFormulaTM(number_of_element=10):
    BinaryTree.id_count = 1
    myTree1 = BinaryTree(1)
    for i in range(10):
-     myTree1.randTree()
+     myTree1.randTree(number_of_vars)
  form=MakeFormulaFromTree(myTree1,0)
  print(form)
  varc=open('var_count','r')
@@ -453,8 +455,6 @@ def MakeForrestFormulas():
                 t1 += pow(2, i)
         forms1.append(t0)
         forms1.append(t1)
-
-
  v_cou=0
  tex_file=open('tree'+str(v_cou)+'.tex','w')
  tex_cmp=open('cmp_tex.bat','w')
@@ -470,7 +470,7 @@ def MakeForrestFormulas():
  writeHead(tex_file)
  writeHead(tex_file_sol)
   
- for i in range(0,60):
+ for i in range(0,10):
     ((form1,nform2,w),cn)=MakeFormulaTM(5)
     trtab=[]
     xHead=['$'+a+'$' for a in varNames]
@@ -500,9 +500,95 @@ def MakeForrestFormulas():
 
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
+
+
+def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
+ forms2 = []
+ for i in range(0, 8):
+   for j in range(0, 8):
+     r = 0
+     if (CalcBits(i ^ j) == 1):
+       r = 1
+       forms2.append(pow(2, i) + pow(2, j))
+ n_sets = 3
+ nforms = pow(2, n_sets)
+ forms2 = sorted(list(set(forms2)))
+ forms1 = []
+ for ib in range(0, 3):
+        t0 = 0
+        t1 = 0
+        for i in range(0, 8):
+            if CheckBit(i, ib):
+                t0 += pow(2, i)
+            else:
+                t1 += pow(2, i)
+        forms1.append(t0)
+        forms1.append(t1)
+ v_cou=0
+ fname="BF"+str(nOfTasks)+"_"+str(nQuest)
+ tex_file=open(fname+'.tex','w')
+ tex_cmp=open('cmp_tex.bat','w')
+ tex_cmp.write('latex '+fname+'.tex\n')
+ tex_cmp.write('dvips  '+fname+'.dvi\n')
+ tex_cmp.write('ps2pdf '+fname+'.ps\n')
+
+ tex_file_sol=open(fname+'_sol.tex','w')
+ tex_cmp.write('latex '+fname+'_sol.tex\n')
+ tex_cmp.write('dvips  '+fname+'_sol.dvi\n')
+ tex_cmp.write('ps2pdf '+fname+'_sol.ps\n')
+
+ writeHead(tex_file)
+ writeHead(tex_file_sol)
+  
+ for i in range(0,nOfTasks):
+  tex_file.write('\\bigskip\n\\noindent\\rule{\\textwidth}{0.4pt}\n\n\\bigskip\n')
+  if(i and not i%3):
+   tex_file.write("\\newpage\n")
+  tex_file.write("Вариант "+str(i)+":\n\n")
+  if(i and not i%2):
+   tex_file_sol.write("\\newpage\n")
+  tex_file_sol.write("Вариант "+str(i)+':\n')
+  for j in range(0,nQuest): 
+    ((form1,nform2,w),cn)=MakeFormulaTM(qcompl[j],qvar[j])
+    trtab=[]
+    xHead=['$'+a+'$' for a in varNames]
+    yHead=[]
+    Nl=NtoList(nform2)
+    for jj in range(0,16):
+     ljj=NtoListB(jj,4)
+     ii=ljj[3]+2*ljj[2]+4*ljj[1]+8*ljj[0]
+     if ii in Nl:
+      yHead.append(1)
+     else:
+      yHead.append(0)
+     trtab+=(NtoListB(ii,4))
+    strtab=MakeTable('f',xHead,yHead,trtab) 
+    #of = Optimize12Forms(forms1, forms2, nform2)
+    #sof=DStrFrom123Forms(of)
+    #tex_file.write("Вариант "+str(i)+":\n$$\n f(x_1,x_2,x_3,x_4)="+form1+'\n$$\n\\bigskip\n')
+    arg=varNames[0]
+    for k in range(1,qvar[j]):
+     arg+=","+varNames[k]
+    if(qtt[j]==2):
+     tex_file.write("Задача "+str(i)+"."+str(j+1)+":\n\\includegraphics{"+cn+"}\n\n")
+    if(qtt[j]==1):
+     tex_file.write("Задача "+str(i)+"."+str(j+1)+":\n$f("+arg+")="+form1+"$\n\n")
+     
+    #tex_file.write('\\bigskip\n\\noindent\\rule{\\textwidth}{0.4pt}\n\n\\bigskip\n')
+    tex_file_sol.write("Задача "+str(i)+"."+str(j+1)+":\n$$\n"+form1+'\n$$\n\\bigskip\n')
+    #tex_file_sol.write('Perfect form '+str(i)+': \n$$\n'+DStrFromNbool(nform2)+'\n$$\n')
+    #tex_file_sol.write('Perfect form opt '+str(i)+': \n$$\n'+sof+'\n')
+    tex_file_sol.write("\\includegraphics{"+cn+"}\n")
+    #tex_file.write('Truth table:\n'+MakeMatrix(trtab)+'\n')
+    tex_file_sol.write('Truth table:\n'+strtab+'\n\n')
+    tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
+
+ tex_file.write("\\end{document}\n")
+ tex_file_sol.write("\\end{document}\n")
  
 #MakeForrest()
 #print(MakeTreeTM())
 
 #MakeFormulaTM(10)
-MakeForrestFormulas()
+#MakeForrestFormulas()
+MakeControlTaskFormulas()
