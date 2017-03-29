@@ -10,9 +10,12 @@ from tex_structures_tm import MakeMatrix
 # in this implementation, a node is inserted between an existing node and the root
 BoolOperands=['\\wedge','\\vee','\\rightarrow','\\leftrightarrow','|','\\downarrow','\\oplus']
 BoolOrder=   [0       ,   1    ,       2      ,         3        , 0 ,     0       ,    3]
-varNames=    ['x_1','x_2','x_3']
-varVal  =    [170,204,240]
-
+varNames=    ['x_1','x_2','x_3','x_4']
+#varVal  =    [170,204,240]
+varVal  =    [43690,52428,61680,65280]
+#1100110011001100
+#1111000011110000
+#1111111100000000
 def NtoList(iPerf):
  ff=[]
  i=0
@@ -24,7 +27,7 @@ def NtoList(iPerf):
  return ff
 def DStrIbool(i):
  #analog of DStrI from optimal forms
- lett=['x_1','x_2','x_3','D','E','F','G']
+ lett=['x_1','x_2','x_3','x_4','E','F','G']
  strf=''
  n=3
  f=i
@@ -38,7 +41,8 @@ def DStrIbool(i):
   if(bit):
    strf+=lett[ii]
   else:
-   strf+='\\neg '+lett[ii]
+   #strf+='\\neg '+lett[ii]
+   strf+='\\overline{'+lett[ii]+'}'
   f=f>>1
  return strf
 
@@ -52,15 +56,15 @@ def DStrFromNbool(n):
    strf+='\\vee '
   else:
    first=0
-  strf+=DStrIbool(f)
+  strf+='('+DStrIbool(f)+')'
  if strf=='':
    strf='\\emptyset'
  return strf
 
-def DoNeg(x1,nb=8):
+def DoNeg(x1,nb=16):
  mask=pow(2,nb)-1
  return mask^x1
-def DoOper(operand,x1,x2,nb=8):
+def DoOper(operand,x1,x2,nb=16):
  mask=pow(2,nb)-1
  if operand=='\\wedge':
   return x1&x2
@@ -241,6 +245,7 @@ class BinaryTree():
     id_count=1
     probs=[]
     probs_all=[]
+    width=0
     ccc=canvas.canvas()
     bx = 0.8
     by = 0.4
@@ -270,29 +275,113 @@ class BinaryTree():
         if(random.randint(0,1)):
           tt=random.randint(1,2)
           self.type=tt
-          childvn=random.randint(0,2)
+          childvn=random.randint(0,3)
           self.left=BinaryTree(childvn)
-          self.right=BinaryTree((childvn+1)%3)
+          self.right=BinaryTree((childvn+1)%4)
        else:
         self.left.randTree()
         self.right.randTree()
 def MakeFormulaFromTree(tree,oper):
     if tree != None:
         if(not tree.type):
-          return (varNames[tree.var],varVal[tree.var])
+          return (varNames[tree.var],varVal[tree.var],0)
         else:
-           (lleft,lv)=MakeFormulaFromTree(tree.getLeftChild(),tree.prob)
-           (rright,rv)=MakeFormulaFromTree(tree.getRightChild(),tree.prob)
+           (lleft,lv,wl)=MakeFormulaFromTree(tree.getLeftChild(),tree.prob)
+           (rright,rv,wr)=MakeFormulaFromTree(tree.getRightChild(),tree.prob)
+           w=0
+           if(wl==0):
+            w+=0.5
+           if(wr==0):
+            w+=0.5
+           tree.width=w+wl+wr 
            res=lleft+' '+BoolOperands[tree.prob]+' '+rright
            sign=''
-           resv=DoOper(BoolOperands[tree.prob],lv,rv,8)
+           resv=DoOper(BoolOperands[tree.prob],lv,rv,16)
            if not tree.neg:
                sign='\\neg '
                resv=DoNeg(resv)
            if BoolOrder[oper]<=BoolOrder[tree.prob]:
-               return (sign+'('+res+')',resv)
+               return (sign+'('+res+')',resv,tree.width)
            else:
-               return (sign+res,resv)
+              if(sign==''):
+               return (res,resv,tree.width)
+              else:
+               return (sign+'('+res+')',resv,tree.width)
+def plotBoolSchemElem(cc,operand,x,y,m):
+    dm=0.1*m
+    if operand == '\\wedge':
+        #return x1 & x2
+        cc.text(x+0.5*m,y+1.5*m, "$\&$",[text.halign.boxcenter])
+        return
+    if operand == '\\vee':
+        #return x1 | x2
+        cc.text(x+0.5*m,y+1.5*m, "$1$",[text.halign.boxcenter])
+        return
+
+    if operand == '\\rightarrow':
+#        return (DoNeg(x1, nb)) | x2
+        cc.text(x+0.5*m,y+1.5*m, "$1$",[text.halign.boxcenter])
+        cc.stroke(path.circle(x, y+1.5*m, dm))
+        return
+
+    if operand == '\\leftrightarrow':
+#        return DoNeg(x1 ^ x2, nb)
+        cc.text(x + 0.5 * m, y + 1.5 * m, "$=1$",[text.halign.boxcenter])
+        cc.stroke(path.circle(x+m, y+m, dm))
+        return
+    if operand == '|':
+#        return DoNeg(x1 & x2, nb)
+        cc.text(x+0.5*m,y+1.5*m, "$\&$",[text.halign.boxcenter])
+        cc.stroke(path.circle(x+m, y+m, dm))
+        return
+    if operand == '\\downarrow':
+#        return DoNeg(x1 | x2, nb)
+        cc.text(x + 0.5 * m, y + 1.5 * m, "$1$",[text.halign.boxcenter])
+        cc.stroke(path.circle(x+m, y+m, dm))
+        return
+    if operand == '\\oplus':
+#        return x1 ^ x2
+        cc.text(x + 0.5 * m, y + 1.5 * m, "$=1$",[text.halign.boxcenter])
+        return
+
+
+def paintTree(tree,lvl,x1,y1):
+    #m=0.1
+    m=1
+    if tree != None:
+        #BinaryTree.ccc.fill(path.circle(x1,y1,m))
+        xr=x1-m*2
+        yr=y1-m
+        hvx=x1-m*3
+        hv1y=y1+m/2
+        hv2y=y1-m/2
+        if(not tree.type):
+          #BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
+          BinaryTree.ccc.text(x1-0.5*m,y1, "$"+varNames[tree.var]+"$")
+          return
+        else:
+           if not tree.neg:
+            BinaryTree.ccc.stroke(path.rect(xr,yr,m,m*2))
+            plotBoolSchemElem(BinaryTree.ccc, '\\downarrow', xr, yr, m)
+            BinaryTree.ccc.stroke(path.line(xr,y1,xr-m,y1))
+            xr-=2*m
+            hvx-=2*m
+           BinaryTree.ccc.stroke(path.rect(xr,yr,m,m*2))
+           plotBoolSchemElem(BinaryTree.ccc, BoolOperands[tree.prob], xr, yr, m)
+           BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
+           BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx+m,hv1y))
+           BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx+m,hv2y))
+           multl=tree.left.width
+           multr=tree.right.width
+           yn1=hv1y+multl*m
+           yn2=hv2y-multr*m
+           lvl=lvl*0.5
+           BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx,yn1))
+           BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx,yn2))
+           #BinaryTree.ccc.stroke(path.line(x1,y1,x2,y0))
+           #BinaryTree.ccc.stroke(path.line(x1,y1,x2,y2))
+           paintTree(tree.getLeftChild(),lvl,hvx,yn1)
+           paintTree(tree.getRightChild(),lvl,hvx,yn2)
 
 def MakeFormulaTM(number_of_element=10):
  number_of_chemes=10
@@ -312,8 +401,36 @@ def MakeFormulaTM(number_of_element=10):
      myTree1.randTree()
  form=MakeFormulaFromTree(myTree1,0)
  print(form)
- return form
+ varc=open('var_count','r')
+ v_cou=int(varc.readline())
+ varc.close()
+ BinaryTree.ccc=canvas.canvas()
+ text.set(text.LatexRunner)
+ lvl=4
+ paintTree(myTree1, lvl, 0, 5)
+ BinaryTree.ccc.writeEPSfile("tree"+str(v_cou))
+ vc=open('var_count','w')
+ v_cou=v_cou+1
+ vc.write(str(v_cou))
+ vc.close()
+ return (form,"tree"+str(v_cou-1)+".eps")
 
+ 
+def writeHead(tex_file): 
+ tex_file.write("\\documentclass[12pt]{article}\n")
+ tex_file.write("\\usepackage{graphics}\n")
+ tex_file.write("\\usepackage[cp1251]{inputenc}\n")
+ tex_file.write("\\usepackage[russian]{babel}\n")
+ tex_file.write("\\usepackage[left=1cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ tex_file.write("\\usepackage{amsmath}\n")
+ tex_file.write("\\usepackage{caption}\n")
+ tex_file.write("\\usepackage{subcaption}\n")
+ tex_file.write("\\begin{document}\n")
+ tex_file.write("\\pagenumbering{gobble}\n")
+ tex_file.write("\\captionsetup{labelformat=empty}\n")
+ return
+
+ 
 def MakeForrestFormulas():
  forms2 = []
  for i in range(0, 8):
@@ -345,40 +462,44 @@ def MakeForrestFormulas():
  tex_cmp.write('dvips  tree'+str(v_cou)+'.dvi\n')
  tex_cmp.write('ps2pdf tree'+str(v_cou)+'.ps\n')
 
- tex_file.write("\\documentclass[12pt]{article}\n")
- tex_file.write("\\usepackage{graphics}\n")
- tex_file.write("\\usepackage[cp1251]{inputenc}\n")
- tex_file.write("\\usepackage[russian]{babel}\n")
- tex_file.write("\\usepackage[left=1cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
- tex_file.write("\\usepackage{amsmath}\n")
- tex_file.write("\\usepackage{caption}\n")
- tex_file.write("\\usepackage{subcaption}\n")
- tex_file.write("\\begin{document}\n")
- tex_file.write("\\pagenumbering{gobble}\n")
- tex_file.write("\\captionsetup{labelformat=empty}\n")
- for i in range(0,30):
-    (form1,nform2)=MakeFormulaTM(4)
+ tex_file_sol=open('tree'+str(v_cou)+'_sol.tex','w')
+ tex_cmp.write('latex tree'+str(v_cou)+'_sol.tex\n')
+ tex_cmp.write('dvips  tree'+str(v_cou)+'_sol.dvi\n')
+ tex_cmp.write('ps2pdf tree'+str(v_cou)+'_sol.ps\n')
+
+ writeHead(tex_file)
+ writeHead(tex_file_sol)
+  
+ for i in range(0,60):
+    ((form1,nform2,w),cn)=MakeFormulaTM(5)
     trtab=[]
     xHead=['$'+a+'$' for a in varNames]
     yHead=[]
     Nl=NtoList(nform2)
-    for ii in range(0,8):
+    for jj in range(0,16):
+     ljj=NtoListB(jj,4)
+     ii=ljj[3]+2*ljj[2]+4*ljj[1]+8*ljj[0]
      if ii in Nl:
       yHead.append(1)
      else:
       yHead.append(0)
-     trtab+=(NtoListB(ii,3))
+     trtab+=(NtoListB(ii,4))
     strtab=MakeTable('f',xHead,yHead,trtab) 
-    of = Optimize12Forms(forms1, forms2, nform2)
-    sof=DStrFrom123Forms(of)
-    tex_file.write("Formula "+str(i)+":\n$$\n")
-    tex_file.write(form1+'\n$$\n Perfect form '+str(i)+': \n$$\n'+DStrFromNbool(nform2)+'\n$$\n')
-    tex_file.write('Perfect form opt'+str(i)+': \n$$\n'+sof+'\n')
-    tex_file.write("$$\n")
+    #of = Optimize12Forms(forms1, forms2, nform2)
+    #sof=DStrFrom123Forms(of)
+    #tex_file.write("Вариант "+str(i)+":\n$$\n f(x_1,x_2,x_3,x_4)="+form1+'\n$$\n\\bigskip\n')
+    tex_file.write("Вариант "+str(i)+":\n\\includegraphics{"+cn+"}\n\n\\bigskip\n")
+    tex_file.write('\\bigskip\n\\noindent\\rule{\\textwidth}{0.4pt}\n\n\\bigskip\n')
+    tex_file_sol.write("Вариант "+str(i)+":\n$$\n"+form1+'\n$$\n\\bigskip\n')
+    #tex_file_sol.write('Perfect form '+str(i)+': \n$$\n'+DStrFromNbool(nform2)+'\n$$\n')
+    #tex_file_sol.write('Perfect form opt '+str(i)+': \n$$\n'+sof+'\n')
+    tex_file_sol.write("\\includegraphics{"+cn+"}\n")
     #tex_file.write('Truth table:\n'+MakeMatrix(trtab)+'\n')
-    tex_file.write('Truth table:\n'+strtab+'\n\n')
+    tex_file_sol.write('Truth table:\n'+strtab+'\n\n')
+    tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
 
  tex_file.write("\\end{document}\n")
+ tex_file_sol.write("\\end{document}\n")
  
 #MakeForrest()
 #print(MakeTreeTM())
