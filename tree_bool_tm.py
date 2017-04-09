@@ -502,7 +502,7 @@ def MakeForrestFormulas():
  tex_file_sol.write("\\end{document}\n")
 
 
-def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
+def MakeControlTaskFormulas(nOfTasks=20,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
  forms2 = []
  for i in range(0, 8):
    for j in range(0, 8):
@@ -539,22 +539,25 @@ def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qva
 
  writeHead(tex_file)
  writeHead(tex_file_sol)
-  
+ iNewPage=0
  for i in range(0,nOfTasks):
   tex_file.write('\\bigskip\n\\noindent\\rule{\\textwidth}{0.4pt}\n\n\\bigskip\n')
   if(i and not i%3):
    tex_file.write("\\newpage\n")
   tex_file.write("Вариант "+str(i)+":\n\n")
-  if(i and not i%2):
-   tex_file_sol.write("\\newpage\n")
   tex_file_sol.write("Вариант "+str(i)+':\n')
   for j in range(0,nQuest): 
+    iNewPage+=1
     ((form1,nform2,w),cn)=MakeFormulaTM(qcompl[j],qvar[j])
     trtab=[]
     xHead=['$'+a+'$' for a in varNames]
+    if qvar[j]==3:
+     xHead.pop()
     yHead=[]
     Nl=NtoList(nform2)
     for jj in range(0,16):
+     if qvar[j]==3 and jj%2:
+      continue
      ljj=NtoListB(jj,4)
      ii=ljj[3]+2*ljj[2]+4*ljj[1]+8*ljj[0]
      if ii in Nl:
@@ -582,6 +585,8 @@ def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qva
     #tex_file.write('Truth table:\n'+MakeMatrix(trtab)+'\n')
     tex_file_sol.write('Truth table:\n'+strtab+'\n\n')
     tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
+    if(not iNewPage%2):
+     tex_file_sol.write("\\newpage\n")
 
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
