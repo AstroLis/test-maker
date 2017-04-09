@@ -179,7 +179,7 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,rand
      #path_a0=path_a
      path_to=[]
      tc=0
-     while pathc<20:
+     while pathc<nv*4:
       pathc=0
       path_a=[]
       path_to=[]
@@ -395,7 +395,8 @@ def MakeGraphsMatr():
     uf=[]
     mf=[]
     for j in range(0,1):
-     tmp=MakeGraphTM(8,1,0,1,1,1)
+#     tmp=MakeGraphTM(8,1,0,1,1,1)
+     tmp = MakeGraphTM(nv = 8, directed = 0, calc_random_path = 0, weighted = 1, filter_zero = 1, random_weights = 1)
      cn.append(tmp[0])
      uf.append("Вариант: "+str(i+1+j))
      mf.append(MakeMatrix(tmp[3]))
