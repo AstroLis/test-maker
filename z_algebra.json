@@ -1,0 +1,30 @@
+{
+"title":"јлгебра",
+"zadacha":"'«адано множество E='+RB(str(E))+'.'",
+"vopros":{
+"v1":"'явл€етьс€ ли $<E,\\cup>$ алгеброй?'",
+"v2":"'явл€етьс€ ли $<E,\\cap>$ алгеброй?'",
+"v3":"'явл€етьс€ ли $<E,\\cup,\\cap>$ алгеброй?'",
+"v4":"'явл€етьс€ ли $<E,\\cup,\\cap,\\\\backslash>$ алгеброй?'",
+"v5":"'явл€етьс€ ли $<E,\\cup>$ полугруппой?'",
+"v6":"'явл€етьс€ ли $<E,\\cap>$ моноидом?'",
+"v7":"'явл€етьс€ ли $<E,\\cup>$ моноидом?'",
+"v8":"'явл€етьс€ ли $<E,\\\\backslash>$ моноидом?'"
+         }, 
+"param":{
+         "A0":"[random.randint(2,4) for i in range(1,10)]",
+         "A1":"set([frozenset([random.randint(0,7) for i in range(0,A0[j])]) for j in range(0,4)])",
+         "A2":"frozenset([])",
+         "B1":"set([frozenset(sum([list(j) for j in A1],[]))])",
+         "B2":"set([frozenset(frozenset.intersection(*A1))])",
+         "B3":"A1|B1|B2",        
+         "C1":"[i for i in range(A0[0]+1,A0[0]+6)]",
+         "D":"Shuf(B1)",
+         "E":"[list(j) for j in B3]",
+         "F":"[list(j) for j in A1]",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+        }
+}
