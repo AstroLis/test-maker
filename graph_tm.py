@@ -412,5 +412,5 @@ def MakeGraphsMatr():
     
  tex_file.write("\\end{document}\n")
 
-MakeGraphsMatr()  
+#MakeGraphsMatr()  
     

@@ -596,4 +596,4 @@ def MakeControlTaskFormulas(nOfTasks=20,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 
 #MakeFormulaTM(10)
 #MakeForrestFormulas()
-MakeControlTaskFormulas()
+#MakeControlTaskFormulas()
