@@ -156,7 +156,7 @@ def MakeSchemeTM(number_of_element=4):
  vc.write(str(v_cou))
  vc.close()
  return ("schem"+str(v_cou)+".eps",sorted(BinaryTree.probs_all)[0][1],BinaryTree.probs)
-print(MakeSchemeTM())
+#print(MakeSchemeTM())
           
           
           
