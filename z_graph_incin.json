@@ -1,8 +1,8 @@
 {
-"title":"Графы, матрица инциндентности",
+"title":"Графы, матрица инцидентности",
 "zadacha":"'Дан граф:'+NL+'\\\\begin{figure}[!htb] \\\\centering \\\\includegraphics[]{'+A1[0]+'} \\\\end{figure} '+NL",
 "vopros":{
-          "v1":"'Тогда матрица инциндентности:'"
+          "v1":"'Тогда матрица инцидентности:'"
          }, 
 "param":{
          "A1":"graph_tm.MakeGraphTM(5,1,0)",
@@ -14,6 +14,6 @@
          "A7":"0"
         },
 "otvet":{
-         "o1":"MakeMatrix(A1[2])"         
+         "o1":"'\\\\tiny '+MakeMatrix(A1[2])"         
         }
 }

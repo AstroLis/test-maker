@@ -88,6 +88,7 @@ def calc_cos(p0,p1,p2):
 
 def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1):
     global ccc
+    fi=1
     ccc = canvas.canvas()
     if(calc_random_path):
      ccc.fill(path.circle(probs[0][0],probs[0][1], 0.2))
@@ -412,5 +413,6 @@ def MakeGraphsMatr():
     
  tex_file.write("\\end{document}\n")
 
-MakeGraphsMatr()  
+#MakeGraphsMatr()  
+#MakeGraphs()  
     

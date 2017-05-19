@@ -202,7 +202,7 @@ tex_file.write("\\usepackage{subcaption}\n")
 tex_file.write("\\begin{document}\n")
 tex_file.write("\\pagenumbering{gobble}\n")
 tex_file.write("\\captionsetup{labelformat=empty}\n")
-for i in range(0,25):
+for i in range(0,5):
     tex_file.write("\\begin{figure}[!htb]\n")
     tex_file.write("\\centering\n")
     cname='circl'+str(i)
@@ -211,34 +211,34 @@ for i in range(0,25):
     for j in range(0,4):
      cn.append(cname+str(j))
      uf.append(PrintCirq1(cn[j],3))
-    #tex_file.write("\\caption{Задача "+str(i)+". Какому рисунку соответствует выражение: \\\\")
+    tex_file.write("\\caption{Задача "+str(i)+". Какому рисунку соответствует выражение: \\\\")
     fl=1
     rr=random.randint(0,3)
     res_file.write(str(i)+" - "+str(rr)+"\n")
-    #tex_file.write("$")
-    #for j in uf[rr]:
-    # if not fl:
-    #  tex_file.write(' \\cup ')
-    # tex_file.write(FormStr(nforms[j]))
-    # fl=0
-    #tex_file.write("$}\n")
+    tex_file.write("$")
+    for j in uf[rr]:
+     if not fl:
+      tex_file.write(' \\cup ')
+     tex_file.write(FormStr(nforms[j]))
+     fl=0
+    tex_file.write("$}\n")
     #tex_file.write("\\includegraphics{"+cname+".eps}\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[0]+".eps}\n")
-    #tex_file.write("\\caption{ }\n")
+    tex_file.write("\\caption{ }\n")
     tex_file.write("\\end{subfigure}\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[1]+".eps}\n")
-    #tex_file.write("\\caption{ }\n")
+    tex_file.write("\\caption{ }\n")
     tex_file.write("\\end{subfigure}\n")
     tex_file.write("\n\\bigskip\n\\vskip 2cm\n\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[2]+".eps}\n")
-    #tex_file.write("\\caption{ }\n")
+    tex_file.write("\\caption{ }\n")
     tex_file.write("\\end{subfigure}\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[3]+".eps}\n")
-    #tex_file.write("\\caption{ }\n")
+    tex_file.write("\\caption{ }\n")
     tex_file.write("\\end{subfigure}\n")   
     tex_file.write("\\end{figure}\n")
 

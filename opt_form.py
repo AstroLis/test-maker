@@ -147,7 +147,7 @@ def DStrIMask(i,m):
 
 def DStrFromN(n):
  ff=NtoList(n)
- strf="$"
+ strf=""
  first=1
  for f in ff:
   if not first:
@@ -155,9 +155,9 @@ def DStrFromN(n):
   else:
    first=0
   strf+=DStrI(f)
- strf+="$"
- if strf=="$$":
-   strf="$\\emptyset$"
+ strf+=""
+ if strf=="":
+   strf="\\emptyset"
  return strf
 
 def DStrFrom2fN(n):
@@ -176,7 +176,7 @@ def DStrFrom2fN(n):
 def DStrFrom1fN(n):
  ff=NtoList(n)
  if(len(ff)==0):
-  return "$\\emptyset$"
+  return "\\emptyset"
  maskl=[0,0,0]
  mm=NtoListB(ff[0],3)
  for i in range(1,len(ff)):
@@ -239,23 +239,25 @@ def GetBit(n):
 
 def DStrFrom123Forms(forms123):
  #ff=NtoList(n)
- strf="$"
+ strf=""
  first=1
  for f123 in forms123:
-  if not first:
-   strf+='+'
-  else:
-   first=0
+  add=''
   if(f123[1]==3):
    f=GetBit(f123[0])
-   strf+=DStrI(f)
+   add+=DStrI(f)
   if(f123[1]==2):
-   strf+=DStrFrom2fN(f123[0])
+   add+=DStrFrom2fN(f123[0])
   if (f123[1] == 1):
-   strf +=DStrFrom1fN(f123[0])
- strf+="$"
- if strf=="$$":
-   strf="$\\emptyset$"
+   add +=DStrFrom1fN(f123[0])
+  if(not add=='\\emptyset'):
+   if not first:
+    strf+='+'
+   else:
+    first=0
+   strf+=add
+ if strf=="":
+   strf="\\emptyset "
  return strf
 
 
@@ -306,6 +308,8 @@ for ib in range(0,3):
    t1 += pow(2, i)
  forms1.append(t0)
  forms1.append(t1)
+forms1.append(0)
+forms1.append(0)
 print(forms1)
 
 
@@ -326,14 +330,14 @@ tex_file.write("\\documentclass[12pt]{article}\n")
 tex_file.write("\\usepackage{graphics}\n")
 tex_file.write("\\usepackage[cp1251]{inputenc}\n")
 tex_file.write("\\usepackage[russian]{babel}\n")
-tex_file.write("\\usepackage[left=4cm,right=2cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+tex_file.write("\\usepackage[left=1cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
 tex_file.write("\\usepackage{caption}\n")
 tex_file.write("\\usepackage{subcaption}\n")
 tex_file.write("\\begin{document}\n")
 tex_file.write("\\pagenumbering{gobble}\n")
 tex_file.write("\\captionsetup{labelformat=empty}\n")
-for i in range(0,len(forms1),4):
-#for i in range(0,24,4):
+#for i in range(0,len(forms2),4):
+for i in range(100,108,4):
     tex_file.write("\\begin{figure}[!htb]\n")
     tex_file.write("\\centering\n")
     cname='circl'+str(i)
@@ -341,8 +345,8 @@ for i in range(0,len(forms1),4):
     uf=[]
     for j in range(0,4):
      ind=j+i
-     ff=forms1[ind]
-     #ff=ind
+     #ff=forms2[ind]
+     ff=ind
      cn.append(cname+str(j))
      PrintCirqPerf(cname+str(j),ff,n_sets)
      #PrintCirqPerf(cname+str(j),ind,n_sets)
@@ -353,20 +357,20 @@ for i in range(0,len(forms1),4):
     fl=1
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[0]+".eps}\n")
-    tex_file.write("\\caption{"+uf[0]+"}\n")
+    tex_file.write("\\caption{$"+uf[0]+"$}\n")
     tex_file.write("\\end{subfigure}\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[1]+".eps}\n")
-    tex_file.write("\\caption{"+uf[1]+"}\n")
+    tex_file.write("\\caption{$"+uf[1]+"$}\n")
     tex_file.write("\\end{subfigure}\n")
     tex_file.write("\n\\bigskip\n\\vskip 2cm\n\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[2]+".eps}\n")
-    tex_file.write("\\caption{"+uf[2]+"}\n")
+    tex_file.write("\\caption{$"+uf[2]+"$}\n")
     tex_file.write("\\end{subfigure}\n")
     tex_file.write("\\begin{subfigure}[t]{0.4\\textwidth}\n")
     tex_file.write("\\includegraphics{"+cn[3]+".eps}\n")
-    tex_file.write("\\caption{"+uf[3]+"}\n")
+    tex_file.write("\\caption{$"+uf[3]+"$}\n")
     tex_file.write("\\end{subfigure}\n")
     tex_file.write("\\end{figure}\n")
     tex_file.write("\\clearpage\n")

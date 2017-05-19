@@ -52,8 +52,11 @@ def MakeMatrix(data,ff=2):
    if i:
     tb+='&'
    else:
-    i=1   
-   tb+=('{:g}'.format(x))
+    i=1  
+   if(x>=0):    
+    tb+=('{:g}'.format(x))
+   else:
+    tb+=('\\text{-}'+'{:g}'.format(-x))   
   tb+=('\\\\')
  tb+=(' \\end{pmatrix}$$')
  return tb
