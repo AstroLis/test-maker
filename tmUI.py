@@ -5,10 +5,12 @@ import json,random,parser,math,datetime
 sys.path.append('./graph_tm.py')
 sys.path.append('./plot_fraspr_tm.py')
 sys.path.append('./scheme_tm.py')
+sys.path.append('./algebra_tm.py')
 
 import graph_tm
 import plot_fraspr_tm
 import scheme_tm
+import algebra_tm
 
 def Cnm(n,m):
  if n<m:
@@ -128,7 +130,13 @@ def ParseTaskWithParams(data,**kwargs):
 #      if(i==1):
 #       if(strl>70):
 #        rt.append('\n')
-    for i in range(0,4):
+    if(data["answer_style"]):
+     print(data["answer_style"])
+     #if(data["answer_style"]=='line'):
+     for i in range(0,4):
+       rt.append(str(i+1)+')  '+otvs[rrr[i]]+'\n\n')     
+    else: 
+     for i in range(0,4):
       #rt.append('\\begin{minipage}[c]{0.24\\textwidth}\n')
       rt.append('\\begin{minipage}[c]{0.02\\textwidth}\n')
       #rt.append('\\small')
@@ -139,7 +147,7 @@ def ParseTaskWithParams(data,**kwargs):
       rt.append('\\end{minipage}\n')      
       #if(i==1):
       #  rt.append('\n')
-    rt.append('\nCorrect answer: '+str(ncu+1))
+    #rt.append('\nCorrect answer: '+str(ncu+1))
     return (rt,str(ncu+1))
  
 def ParseTask(data):
@@ -159,7 +167,8 @@ def ParseTask(data):
 def make_page_head(TName,Nz,ii):
  th=[]
  th.append("\\flushright{"+str(TName)+"}\n\n")
- th.append("\\centering{ТЕСТ\n\n Теория Вероятностей и Математическая Статистика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
+ #th.append("\\centering{ТЕСТ\n\n Теория Вероятностей и Математическая Статистика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
+ th.append("\\centering{ТЕСТ\n\n Дискретная Математика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
  #th.append("\\centering{ТЕСТ по ТВ и МС. Вариант \\textnumero "+str(ii)+"("+str(TName)+")}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
  th.append("\\begin{tabular}{|c|");
  for tt in range(0,Nz):
