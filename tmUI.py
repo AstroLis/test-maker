@@ -130,7 +130,7 @@ def ParseTaskWithParams(data,**kwargs):
 #      if(i==1):
 #       if(strl>70):
 #        rt.append('\n')
-    if(data["answer_style"]):
+    if("answer_style" in data):
      print(data["answer_style"])
      #if(data["answer_style"]=='line'):
      for i in range(0,4):
