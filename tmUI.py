@@ -158,7 +158,12 @@ def ParseTask(data,bAnswer):
      continue
     else:
      return aa
-    
+
+
+def make_book_theme_head(TName,them_name):
+ th=[]
+ th.append("\\section{"+them_name+"}") 
+ return th
 def make_page_head(TName,Nz,ii):
  th=[]
  th.append("\\flushright{"+str(TName)+"}\n\n")
@@ -185,6 +190,7 @@ def make_page_head(TName,Nz,ii):
  th.append("\hline\n")
  th.append("\\end{tabular}\n") 
  return th
+ 
 def make_test_head(TName,Nz):
  th=[]
  th.append("\\documentclass[12pt]{article}\n")
@@ -196,6 +202,18 @@ def make_test_head(TName,Nz):
  #th.append("Тест по теории вероятности "+str(datetime.datetime.now()))
  return th
 
+def make_book_head(TName):
+ th=[]
+ th.append("\\documentclass[12pt]{article}\n")
+ th.append("\\usepackage{graphicx}\n")
+ th.append("\\usepackage{amsmath}\n")
+ th.append("\\usepackage[left=0.5cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ th.append("\\usepackage[russian]{babel}\n")
+ th.append("\\begin{document}\n")
+ th.append("Тест генератора сборника "+str(datetime.datetime.now()))
+ return th
+ 
+ 
 def add_task(*args):
  l2.insert('end',l1.get(l1.curselection()))
  return
@@ -225,28 +243,28 @@ def select_theme(*args):
     task_data[ttitle]=data
    return
  
-def make_test(*args):
+def make_book(*args):
     ntests = int(number_of_tests.get())
-    test_name=result_file_name.get()
+    bc=int(open('book_count').read().split()[0])
+    test_name='book_'+str(bc)+'_'+result_file_name.get()
+    with open('book_count', 'w') as f:
+     f.write(str(bc+1))
+ 
     f = open(test_name+'.tex', 'w')
-    f.writelines(make_test_head(test_name,l2.size()))
+    f.writelines(make_book_head(test_name))
     fsolv = open(test_name+'_solv.txt', 'w')
-    for iii in range(1, ntests):
-        f.writelines(make_page_head(test_name,l2.size(),iii))
+    for tkey_name in l2.get(0, END):
+        f.writelines(make_book_theme_head(test_name,tkey_name))
         f.write("\\begin{enumerate}\n")
-        #fsolv.write("Вариант: "+str(iii)+"\n")
-        fsolv.write("Вариант: "+str(iii)+":  ")
+        fsolv.write("Вариант: "+str(tkey_name)+":  ")
         i=0
-        for tkey_name in l2.get(0, END):
+        for iii in range(1, ntests):
             i=i+1
             tname=task_data[tkey_name]
             f.write("\\item ")
             bAnswer=int(answer_type.get())
             task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
-            #fsolv.write("Задача: "+str(tkey_name)+" "+str(task[1])+"\n")
-            #fsolv.write("Задача: "+str(task[1])+"\n")
-            #fsolv.write(str(i)+":"+str(int(task[1])+1)+" ")
             fsolv.write(str(i)+":"+str(task[1])+" ")
             f.write("\n\n")
         fsolv.write("\n")
@@ -266,6 +284,46 @@ def make_test(*args):
     os.system('cmp_tex.bat')
     return
 
+    
+def make_test(*args):
+    ntests = int(number_of_tests.get())
+    test_name=result_file_name.get()
+    f = open(test_name+'.tex', 'w')
+    f.writelines(make_test_head(test_name,l2.size()))
+    fsolv = open(test_name+'_solv.txt', 'w')
+    for iii in range(1, ntests):
+        f.writelines(make_page_head(test_name,l2.size(),iii))
+        f.write("\\begin{enumerate}\n")
+        #fsolv.write("Вариант: "+str(iii)+"\n")
+        fsolv.write("Вариант: "+str(iii)+":  ")
+        i=0
+        for tkey_name in l2.get(0, END):
+            i=i+1
+            tname=task_data[tkey_name]
+            f.write("\\item ")
+            bAnswer=int(answer_type.get())
+            task = ParseTask(tname,bAnswer)
+            f.writelines(task[0])
+            fsolv.write(str(i)+":"+str(task[1])+" ")
+            f.write("\n\n")
+        fsolv.write("\n")
+        f.write("\\end{enumerate}\n")
+        f.write("\\newpage\n")
+    f.write("\\end{document}\n")
+    f.close()
+    fsolv.close()
+    tex_cmp = open('cmp_tex.bat', 'w')
+    tex_cmp.write('latex "' + test_name + '.tex"\n')
+    tex_cmp.write('dvips  "' + test_name + '.dvi"\n')
+    tex_cmp.write('ps2pdf "' + test_name + '.ps"\n')
+    #tex_cmp.write('latex ' + str(v_cou) + '_solv.tex\n')
+    #tex_cmp.write('dvips  ' + str(v_cou) + '_solv.dvi\n')
+    #tex_cmp.write('ps2pdf ' + str(v_cou) + '_solv.ps\n')
+    tex_cmp.close()
+    os.system('cmp_tex.bat')
+    return
+    
+    
 root = Tk()
 root.title("Test Maker")
 col0=2
@@ -305,9 +363,12 @@ ttk.Button(mainframe, text="MakeTest", command=make_test, width = 13).grid(colum
 number_of_tests=StringVar()
 result_file_name=StringVar()
 answer_type=StringVar()
+#tester_style=StringVar()
 
 number_of_tests.set(10)
 answer_type.set(1)
+#tester_style.set('test')
+
 result_file_name.set('test1')
 nt_entry = ttk.Entry(mainframe,textvariable=number_of_tests,  width=13)
 ttk.Label(mainframe, text="Вариантов:").grid(column=2+col0, row=6+row0, sticky=W)
@@ -319,6 +380,9 @@ nt_entry.grid(column=2+col0, row=9+row0,  sticky=(W, E), columnspan = 1)
 
 ttk.Label(mainframe, text="Наличие ответов:").grid(column=2+col0, row=10+row0, sticky=W)
 ttk.Entry(mainframe,textvariable=answer_type,  width=6).grid(column=2+col0, row=11+row0,  sticky=(W, E), columnspan = 1)
+
+ttk.Button(mainframe, text="MakeBook", command=make_book, width = 13).grid(column=2+col0, row=12+row0, sticky=(W,N),columnspan = 1)
+
 
 ttk.Label(mainframe, text="Тема:").grid(column=-2+col0, row=-1+row0, sticky=W)
 ttk.Label(mainframe, text="Задача:").grid(column=0+col0, row=-1+row0, sticky=W)
