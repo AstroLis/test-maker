@@ -86,7 +86,7 @@ def EvalAnswer(dParams,dAnsw):
     return EvalAnswerCore(dAnsw,**pp)
      
   
-def ParseTaskWithParams(data,**kwargs):
+def ParseTaskWithParams(data,bAnswer,**kwargs):
     rt=[]
     NL='\n\n'
     SL='\\'
@@ -122,14 +122,9 @@ def ParseTaskWithParams(data,**kwargs):
     random.shuffle(rrr)
     ncu=rrr.index(ncu0)
     
-#    strl=0   
-#    for i in range(0,4):
-#     strl+=len(otvs[rrr[i]])
-#    for i in range(0,4):
-#      rt.append(str(i+1)+') '+otvs[rrr[i]]+'\\quad\n')
-#      if(i==1):
-#       if(strl>70):
-#        rt.append('\n')
+    if not bAnswer:
+     return (rt,otvs[rrr[ncu]])
+    
     if("answer_style" in data):
      print(data["answer_style"])
      #if(data["answer_style"]=='line'):
@@ -150,7 +145,7 @@ def ParseTaskWithParams(data,**kwargs):
     #rt.append('\nCorrect answer: '+str(ncu+1))
     return (rt,str(ncu+1))
  
-def ParseTask(data):
+def ParseTask(data,bAnswer):
    fl=1
    while fl:
     #z=open(TName,"r")
@@ -158,7 +153,7 @@ def ParseTask(data):
     #data=json.loads(zz)
     dPars=EvalParams(data['param'])
     print(dPars)
-    aa= ParseTaskWithParams(data,**dPars)
+    aa= ParseTaskWithParams(data,bAnswer,**dPars)
     if(len(aa[0])==0):
      continue
     else:
@@ -246,7 +241,8 @@ def make_test(*args):
             i=i+1
             tname=task_data[tkey_name]
             f.write("\\item ")
-            task = ParseTask(tname)
+            bAnswer=int(answer_type.get())
+            task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
             #fsolv.write("Задача: "+str(tkey_name)+" "+str(task[1])+"\n")
             #fsolv.write("Задача: "+str(task[1])+"\n")
@@ -308,7 +304,10 @@ ttk.Button(mainframe, text="MakeTest", command=make_test, width = 13).grid(colum
 
 number_of_tests=StringVar()
 result_file_name=StringVar()
+answer_type=StringVar()
+
 number_of_tests.set(10)
+answer_type.set(1)
 result_file_name.set('test1')
 nt_entry = ttk.Entry(mainframe,textvariable=number_of_tests,  width=13)
 ttk.Label(mainframe, text="Вариантов:").grid(column=2+col0, row=6+row0, sticky=W)
@@ -316,6 +315,11 @@ nt_entry.grid(column=2+col0, row=7+row0,  sticky=(W, E), columnspan = 1)
 nt_entry = ttk.Entry(mainframe,textvariable=result_file_name,  width=13)
 ttk.Label(mainframe, text="Сохранить как:").grid(column=2+col0, row=8+row0, sticky=W)
 nt_entry.grid(column=2+col0, row=9+row0,  sticky=(W, E), columnspan = 1)
+
+
+ttk.Label(mainframe, text="Наличие ответов:").grid(column=2+col0, row=10+row0, sticky=W)
+ttk.Entry(mainframe,textvariable=answer_type,  width=6).grid(column=2+col0, row=11+row0,  sticky=(W, E), columnspan = 1)
+
 ttk.Label(mainframe, text="Тема:").grid(column=-2+col0, row=-1+row0, sticky=W)
 ttk.Label(mainframe, text="Задача:").grid(column=0+col0, row=-1+row0, sticky=W)
 
