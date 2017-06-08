@@ -2,7 +2,7 @@
 "title":"Графы!",
 "zadacha":"'Путник вышел из точки 1 и направился в точку 2, наудачу выбирая направление движения на развилках. Найти вероятность того, что он достигнет цели, не проходя два раза по одному и тому же пути'+NL",
 "vopros":{
-          "v1":"'\\\\begin{figure}[!htb] \\\\centering \\\\includegraphics[]{'+A1[0]+'} \\\\end{figure} '"
+          "v1":"' \\\\includegraphics[]{'+A1[0]+'} '"
          }, 
 "param":{
          "A1":"graph_tm.MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,random_weights=0)",

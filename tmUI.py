@@ -261,12 +261,12 @@ def make_book(*args):
         for iii in range(1, ntests):
             i=i+1
             tname=task_data[tkey_name]
-            f.write("\\item ")
+            f.write("\\begin{minipage}{\\textwidth}\n\\item ")
             bAnswer=int(answer_type.get())
             task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
             fsolv.write(str(i)+":"+str(task[1])+" ")
-            f.write("\n\n")
+            f.write("\n\\end{minipage}\n\n")
         fsolv.write("\n")
         f.write("\\end{enumerate}\n")
         f.write("\\newpage\n")
