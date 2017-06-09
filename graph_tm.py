@@ -20,11 +20,50 @@ def MakeMatrix(data,ff=2):
  tb+=(' \\end{pmatrix}$$')
  return tb
 
+def find_shortest_path(graph, start, end, path=[]):
+        path = path + [start]
+        if start == end:
+            return path
+        if not start in range(0,len(graph)):
+            return None
+        shortest = None
+        for node in graph[start]:
+            if node not in path:
+                newpath = find_shortest_path(graph, node, end, path)
+                if newpath:
+                    if not shortest or len(newpath) < len(shortest):
+                        shortest = newpath
+        return shortest
+
+def calc_len(smezh,path):
+    l=0
+    if len(path)<=1:
+        return 0
+    for i in range(0,len(path)-1):
+        l+=smezh[path[i]][path[i+1]]
+    return l
+
+def find_shortest_path_smezh(smezh,graph, start, end, path=[]):
+        path = path + [start]
+        if start == end:
+            return path
+        if not start in range(0,len(graph)):
+            return None
+        shortest = None
+        for node in graph[start]:
+            if node not in path:
+                newpath = find_shortest_path(graph, node, end, path)
+                if newpath:
+                    if not shortest or calc_len(smezh,newpath) < calc_len(smezh,shortest):
+                        shortest = newpath
+        return shortest
 
 def dist_(d1,d2):
   return math.sqrt((d1[0]-d2[0])*(d1[0]-d2[0])+(d1[1]-d2[1])*(d1[1]-d2[1]))
 def norm_(d1):
   dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
+  if(dd==0.0):
+      return (0.0,0.0)
   print(d1,dd)
   return (d1[0]/dd,d1[1]/dd)
 def diff_(p1,p2):
@@ -117,8 +156,10 @@ def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1):
        dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
        text_d0+=d1[0]/dd
        text_d1+=d1[1]/dd
-     if( not(text_d0==0 and text_d1==0)): 
-      ntd=norm_((text_d0,text_d1)) 
+     if( not(text_d0==0 and text_d1==0)):
+      ntd=norm_((text_d0,text_d1))
+     else:
+      ntd=norm_((random.randint(-10,10),random.randint(-10,10)))
      ccc.text(pp[0]-0.5*ntd[0],pp[1]-0.5*ntd[1], str(jj+1), [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
     ccc.writeEPSfile(gr_name)
 
@@ -410,10 +451,88 @@ def MakeGraphsMatr():
     tex_file.write(mf[0])
     tex_file.write('\\end{minipage}\n')      
     tex_file.write("\n\\bigskip\n\\bigskip\n")
-    
+ tex_file.write("\\end{document}\n")
+
+def MakeGraphsMatrPath():
+ v_cou=12
+ tex_file=open('graphs'+str(v_cou)+'.tex','w')
+ tex_cmp=open('cmp_tex.bat','w')
+ res_file=open('result.txt','w')
+ tex_cmp.write('latex graphs'+str(v_cou)+'.tex\n')
+ tex_cmp.write('dvips  graphs'+str(v_cou)+'.dvi\n')
+ tex_cmp.write('ps2pdf graphs'+str(v_cou)+'.ps\n')
+ tex_file.write("\\documentclass[12pt]{article}\n")
+ tex_file.write("\\usepackage{graphics}\n")
+ tex_file.write("\\usepackage{amsmath}\n")
+ tex_file.write("\\usepackage[cp1251]{inputenc}\n")
+ tex_file.write("\\usepackage[russian]{babel}\n")
+ tex_file.write("\\usepackage[left=4cm,right=2cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ tex_file.write("\\usepackage{caption}\n")
+ tex_file.write("\\usepackage{subcaption}\n")
+ tex_file.write("\\begin{document}\n")
+ tex_file.write("\\pagenumbering{gobble}\n")
+ tex_file.write("\\captionsetup{labelformat=empty}\n")
+ tex_file.write("\\captionsetup[subfigure]{labelformat=empty}\n")
+ for i in range(0,64):
+    if (i and not i%4):
+     tex_file.write('\\newpage\n')
+    cname='circl'+str(i)
+    cn=[]
+    uf=[]
+    mf=[]
+    for j in range(0,1):
+#     tmp=MakeGraphTM(8,1,0,1,1,1)
+     nv=8
+     tmp = MakeGraphTM(nv, directed = 0, calc_random_path = 0, weighted = 1, filter_zero = 1, random_weights = 1)
+     grph=[list(set(x)) for x in tmp[6]]
+     maxpts=[len(find_shortest_path_smezh(tmp[3],grph,0,ii)) for ii in range(0,len(tmp[4]))]
+     end_p=maxpts.index(max(maxpts))
+     sh_pt=find_shortest_path_smezh(tmp[3],grph,0,end_p)
+     sh_pto=[[] for i in range(0,len(tmp[4]))]
+     sh_pta=[[] for i in range(0,len(tmp[4]))]
+     for ii in range(1,len(tmp[4])):
+          if ii in sh_pt:
+            sh_pto[ii].append(sh_pt[sh_pt.index(ii)-1])
+            sh_pta[ii].append(sh_pt[sh_pt.index(ii)-1])
+            if(not ii==end_p):
+             sh_pta[ii].append(sh_pt[sh_pt.index(ii)+1])
+     PaintGraphTM('test_path_'+tmp[0],tmp[4],sh_pto,sh_pta,len(tmp[4]),directed=1,calc_random_path=0)
+     cn.append(tmp[0])
+     grph=[list(set(x)) for x in tmp[6]]
+     uf.append("Вариант: "+str(i+1+j)+" Путь из "+str(end_p+1)+" в 1.")
+     mf.append(MakeMatrix(tmp[3]))
+    #tex_file.write("\\caption{Задача "+str(i)+". Какому рисунку соответствует выражение: \\\\")
+    tex_file.write('\\centering{'+uf[0]+'.}\n\n')
+    tex_file.write('\\begin{minipage}[c]{0.45\\textwidth}\n')
+    tex_file.write("\\includegraphics{"+cn[0]+"}\n")
+    tex_file.write('\\end{minipage}\n')
+    tex_file.write('\\centering{'+uf[0]+'.}\n\n')
+    tex_file.write('\\begin{minipage}[c]{0.45\\textwidth}\n')
+    tex_file.write("\\includegraphics{"+'test_path_'+cn[0]+"}\n")
+    tex_file.write('\\end{minipage}\n')
+    tex_file.write('\\begin{minipage}[c]{0.45\\textwidth}\n')
+    tex_file.write(mf[0])
+    tex_file.write('\\end{minipage}\n')
+    tex_file.write("\n\\bigskip\n\\bigskip\n")
+
  tex_file.write("\\end{document}\n")
 
 #MakeGraphsMatr()  
 #MakeGraphs()  
-
-    
+tmp = MakeGraphTM(nv = 8, directed = 0, calc_random_path = 0, weighted = 1, filter_zero = 1, random_weights = 1)
+print (tmp[6])
+grph=[list(set(x)) for x in tmp[6]]
+print(grph)
+sh_pt=find_shortest_path(grph,0,1)
+print(sh_pt)
+sh_pto=[[] for i in range(0,len(tmp[4]))]
+sh_pta=[[] for i in range(0,len(tmp[4]))]
+for i in range(1,len(tmp[4])):
+     if i in sh_pt:
+       sh_pto[i].append(sh_pt[sh_pt.index(i)-1])
+       sh_pta[i].append(sh_pt[sh_pt.index(i)-1])
+       if(not i==1):
+        sh_pta[i].append(sh_pt[sh_pt.index(i)+1])
+PaintGraphTM('test_gr',tmp[4],sh_pto,sh_pta,len(tmp[4]),directed=1,calc_random_path=1)
+#    return (grfile,str(f_prob),incin,smezh,probs,path_to,path_a)
+MakeGraphsMatrPath()
