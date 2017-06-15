@@ -1,0 +1,27 @@
+{
+"title":"ќперации над множествами ответы 1",
+"zadacha":"'ƒл€ заданных множеств A='+str(D)+', B='+str(E)+' и универсального множества $U=[1,2,3,...,20]$, записать множества, €вл€ющиес€ результатами операций: '",
+"answer_style":"'line'",
+"vopros":{
+"v1":"'$A \\\\cup B$, $A \\\\cap B$'",
+"v2":"'$A \\\\setminus B$, $B \\\\setminus A$'",
+"v3":"'$A \\\\Delta B$,  $B \\\\setminus A$'",
+"v4":"'$A \\\\cup B$, $A \\\\setminus B$'"
+         }, 
+"param":{
+         "A0":"random.randint(1,10)",
+         "A1":"[i for i in range(A0,A0+5)]",
+         "B1":"[i for i in range(A0+3,A0+7)]",
+         "C1":"[i for i in range(A0+1,A0+6)]",
+         "D":"Shuf(A1)",
+         "E":"Shuf(B1)",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'{}, {}'.format(list(set(D)|set(E)),list(set(D)&set(E)))",
+         "o2":"'{}, {}'.format(list(set(D)-set(E)),list(set(E)-set(D)))",
+         "o3":"'{}, {}'.format(list(set(D)^set(E)),list(set(D)-set(E)))",
+         "o4":"'{}, {}'.format(list(set(D)|set(E)),list(set(D)-set(E)))"
+        }
+}

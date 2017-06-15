@@ -1,6 +1,6 @@
 {
 "title":"Графы, матрица инцидентности",
-"zadacha":"'Дан граф:'+NL+'\\\\begin{figure}[!htb] \\\\centering \\\\includegraphics[]{'+A1[0]+'} \\\\end{figure} '+NL",
+"zadacha":"'Дан граф:'+NL+'\\\\includegraphics[]{'+A1[0]+'}  '+NL",
 "vopros":{
           "v1":"'Тогда матрица инцидентности:'"
          }, 

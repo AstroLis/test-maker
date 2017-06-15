@@ -519,20 +519,21 @@ def MakeGraphsMatrPath():
 
 #MakeGraphsMatr()  
 #MakeGraphs()  
-tmp = MakeGraphTM(nv = 8, directed = 0, calc_random_path = 0, weighted = 1, filter_zero = 1, random_weights = 1)
-print (tmp[6])
-grph=[list(set(x)) for x in tmp[6]]
-print(grph)
-sh_pt=find_shortest_path(grph,0,1)
-print(sh_pt)
-sh_pto=[[] for i in range(0,len(tmp[4]))]
-sh_pta=[[] for i in range(0,len(tmp[4]))]
-for i in range(1,len(tmp[4])):
-     if i in sh_pt:
-       sh_pto[i].append(sh_pt[sh_pt.index(i)-1])
-       sh_pta[i].append(sh_pt[sh_pt.index(i)-1])
-       if(not i==1):
-        sh_pta[i].append(sh_pt[sh_pt.index(i)+1])
-PaintGraphTM('test_gr',tmp[4],sh_pto,sh_pta,len(tmp[4]),directed=1,calc_random_path=1)
+
+#tmp = MakeGraphTM(nv = 8, directed = 0, calc_random_path = 0, weighted = 1, filter_zero = 1, random_weights = 1)
+#print (tmp[6])
+#grph=[list(set(x)) for x in tmp[6]]
+#print(grph)
+#sh_pt=find_shortest_path(grph,0,1)
+#print(sh_pt)
+#sh_pto=[[] for i in range(0,len(tmp[4]))]
+#sh_pta=[[] for i in range(0,len(tmp[4]))]
+#for i in range(1,len(tmp[4])):
+#     if i in sh_pt:
+#       sh_pto[i].append(sh_pt[sh_pt.index(i)-1])
+#       sh_pta[i].append(sh_pt[sh_pt.index(i)-1])
+#       if(not i==1):
+#        sh_pta[i].append(sh_pt[sh_pt.index(i)+1])
+#PaintGraphTM('test_gr',tmp[4],sh_pto,sh_pta,len(tmp[4]),directed=1,calc_random_path=1)
 #    return (grfile,str(f_prob),incin,smezh,probs,path_to,path_a)
-MakeGraphsMatrPath()
+#MakeGraphsMatrPath()
