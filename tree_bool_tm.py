@@ -558,8 +558,8 @@ def MakeControlTaskFormulas(nOfTasks=5,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=
     Nl=NtoList(nform2)
     xxi=[NtoListB(varVal[k],16) for k in range(0,qvar[j])]
     for jj in range(0,16):
-     #if qvar[j]==3 and jj%2:
-     # continue
+     if qvar[j]==3 and jj%2:
+      continue
      #ljj=NtoListB(jj,4)
      #ii=ljj[3]+2*ljj[2]+4*ljj[1]+8*ljj[0]
 #     if ii in Nl:
@@ -568,9 +568,7 @@ def MakeControlTaskFormulas(nOfTasks=5,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=
      else:
       yHead.append(0)
 #     trtab+=(NtoListB(ii,4))
-     print(xxi)
      for kk in range(0,qvar[j]):
-      print(kk,jj)
       trtab+=[xxi[kk][jj]]
     strtab=MakeTable('f',xHead,yHead,trtab) 
     #of = Optimize12Forms(forms1, forms2, nform2)
