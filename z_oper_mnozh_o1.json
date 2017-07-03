@@ -1,6 +1,6 @@
 {
 "title":"ќперации над множествами ответы 1",
-"zadacha":"'ƒл€ заданных множеств A='+str(D)+', B='+str(E)+' и универсального множества $U=[1,2,3,...,20]$, записать множества, €вл€ющиес€ результатами операций: '",
+"zadacha":"'ƒл€ заданных множеств A='+RB(str(D))+', B='+RB(str(E))+' и универсального множества $U=[1,2,3,...,20]$, записать множества, €вл€ющиес€ результатами операций: '",
 "answer_style":"'line'",
 "vopros":{
 "v1":"'$A \\\\cup B$, $A \\\\cap B$'",
@@ -19,9 +19,9 @@
          "A7":"0"                  
         },
 "otvet":{
-         "o1":"'{}, {}'.format(list(set(D)|set(E)),list(set(D)&set(E)))",
-         "o2":"'{}, {}'.format(list(set(D)-set(E)),list(set(E)-set(D)))",
-         "o3":"'{}, {}'.format(list(set(D)^set(E)),list(set(D)-set(E)))",
-         "o4":"'{}, {}'.format(list(set(D)|set(E)),list(set(D)-set(E)))"
+         "o1":"RB('{}, {}'.format(list(set(D)|set(E)),list(set(D)&set(E))))",
+         "o2":"RB('{}, {}'.format(list(set(D)-set(E)),list(set(E)-set(D))))",
+         "o3":"RB('{}, {}'.format(list(set(D)^set(E)),list(set(D)-set(E))))",
+         "o4":"RB('{}, {}'.format(list(set(D)|set(E)),list(set(D)-set(E))))"
         }
 }

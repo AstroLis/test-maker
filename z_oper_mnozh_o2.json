@@ -1,6 +1,6 @@
 {
 "title":"Операции над множествами ответы унив",
-"zadacha":"'Для множеств A='+str(D)+', B='+str(E)+' и универсального множества $U=[1,2,3,...,10]$, записать результаты операций: '",
+"zadacha":"'Для множеств A='+RB(str(D))+', B='+RB(str(E))+' и универсального множества $U=[1,2,3,...,10]$, записать результаты операций: '",
 "answer_style":"'line'",
 "vopros":{
 "v1":"'$\\\\bar{A} \\\\cup B$, $A \\\\cap \\\\bar{B}$'",
@@ -20,9 +20,9 @@
          "A7":"0"                  
         },
 "otvet":{
-         "o1":"'{}, {}'.format(list(D1|set(E)),list(set(D)&E1))",
-         "o2":"'{}, {}'.format(list(set(D)-E1),list(E1-set(D)))",
-         "o3":"'{}, {}'.format(list(D1^set(E)),list(set(D)-E1))",
-         "o4":"'{}, {}'.format(list(set(D)|E1),list(D1-set(E)))"
+         "o1":"RB('{}, {}'.format(list(D1|set(E)),list(set(D)&E1)))",
+         "o2":"RB('{}, {}'.format(list(set(D)-E1),list(E1-set(D))))",
+         "o3":"RB('{}, {}'.format(list(D1^set(E)),list(set(D)-E1)))",
+         "o4":"RB('{}, {}'.format(list(set(D)|E1),list(D1-set(E))))"
         }
 }

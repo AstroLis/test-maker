@@ -21,9 +21,9 @@
          "O4":"[[i,j] for i in E for j in E]"         
         },
 "otvet":{
-         "o1":"'{}'.format(O1)",
-         "o2":"'{}'.format(O2)",
-         "o3":"'{}'.format(O3)",
-         "o4":"'{}'.format(O4)"
+         "o1":"RB('{}'.format(O1))",
+         "o2":"RB('{}'.format(O2))",
+         "o3":"RB('{}'.format(O3))",
+         "o4":"RB('{}'.format(O4))"
         }
 }
