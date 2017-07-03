@@ -6,11 +6,13 @@ sys.path.append('./graph_tm.py')
 sys.path.append('./plot_fraspr_tm.py')
 sys.path.append('./scheme_tm.py')
 sys.path.append('./algebra_tm.py')
+sys.path.append('./tree_bool_tm.py')
 
 import graph_tm
 import plot_fraspr_tm
 import scheme_tm
 import algebra_tm
+import tree_bool_tm
 
 def Cnm(n,m):
  if n<m:

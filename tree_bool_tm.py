@@ -12,7 +12,8 @@ BoolOperands=['\\wedge','\\vee','\\rightarrow','\\leftrightarrow','|','\\downarr
 BoolOrder=   [0       ,   1    ,       2      ,         3        , 0 ,     0       ,    3]
 varNames=    ['x_1','x_2','x_3','x_4']
 #varVal  =    [170,204,240]
-varVal  =    [43690,52428,61680,65280]
+#varVal  =    [43690,52428,61680,65280]
+varVal  =    [65280,61680,52428,43690]
 #1100110011001100
 #1111000011110000
 #1111111100000000
@@ -502,7 +503,7 @@ def MakeForrestFormulas():
  tex_file_sol.write("\\end{document}\n")
 
 
-def MakeControlTaskFormulas(nOfTasks=20,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
+def MakeControlTaskFormulas(nOfTasks=5,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
  forms2 = []
  for i in range(0, 8):
    for j in range(0, 8):
@@ -555,16 +556,22 @@ def MakeControlTaskFormulas(nOfTasks=20,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
      xHead.pop()
     yHead=[]
     Nl=NtoList(nform2)
+    xxi=[NtoListB(varVal[k],16) for k in range(0,qvar[j])]
     for jj in range(0,16):
-     if qvar[j]==3 and jj%2:
-      continue
-     ljj=NtoListB(jj,4)
-     ii=ljj[3]+2*ljj[2]+4*ljj[1]+8*ljj[0]
-     if ii in Nl:
+     #if qvar[j]==3 and jj%2:
+     # continue
+     #ljj=NtoListB(jj,4)
+     #ii=ljj[3]+2*ljj[2]+4*ljj[1]+8*ljj[0]
+#     if ii in Nl:
+     if jj in Nl:
       yHead.append(1)
      else:
       yHead.append(0)
-     trtab+=(NtoListB(ii,4))
+#     trtab+=(NtoListB(ii,4))
+     print(xxi)
+     for kk in range(0,qvar[j]):
+      print(kk,jj)
+      trtab+=[xxi[kk][jj]]
     strtab=MakeTable('f',xHead,yHead,trtab) 
     #of = Optimize12Forms(forms1, forms2, nform2)
     #sof=DStrFrom123Forms(of)
@@ -596,4 +603,5 @@ def MakeControlTaskFormulas(nOfTasks=20,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 
 #MakeFormulaTM(10)
 #MakeForrestFormulas()
-#MakeControlTaskFormulas()
+random.seed(0)
+MakeControlTaskFormulas()
