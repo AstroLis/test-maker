@@ -516,6 +516,33 @@ def MakeForrestFormulas():
  tex_file_sol.write("\\end{document}\n")
 
 
+def OptimalNew():
+ ((f,n,w),cn)=MakeFormulaTM(5,4)
+ print(((f,n,w),cn))
+ forms=[]
+ op='\\wedge'
+ forms.append({0:'0',1:'1'})
+ forms.append({})
+ for i in range(4):
+  forms[1][varVal[i]]=varNames[i]
+  forms[1][DoNeg(varVal[i])]='\\neg '+varNames[i]
+ forms.append({})
+ forms.append({})
+ forms.append({})
+ for i in range(2,5):
+  for f1 in forms[1]:
+   for fi in forms[i-1]:
+    if not f1==fi: 
+     r=DoOper(op,f1,fi,nb=16)
+     if r not in forms[i-2]:
+       forms[i][r]=forms[1][f1]+' '+op+' '+forms[i-1][fi]
+ for f in forms:
+  print(len(f)) 
+ for f in forms[2]:
+  print(forms[2][f]) 
+ print(forms)
+ 
+ 
 def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
  forms2 = []
  for i in range(0, 8):
@@ -610,11 +637,11 @@ def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qva
 
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
- 
+
 #MakeForrest()
 #print(MakeTreeTM())
-
+OptimalNew()
 #MakeFormulaTM(10)
 #MakeForrestFormulas()
-random.seed(0)
-MakeControlTaskFormulas()
+#random.seed(0)
+#MakeControlTaskFormulas()
