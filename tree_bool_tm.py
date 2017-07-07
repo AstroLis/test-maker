@@ -432,7 +432,20 @@ def writeHead(tex_file):
  tex_file.write("\\pagenumbering{gobble}\n")
  tex_file.write("\\captionsetup{labelformat=empty}\n")
  return
-
+ 
+def MakeCarnoMap(tvect):
+  ind3=[0,1,3,2,4,5,7,6]
+  ind4=[0,1,3,2,4,5,7,6,12,13,15,14,8,9,11,10]
+  xv= ['00','01','11','10']
+  yv4=['00','01','11','10']
+  yv3=['0','1']
+  if len(tvect)==8:
+   val=[tvect[i] for i in ind3]
+   return MakeTable('$x_1 \setminus x_2 x_3$',xv,yv3,val) 
+  if len(tvect)==16:
+   val=[tvect[i] for i in ind4]
+   return MakeTable('$x_1 x_2 \setminus x_3 x_4$',xv,yv4,val) 
+   
  
 def MakeForrestFormulas():
  forms2 = []
@@ -503,7 +516,7 @@ def MakeForrestFormulas():
  tex_file_sol.write("\\end{document}\n")
 
 
-def MakeControlTaskFormulas(nOfTasks=5,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
+def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
  forms2 = []
  for i in range(0, 8):
    for j in range(0, 8):
@@ -570,7 +583,8 @@ def MakeControlTaskFormulas(nOfTasks=5,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=
 #     trtab+=(NtoListB(ii,4))
      for kk in range(0,qvar[j]):
       trtab+=[xxi[kk][jj]]
-    strtab=MakeTable('f',xHead,yHead,trtab) 
+    strtab=MakeTable('f',xHead,yHead,trtab,yAlign=0) 
+    carno=MakeCarnoMap(yHead)
     #of = Optimize12Forms(forms1, forms2, nform2)
     #sof=DStrFrom123Forms(of)
     #tex_file.write("Вариант "+str(i)+":\n$$\n f(x_1,x_2,x_3,x_4)="+form1+'\n$$\n\\bigskip\n')
@@ -589,6 +603,7 @@ def MakeControlTaskFormulas(nOfTasks=5,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=
     tex_file_sol.write("\\includegraphics{"+cn+"}\n")
     #tex_file.write('Truth table:\n'+MakeMatrix(trtab)+'\n')
     tex_file_sol.write('Truth table:\n'+strtab+'\n\n')
+    tex_file_sol.write('Karnaugh map:\n'+carno+'\n\n')
     tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
     if(not iNewPage%2):
      tex_file_sol.write("\\newpage\n")

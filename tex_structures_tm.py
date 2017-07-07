@@ -1,20 +1,34 @@
-def MakeTable(xyT,xHead,yHead,data,ff=2):
+def MakeTable(xyT,xHead,yHead,data,ff=2,yAlign=1):
  tb=''
  tb+=('\\begin{tabular}{|c|')
  for x in xHead:
   tb+=('c|')
  tb+=('} \\hline ')
- tb+=(str(xyT))
+ if yAlign:
+  tb+=(str(xyT))
  for x in xHead:
-  tb+=('&'+str(x))
+  if yAlign:
+   tb+=('&')
+  tb+=(str(x))
+  if not yAlign:
+   tb+=('&')
+ if not yAlign:
+  tb+=(str(xyT))
  tb+=('\\\\ \\hline')
  id=0
  for y in yHead:
-  tb+=(str(y))
+  if yAlign:
+   tb+=(str(y))
   for x in xHead:
 #   tb+=('&'+'{:4.2f}'.format(data[id]))
-   tb+=('&'+str(data[id]))
+   if yAlign:
+    tb+=('&')
+   tb+=(str(data[id]))
+   if not yAlign:
+    tb+=('&')
    id=id+1
+  if not yAlign:
+   tb+=(str(y))   
   tb+=('\\\\ \\hline')
  tb+=('\\end{tabular}')
  return tb
