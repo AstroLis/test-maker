@@ -521,11 +521,14 @@ def OptimalNew():
  print(((f,n,w),cn))
  forms=[]
  op='\\wedge'
- forms.append({0:'0',1:'1'})
+# forms.append({0:'0',1:'1'})
+ forms.append({0:set([0]),pow(2,16)-1:set([10])})
  forms.append({})
  for i in range(4):
-  forms[1][varVal[i]]=varNames[i]
-  forms[1][DoNeg(varVal[i])]='\\neg '+varNames[i]
+  forms[1][varVal[i]]=set([i+1])
+  forms[1][DoNeg(varVal[i])]=set([-(i+1)])
+#  forms[1][varVal[i]]=varNames[i]
+#  forms[1][DoNeg(varVal[i])]='\\neg '+varNames[i]
  forms.append({})
  forms.append({})
  forms.append({})
@@ -534,10 +537,11 @@ def OptimalNew():
    for fi in forms[i-1]:
     if not f1==fi: 
      r=DoOper(op,f1,fi,nb=16)
-     if r not in forms[i-2]:
-       forms[i][r]=forms[1][f1]+' '+op+' '+forms[i-1][fi]
+     f=forms[1][f1]|forms[i-1][fi]
+     if r not in forms[i-2] and len(f)==i and r not in forms[0]:
+       forms[i][r]=f
  for f in forms:
-  print(len(f)) 
+  print(len(set(f))) 
  for f in forms[2]:
   print(forms[2][f]) 
  print(forms)
