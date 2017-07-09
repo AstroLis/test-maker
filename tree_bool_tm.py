@@ -514,11 +514,53 @@ def MakeForrestFormulas():
 
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
+def SumNForms(ff):
+ r=0
+ for f in ff:
+  r=r|f
+ return r
+ 
+def FilterMarkForm(mf,n):
+  rez=mf
+#  print(mf)
+  for i in range(4,0,-1):
+   for f in list(rez.keys()):
+#    print(f,mf[f])
+    if(len(rez[f])==i):
+     ff={f2:rez[f2] for f2 in rez if not f2==f}
+     if SumNForms(ff)==n:
+      del rez[f]
+  return rez
+def StrMarkForm(mf):
+ first=0
+ s=''
+ ns=0
+ for f in mf:
+  if first:
+   s+=' \\vee '
+  first=1
+  f1=0
+  nw=pow(2,16)-1
+  for ff in mf[f]:
+   if f1:
+    s+=' \\wedge '
+   f1=1 
+   if ff==10:
+    s='1'
+    break
+   if ff>0:
+    s+=varNames[ff-1]
+    nw=nw&varVal[ff-1]
+   else:
+    s+=' \\neg '+varNames[abs(ff)-1]
+    nw=nw&DoNeg(varVal[abs(ff)-1])
+  ns=ns|nw  
+ print('ns=',ns)   
+ return s   
 
-
-def OptimalNew():
- ((f,n,w),cn)=MakeFormulaTM(5,4)
- print(((f,n,w),cn))
+def OptimalNew(n):
+# ((f,n,w),cn)=MakeFormulaTM(5,4)
+# print(((f,n,w),cn))
  forms=[]
  op='\\wedge'
 # forms.append({0:'0',1:'1'})
@@ -540,14 +582,27 @@ def OptimalNew():
      f=forms[1][f1]|forms[i-1][fi]
      if r not in forms[i-2] and len(f)==i and r not in forms[0]:
        forms[i][r]=f
- for f in forms:
-  print(len(set(f))) 
- for f in forms[2]:
-  print(forms[2][f]) 
- print(forms)
+# for f in forms:
+#  print(len(set(f))) 
+# for f in forms[4]:
+#  print('{:016b}'.format(f),f,forms[4][f]) 
+ markform={}
+ for ff in forms:
+  for f in ff:
+   if f&n==f:
+    markform[f]=ff[f]
+ #print(forms)
+# print(markform)
+ filtform=FilterMarkForm(markform,n)
+ print(markform)
+ ss=StrMarkForm(markform)
+ print(ss)
+ if ss=='':
+  return '0'
+ return ss
  
  
-def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
+def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
  forms2 = []
  for i in range(0, 8):
    for j in range(0, 8):
@@ -616,6 +671,7 @@ def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qva
       trtab+=[xxi[kk][jj]]
     strtab=MakeTable('f',xHead,yHead,trtab,yAlign=0) 
     carno=MakeCarnoMap(yHead)
+    optf=OptimalNew(nform2)
     #of = Optimize12Forms(forms1, forms2, nform2)
     #sof=DStrFrom123Forms(of)
     #tex_file.write("Вариант "+str(i)+":\n$$\n f(x_1,x_2,x_3,x_4)="+form1+'\n$$\n\\bigskip\n')
@@ -635,6 +691,7 @@ def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qva
     #tex_file.write('Truth table:\n'+MakeMatrix(trtab)+'\n')
     tex_file_sol.write('Truth table:\n'+strtab+'\n\n')
     tex_file_sol.write('Karnaugh map:\n'+carno+'\n\n')
+    tex_file_sol.write('Optimal form:\n$'+optf+'$\n\n')
     tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
     if(not iNewPage%2):
      tex_file_sol.write("\\newpage\n")
@@ -644,8 +701,8 @@ def MakeControlTaskFormulas(nOfTasks=100,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qva
 
 #MakeForrest()
 #print(MakeTreeTM())
-OptimalNew()
+#OptimalNew()
 #MakeFormulaTM(10)
 #MakeForrestFormulas()
-#random.seed(0)
-#MakeControlTaskFormulas()
+random.seed(0)
+MakeControlTaskFormulas()
