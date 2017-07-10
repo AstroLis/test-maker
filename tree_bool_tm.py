@@ -542,8 +542,8 @@ def StrMarkForm(mf):
   f1=0
   nw=pow(2,16)-1
   for ff in mf[f]:
-   if f1:
-    s+=' \\wedge '
+   #if f1:
+   # s+=' \\wedge '
    f1=1 
    if ff==10:
     s='1'
@@ -642,11 +642,12 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
  iNewPage=0
  for i in range(0,nOfTasks):
   tex_file.write('\\bigskip\n\\noindent\\rule{\\textwidth}{0.4pt}\n\n\\bigskip\n')
-  if(i and not i%3):
-   tex_file.write("\\newpage\n")
+#  if(i and not i%3):
+#   tex_file.write("\\newpage\n")
+  tex_file.write("\\begin{minipage}{\\textwidth}\n")  
   tex_file.write("Вариант "+str(i)+":\n\n")
   tex_file_sol.write("Вариант "+str(i)+':\n')
-  for j in range(0,nQuest): 
+  for j in range(0,nQuest):
     iNewPage+=1
     ((form1,nform2,w),cn)=MakeFormulaTM(qcompl[j],qvar[j])
     trtab=[]
@@ -682,6 +683,8 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
      tex_file.write("Задача "+str(i)+"."+str(j+1)+":\n\\includegraphics{"+cn+"}\n\n")
     if(qtt[j]==1):
      tex_file.write("Задача "+str(i)+"."+str(j+1)+":\n$f("+arg+")="+form1+"$\n\n")
+    if(qtt[j]==3):
+     tex_file.write("Задача "+str(i)+"."+str(j+1)+":\nКарта Карно: \n\n"+carno+"\n\n")
      
     #tex_file.write('\\bigskip\n\\noindent\\rule{\\textwidth}{0.4pt}\n\n\\bigskip\n')
     tex_file_sol.write("Задача "+str(i)+"."+str(j+1)+":\n$$\n"+form1+'\n$$\n\\bigskip\n')
@@ -693,8 +696,9 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
     tex_file_sol.write('Karnaugh map:\n'+carno+'\n\n')
     tex_file_sol.write('Optimal form:\n$'+optf+'$\n\n')
     tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
-    if(not iNewPage%2):
-     tex_file_sol.write("\\newpage\n")
+    #if(not iNewPage%2):
+    # tex_file_sol.write("\\newpage\n")
+  tex_file.write("\\end{minipage}\n\n")  
 
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
@@ -705,4 +709,6 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 #MakeFormulaTM(10)
 #MakeForrestFormulas()
 random.seed(0)
-MakeControlTaskFormulas()
+#MakeControlTaskFormulas()
+MakeControlTaskFormulas(nOfTasks=60,nQuest=2,qtt=[1,3],qcompl=[5,5],qvar=[3,4])
+
