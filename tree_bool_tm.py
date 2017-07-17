@@ -386,38 +386,6 @@ def paintTree(tree,lvl,x1,y1):
            paintTree(tree.getLeftChild(),lvl,hvx,yn1)
            paintTree(tree.getRightChild(),lvl,hvx,yn2)
 
-def MakeFormulaTM(number_of_element=10,number_of_vars=4):
- number_of_chemes=10
- BinaryTree.id_count=1
- #varc=open('var_count','r')
- #v_cou=int(varc.readline())
- #varc.close()
- xx=4
- yy=2
- #v_cou+=1
- max_p=number_of_element*2
- myTree1 = BinaryTree(1)
- while (BinaryTree.id_count!=max_p):
-   BinaryTree.id_count = 1
-   myTree1 = BinaryTree(1)
-   for i in range(10):
-     myTree1.randTree(number_of_vars)
- form=MakeFormulaFromTree(myTree1,0)
- print(form)
- varc=open('var_count','r')
- v_cou=int(varc.readline())
- varc.close()
- BinaryTree.ccc=canvas.canvas()
- text.set(text.LatexRunner)
- lvl=4
- paintTree(myTree1, lvl, 0, 5)
- BinaryTree.ccc.writeEPSfile("tree"+str(v_cou))
- vc=open('var_count','w')
- v_cou=v_cou+1
- vc.write(str(v_cou))
- vc.close()
- return (form,"tree"+str(v_cou-1)+".eps")
-
  
 def writeHead(tex_file): 
  tex_file.write("\\documentclass[12pt]{article}\n")
@@ -692,8 +660,64 @@ def OptimalNewK(n=0):
   return '0'
  return ss
  
+def MakeFormulaTM(number_of_element=10,number_of_vars=4):
+ number_of_chemes=10
+ BinaryTree.id_count=1
+ #varc=open('var_count','r')
+ #v_cou=int(varc.readline())
+ #varc.close()
+ xx=4
+ yy=2
+ #v_cou+=1
+ max_p=number_of_element*2
+ myTree1 = BinaryTree(1)
+ while (BinaryTree.id_count!=max_p):
+   BinaryTree.id_count = 1
+   myTree1 = BinaryTree(1)
+   for i in range(10):
+     myTree1.randTree(number_of_vars)
+ form=MakeFormulaFromTree(myTree1,0)
+ print(form)
+ varc=open('var_count','r')
+ v_cou=int(varc.readline())
+ varc.close()
+ BinaryTree.ccc=canvas.canvas()
+ text.set(text.LatexRunner)
+ lvl=4
+ paintTree(myTree1, lvl, 0, 5)
+ BinaryTree.ccc.writeEPSfile("tree"+str(v_cou))
+ vc=open('var_count','w')
+ v_cou=v_cou+1
+ vc.write(str(v_cou))
+ vc.close()
+ trtab=[]
+ xHead=['$'+a+'$' for a in varNames]
+ if number_of_vars==3:
+  xHead.pop()
+ yHead=[]
+ Nl=NtoList(form[1])                                  #(form1,nform2,w)
+ xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
+ for jj in range(0,16):
+  if number_of_vars==3 and jj%2:
+   continue
+  if jj in Nl:
+   yHead.append(1)
+  else:
+   yHead.append(0)
+  for kk in range(0,number_of_vars):
+   trtab+=[xxi[kk][jj]]
+ strtab=MakeTable('f',xHead,yHead,trtab,yAlign=0) 
+ carno=MakeCarnoMap(yHead)
+ optf=OptimalNew(form[1])
+ optfk=OptimalNewK(form[1])
+ return (form,"tree"+str(v_cou-1)+".eps",strtab,carno,optf,optfk)
+
  
 def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
+#task type:
+#1 - formula
+#2 - scheme
+#3 - Karnaugh map
  forms2 = []
  for i in range(0, 8):
    for j in range(0, 8):
@@ -740,31 +764,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
   tex_file_sol.write("Вариант "+str(i)+':\n')
   for j in range(0,nQuest):
     iNewPage+=1
-    ((form1,nform2,w),cn)=MakeFormulaTM(qcompl[j],qvar[j])
-    trtab=[]
-    xHead=['$'+a+'$' for a in varNames]
-    if qvar[j]==3:
-     xHead.pop()
-    yHead=[]
-    Nl=NtoList(nform2)
-    xxi=[NtoListB(varVal[k],16) for k in range(0,qvar[j])]
-    for jj in range(0,16):
-     if qvar[j]==3 and jj%2:
-      continue
-     #ljj=NtoListB(jj,4)
-     #ii=ljj[3]+2*ljj[2]+4*ljj[1]+8*ljj[0]
-#     if ii in Nl:
-     if jj in Nl:
-      yHead.append(1)
-     else:
-      yHead.append(0)
-#     trtab+=(NtoListB(ii,4))
-     for kk in range(0,qvar[j]):
-      trtab+=[xxi[kk][jj]]
-    strtab=MakeTable('f',xHead,yHead,trtab,yAlign=0) 
-    carno=MakeCarnoMap(yHead)
-    optf=OptimalNew(nform2)
-    optfk=OptimalNewK(nform2)
+    ((form1,nform2,w),cn,strtab,carno,optf,optfk)=MakeFormulaTM(qcompl[j],qvar[j])
     #of = Optimize12Forms(forms1, forms2, nform2)
     #sof=DStrFrom123Forms(of)
     #tex_file.write("Вариант "+str(i)+":\n$$\n f(x_1,x_2,x_3,x_4)="+form1+'\n$$\n\\bigskip\n')
@@ -801,8 +801,8 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 #OptimalNew()
 #MakeFormulaTM(10)
 #MakeForrestFormulas()
-random.seed(0)
+#random.seed(0)
 #OptimalNewK()
 #MakeControlTaskFormulas()
-MakeControlTaskFormulas(nOfTasks=60,nQuest=2,qtt=[1,3],qcompl=[5,5],qvar=[3,4])
+#MakeControlTaskFormulas(nOfTasks=2,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4])
 

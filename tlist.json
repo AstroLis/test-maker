@@ -16,5 +16,8 @@
                        "z_mnozh_otnosheniya.json",
                        "z_mnozh_decart_otv.json",
                        "z_mnozh_decart.json",
-                       "z_algebra.json","z_algebra1.json","z_algebra2.json"]
+                       "z_algebra.json","z_algebra1.json","z_algebra2.json"],
+"7. Булевы функции":["z_trtab.json",
+                     "z_karnaught.json"
+                     ]                       
 }

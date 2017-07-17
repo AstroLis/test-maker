@@ -1,0 +1,25 @@
+{
+"title":"Карта Карно",
+"zadacha":"'Представить булеву функцию $f(x_1,x_2,x_3,x_4)$ с помощью карты Карно:'",
+"vopros":{
+          "v1":"'${}$'.format(A2[0][0])",
+          "v2":"'({:016b})'.format(A3[0][1])",
+          "v3":"'{}'.format(A4[2])",
+          "v4":"'\\\\includegraphics{'+A5[1]+'}'"  
+         }, 
+"param":{
+         "A1":"random.randint(4,8)",
+         "A2":"tree_bool_tm.MakeFormulaTM(number_of_element=7,number_of_vars=4)",
+         "A3":"tree_bool_tm.MakeFormulaTM(number_of_element=7,number_of_vars=4)",
+         "A4":"tree_bool_tm.MakeFormulaTM(number_of_element=7,number_of_vars=4)",
+         "A5":"tree_bool_tm.MakeFormulaTM(number_of_element=7,number_of_vars=4)",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'{}'.format(A2[3])",         
+         "o2":"'{}'.format(A3[3])",         
+         "o3":"'{}'.format(A4[3])",         
+         "o4":"'{}'.format(A5[3])"         
+        }
+}
