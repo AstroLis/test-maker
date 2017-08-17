@@ -1,10 +1,62 @@
 import random,math
 import copy
+import numpy as np
 from shutil import copyfile
 from pyx import *
 
 # simple binary tree
 # in this implementation, a node is inserted between an existing node and the root
+class NewGraph:
+    def __init__(self,d=5,n=5):
+        self.smezh=np.random.randint(n, size=(d, d))
+
+    def RemoveEdge(self):
+        m=self.smezh
+        while True:
+            for i in range(self.smezh.shape[0]):
+                for j in range(self.smezh.shape[1]):
+                    if random.randint(0,10)==5 and self.smezh[i,j]>0:
+                        m[i, j]=self.smezh[i, j]-1
+                        #print(self.smezh)
+                        #print((i+1,j+1))
+                        return (i+1,j+1)
+    def RemoveNodeI(self,i):
+        a=np.delete(self.smezh,i,0)
+        b = np.delete(a, i, 1)
+        self.smezh=b
+    def RemoveNode(self):
+        i=random.randint(0,self.smezh.shape[0]-1)
+        self.RemoveNodeI(i)
+        return i+1
+    def MergeNodeIJDel(self,i,j):
+        self.smezh[i, j]=0
+        self.smezh[j, i]=0
+        self.smezh[:, i]=self.smezh[:,i]+self.smezh[:,j]
+        self.smezh[i, :] = self.smezh[i, :] + self.smezh[j, :]
+        self.RemoveNodeI(j)
+    def MergeNodeIJ(self,i,j):
+        self.smezh[:, i]=self.smezh[:,i]+self.smezh[:,j]
+        self.smezh[i, :] = self.smezh[i, :] + self.smezh[j, :]
+        self.RemoveNodeI(j)
+
+def grAnd(m1,m2):
+    n=m1.shape[0]
+    m=m1
+    for i in range(0,n):
+        for j in range(0,n):
+            m[i,j]=min(m1[i,j],m2[i,j])
+    return m
+def grOr(m1,m2):
+    n=m1.shape[0]
+    m=m1
+    for i in range(0,n):
+        for j in range(0,n):
+            m[i,j]=max(m1[i,j],m2[i,j])
+    return m
+def grMult(m1,m2):
+    return np.matmul(m1,m2)
+
+
 def MakeMatrix(data,ff=2):
  tb=''
  tb+=('$$ \\small \\begin{pmatrix}')
@@ -537,3 +589,11 @@ def MakeGraphsMatrPath():
 #PaintGraphTM('test_gr',tmp[4],sh_pto,sh_pta,len(tmp[4]),directed=1,calc_random_path=1)
 #    return (grfile,str(f_prob),incin,smezh,probs,path_to,path_a)
 #MakeGraphsMatrPath()
+gr1=NewGraph(4,6)
+gr2=NewGraph(4,6)
+#print(grAnd(gr1.smezh,gr2.smezh))
+print(grMult(gr1.smezh,gr2.smezh))
+print(grMult(gr2.smezh,gr1.smezh))
+#gr.RemoveEdge()
+#gr.RemoveNode()
+#gr.MergeNodeIJDel(1, 2)
