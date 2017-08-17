@@ -1,17 +1,24 @@
 import random,math
 import copy
 import numpy as np
+import networkx as nx
 from shutil import copyfile
 from pyx import *
 
 # simple binary tree
 # in this implementation, a node is inserted between an existing node and the root
 class NewGraph:
-    def __init__(self,d=5,n=5):
-        self.smezh=np.random.randint(n, size=(d, d))
+    def __init__(self,d=5,n=5,sym=False):
+        if sym:
+            a=np.random.randint(n, size=(d, d))
+            self.smezh=np.tril(a,-1) + np.tril(a, -1).T
+        else:
+            self.smezh=np.random.randint(n, size=(d, d))
+
+        print(self.smezh)
 
     def RemoveEdge(self):
-        m=self.smezh
+        m=copy.copy(self.smezh)
         while True:
             for i in range(self.smezh.shape[0]):
                 for j in range(self.smezh.shape[1]):
@@ -19,36 +26,43 @@ class NewGraph:
                         m[i, j]=self.smezh[i, j]-1
                         #print(self.smezh)
                         #print((i+1,j+1))
-                        return (i+1,j+1)
-    def RemoveNodeI(self,i):
-        a=np.delete(self.smezh,i,0)
+                        return (m,(i+1,j+1))
+    def RemoveNodeI(self,i,m):
+        a=np.delete(m,i,0)
         b = np.delete(a, i, 1)
-        self.smezh=b
+        #self.smezh=b
+        return b
     def RemoveNode(self):
+        m=copy.copy(self.smezh)
         i=random.randint(0,self.smezh.shape[0]-1)
-        self.RemoveNodeI(i)
-        return i+1
+        return (self.RemoveNodeI(i,m),i + 1)
     def MergeNodeIJDel(self,i,j):
-        self.smezh[i, j]=0
-        self.smezh[j, i]=0
-        self.smezh[:, i]=self.smezh[:,i]+self.smezh[:,j]
-        self.smezh[i, :] = self.smezh[i, :] + self.smezh[j, :]
-        self.RemoveNodeI(j)
+        m=copy.copy(self.smezh)
+        m[i, j]=0
+        m[j, i]=0
+        m[:, i]=m[:,i]+m[:,j]
+        m[i, :] = m[i, :] + m[j, :]
+        return self.RemoveNodeI(j,m)
     def MergeNodeIJ(self,i,j):
-        self.smezh[:, i]=self.smezh[:,i]+self.smezh[:,j]
-        self.smezh[i, :] = self.smezh[i, :] + self.smezh[j, :]
-        self.RemoveNodeI(j)
+        m=copy.copy(self.smezh)
+        m[:, i]=m[:,i]+m[:,j]
+        m[i, :] = m[i, :] + m[j, :]
+        return self.RemoveNodeI(j,m)
+    def kruskal(self):
+        G=nx.from_numpy_matrix(self.smezh)
+        G1=nx.minimum_spanning_tree(G)
+        return nx.to_numpy_matrix(G1)
 
 def grAnd(m1,m2):
     n=m1.shape[0]
-    m=m1
+    m=copy.copy(m1)
     for i in range(0,n):
         for j in range(0,n):
             m[i,j]=min(m1[i,j],m2[i,j])
     return m
 def grOr(m1,m2):
     n=m1.shape[0]
-    m=m1
+    m=copy.copy(m1)
     for i in range(0,n):
         for j in range(0,n):
             m[i,j]=max(m1[i,j],m2[i,j])
@@ -59,7 +73,7 @@ def grMult(m1,m2):
 
 def MakeMatrix(data,ff=2):
  tb=''
- tb+=('$$ \\small \\begin{pmatrix}')
+ tb+=(' {\\small $$ \\begin{pmatrix}')
  for y in data:
   i=0
   for x in y:
@@ -69,7 +83,7 @@ def MakeMatrix(data,ff=2):
     i=1   
    tb+=('{:g}'.format(x))
   tb+=('\\\\')
- tb+=(' \\end{pmatrix}$$')
+ tb+=(' \\end{pmatrix}$$}')
  return tb
 
 def find_shortest_path(graph, start, end, path=[]):
@@ -535,7 +549,7 @@ def MakeGraphsMatrPath():
     for j in range(0,1):
 #     tmp=MakeGraphTM(8,1,0,1,1,1)
      nv=8
-     tmp = MakeGraphTM(nv, directed = 0, calc_random_path = 0, weighted = 1, filter_zero = 1, random_weights = 1)
+     tmp = MakeGraphTM(nv, directed = 1, calc_random_path = 0, weighted = 1, filter_zero = 1, random_weights = 1)
      grph=[list(set(x)) for x in tmp[6]]
      maxpts=[len(find_shortest_path_smezh(tmp[3],grph,0,ii)) for ii in range(0,len(tmp[4]))]
      end_p=maxpts.index(max(maxpts))
@@ -589,11 +603,14 @@ def MakeGraphsMatrPath():
 #PaintGraphTM('test_gr',tmp[4],sh_pto,sh_pta,len(tmp[4]),directed=1,calc_random_path=1)
 #    return (grfile,str(f_prob),incin,smezh,probs,path_to,path_a)
 #MakeGraphsMatrPath()
-gr1=NewGraph(4,6)
-gr2=NewGraph(4,6)
+#gr1=NewGraph(4,5,sym=True)
+#print(gr1)
+#print(gr1.kruskal())
+#print(MakeMatrix(gr1.smezh))
+#gr2=NewGraph(4,6)
 #print(grAnd(gr1.smezh,gr2.smezh))
-print(grMult(gr1.smezh,gr2.smezh))
-print(grMult(gr2.smezh,gr1.smezh))
+#print(grMult(gr1.smezh,gr2.smezh))
+#print(grMult(gr2.smezh,gr1.smezh))
 #gr.RemoveEdge()
 #gr.RemoveNode()
 #gr.MergeNodeIJDel(1, 2)

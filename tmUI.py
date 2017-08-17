@@ -1,7 +1,8 @@
 ﻿from tkinter import *
 from tkinter import ttk
 import os
-import json,random,parser,math,datetime
+import json,random,parser,math,datetime,copy
+import numpy as np
 sys.path.append('./graph_tm.py')
 sys.path.append('./plot_fraspr_tm.py')
 sys.path.append('./scheme_tm.py')
