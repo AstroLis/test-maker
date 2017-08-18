@@ -52,6 +52,11 @@ class NewGraph:
         G=nx.from_numpy_matrix(self.smezh)
         G1=nx.minimum_spanning_tree(G)
         return nx.to_numpy_matrix(G1)
+    def dijkstra1(self,i):
+        G=nx.from_numpy_matrix(self.smezh,create_using=nx.MultiDiGraph())
+        return nx.single_source_dijkstra(G,i)
+        #return nx.bidirectional_dijkstra(G,i)
+
 
 def grAnd(m1,m2):
     n=m1.shape[0]
@@ -607,7 +612,8 @@ def MakeGraphsMatrPath():
 #print(gr1)
 #print(gr1.kruskal())
 #print(MakeMatrix(gr1.smezh))
-#gr2=NewGraph(4,6)
+gr2=NewGraph(4,3)
+print(gr2.dijkstra1(1))
 #print(grAnd(gr1.smezh,gr2.smezh))
 #print(grMult(gr1.smezh,gr2.smezh))
 #print(grMult(gr2.smezh,gr1.smezh))
