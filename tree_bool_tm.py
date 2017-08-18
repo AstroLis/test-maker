@@ -409,10 +409,12 @@ def MakeCarnoMap(tvect):
   yv3=['0','1']
   if len(tvect)==8:
    val=[tvect[i] for i in ind3]
-   return MakeTable('$x_1 \setminus x_2 x_3$',xv,yv3,val) 
+#   return MakeTable('$x_1 \setminus x_2 x_3$',xv,yv3,val) 
+   return MakeTable(' ',xv,yv3,val) 
   if len(tvect)==16:
    val=[tvect[i] for i in ind4]
-   return MakeTable('$x_1 x_2 \setminus x_3 x_4$',xv,yv4,val) 
+#   return MakeTable('$x_1 x_2 \setminus x_3 x_4$',xv,yv4,val) 
+   return MakeTable(' ',xv,yv4,val) 
    
  
 def MakeForrestFormulas():
