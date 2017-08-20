@@ -21,6 +21,14 @@
                        "z_mnozh_decart.json",
                        "z_algebra.json","z_algebra1.json","z_algebra2.json"],
 "7. Булевы функции":["z_trtab.json",
+                     "z_b_sdnf_po_vekt.json",
+                     "z_b_sknf_po_vekt.json",
+                     "z_b_sdnf_po_sknf.json",
+                     "z_b_sknf_po_sdnf.json",
+                     "z_b_sdnf_po_form.json",
+                     "z_b_sknf_po_form.json",
+                     "z_b_vekt_po_sdnf.json",
+                     "z_b_vekt_po_sknf.json",
                      "z_karnaught.json"
                      ]                       
 }

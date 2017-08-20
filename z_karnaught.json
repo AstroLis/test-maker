@@ -17,9 +17,9 @@
          "A7":"0"                  
         },
 "otvet":{
-         "o1":"'{}'.format(A2[3])",         
-         "o2":"'{}'.format(A3[3])",         
-         "o3":"'{}'.format(A4[3])",         
-         "o4":"'{}'.format(A5[3])"         
+         "o1":"'\\\\small {}'.format(A2[3])",         
+         "o2":"'\\\\small {}'.format(A3[3])",         
+         "o3":"'\\\\small {}'.format(A4[3])",         
+         "o4":"'\\\\small {}'.format(A5[3])"         
         }
 }

@@ -11,6 +11,7 @@ from tex_structures_tm import MakeMatrix
 BoolOperands=['\\wedge','\\vee','\\rightarrow','\\leftrightarrow','|','\\downarrow','\\oplus']
 BoolOrder=   [0       ,   1    ,       2      ,         3        , 0 ,     0       ,    3]
 varNames=    ['x_1','x_2','x_3','x_4']
+#varNames=    ['A','B','C','D']
 #varVal  =    [170,204,240]
 #varVal  =    [43690,52428,61680,65280]
 varVal  =    [65280,61680,52428,43690]
@@ -26,38 +27,59 @@ def NtoList(iPerf):
   i=i+1
   iPerf=iPerf>>1
  return ff
-def DStrIbool(i):
+def DStrIbool(i,number_of_vars=4,knf=False):
  #analog of DStrI from optimal forms
- lett=['x_1','x_2','x_3','x_4','E','F','G']
+ #lett=['x_1','x_2','x_3','x_4','E','F','G']
+ xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
  strf=''
- n=3
  f=i
  first=1
- for ii in range(0,3):
+ for ii in range(0,number_of_vars):
   if not first:
-   strf+=' \\wedge '
+   if(knf):
+    strf+=' \\vee '   
+   else:
+    #strf+=' \\wedge '
+    strf+='\\;'
   else:
    first=0
-  bit=f%2
-  if(bit):
-   strf+=lett[ii]
+  if(xxi[ii][f]):
+   if knf:
+    #strf+='\\neg '
+    strf+='\\overline{'
+   strf+=varNames[ii]
+   if knf:
+    strf+='}'
   else:
-   #strf+='\\neg '+lett[ii]
-   strf+='\\overline{'+lett[ii]+'}'
-  f=f>>1
+   if not knf:
+    #strf+='\\neg '
+    strf+='\\overline{'
+   strf+=varNames[ii]
+   if not knf:
+    #strf+='\\neg '
+    strf+='}'
  return strf
 
-def DStrFromNbool(n):
+def DStrFromNbool(n,number_of_vars=4,knf=False):
  #analog of DStrFromN from optimal forms
- ff=NtoList(n)
+ if knf:
+  ff=NtoList(DoNeg(n,nb=16))
+ else:
+  ff=NtoList(n)
  strf=''
  first=1
  for f in ff:
+  if number_of_vars==3 and f%2:
+   continue
   if not first:
-   strf+='\\vee '
+   if knf:
+    #strf+='\\wedge '
+    strf+=''
+   else:
+    strf+='\\vee '
   else:
    first=0
-  strf+='('+DStrIbool(f)+')'
+  strf+='('+DStrIbool(f,number_of_vars,knf)+')'
  if strf=='':
    strf='\\emptyset'
  return strf
@@ -712,7 +734,9 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
  carno=MakeCarnoMap(yHead)
  optf=OptimalNew(form[1])
  optfk=OptimalNewK(form[1])
- return (form,"tree"+str(v_cou-1)+".eps",strtab,carno,optf,optfk)
+ dnf=DStrFromNbool(form[1],number_of_vars,knf=False)
+ knf=DStrFromNbool(form[1],number_of_vars,knf=True)
+ return (form,"tree"+str(v_cou-1)+".eps",strtab,carno,optf,optfk,dnf,knf)
 
  
 def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
@@ -743,6 +767,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
         forms1.append(t1)
  v_cou=0
  fname="BF"+str(nOfTasks)+"_"+str(nQuest)
+ print(fname)
  tex_file=open(fname+'.tex','w')
  tex_cmp=open('cmp_tex.bat','w')
  tex_cmp.write('latex '+fname+'.tex\n')
@@ -766,7 +791,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
   tex_file_sol.write("Вариант "+str(i)+':\n')
   for j in range(0,nQuest):
     iNewPage+=1
-    ((form1,nform2,w),cn,strtab,carno,optf,optfk)=MakeFormulaTM(qcompl[j],qvar[j])
+    ((form1,nform2,w),cn,strtab,carno,optf,optfk,dnf,knf)=MakeFormulaTM(qcompl[j],qvar[j])
     #of = Optimize12Forms(forms1, forms2, nform2)
     #sof=DStrFrom123Forms(of)
     #tex_file.write("Вариант "+str(i)+":\n$$\n f(x_1,x_2,x_3,x_4)="+form1+'\n$$\n\\bigskip\n')
@@ -790,6 +815,8 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
     tex_file_sol.write('Karnaugh map:\n'+carno+'\n\n')
     tex_file_sol.write('Optimal form D:\n$'+optf+'$\n\n')
     tex_file_sol.write('Optimal form K:\n$'+optfk+'$\n\n')
+    tex_file_sol.write('DNF :\n$'+dnf+'$\n\n')
+    tex_file_sol.write('KNF :\n$'+knf+'$\n\n')
     tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
     #if(not iNewPage%2):
     # tex_file_sol.write("\\newpage\n")
@@ -807,4 +834,8 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 #OptimalNewK()
 #MakeControlTaskFormulas()
 #MakeControlTaskFormulas(nOfTasks=2,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4])
+#((form1,nform2,w),cn,strtab,carno,optf,optfk)=MakeFormulaTM(number_of_element=7,number_of_vars=4)
+#print(nform2)
+#print(form1)
+#print(DStrFromNbool(nform2))
 
