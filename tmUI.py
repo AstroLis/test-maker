@@ -89,7 +89,7 @@ def EvalAnswer(dParams,dAnsw):
     return EvalAnswerCore(dAnsw,**pp)
      
   
-def ParseTaskWithParams(data,bAnswer,**kwargs):
+def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     rt=[]
     NL='\n\n'
     SL='\\'
@@ -98,17 +98,21 @@ def ParseTaskWithParams(data,bAnswer,**kwargs):
     otvs = []
     vv = sorted(list(data['vopros'].keys()))
     oo = sorted(list(data['otvet'].keys()))
+    qnum=0
+    if randAns:
+     qnum=randAns-1
     print(vv)
     print(oo)
     vo = list(zip(vv, oo))
     if(len(vv)>4):
      random.shuffle(vv)
-     rt.append(str(eval(parser.expr(data['vopros'][vv[0]]).compile())) + '\n\n')
+     rt.append(str(eval(parser.expr(data['vopros'][vv[qnum]]).compile())) + '\n\n')
      return (rt, '')
     elif(len(vv)==4):
      #vv=['v1','v2','v3','v4']
-     random.shuffle(vo)
-     rt.append(str(eval(parser.expr(data['vopros'][vo[0][0]]).compile()))+'\n\n')
+     if not randAns:
+      random.shuffle(vo)
+     rt.append(str(eval(parser.expr(data['vopros'][vo[qnum][0]]).compile()))+'\n\n')
      for o in oo:
       otvs.append(str(eval(parser.expr( data['otvet'][o] ).compile())))
     elif (len(data['vopros'])==1):
@@ -120,7 +124,7 @@ def ParseTaskWithParams(data,bAnswer,**kwargs):
     if len(otvs) > len(set(otvs)):
         return ([],"")
     fl=0
-    ncu0=oo.index(vo[0][1])    #number of correct answer
+    ncu0=oo.index(vo[qnum][1])    #number of correct answer
     rrr=[0,1,2,3]
     random.shuffle(rrr)
     ncu=rrr.index(ncu0)
@@ -148,7 +152,7 @@ def ParseTaskWithParams(data,bAnswer,**kwargs):
     #rt.append('\nCorrect answer: '+str(ncu+1))
     return (rt,str(ncu+1))
  
-def ParseTask(data,bAnswer):
+def ParseTask(data,bAnswer,randAns=0,compl=0):
    fl=1
    while fl:
     #z=open(TName,"r")
@@ -156,7 +160,7 @@ def ParseTask(data,bAnswer):
     #data=json.loads(zz)
     dPars=EvalParams(data['param'])
     print(dPars)
-    aa= ParseTaskWithParams(data,bAnswer,**dPars)
+    aa= ParseTaskWithParams(data,bAnswer,randAns,compl,**dPars)
     if(len(aa[0])==0):
      continue
     else:
@@ -219,6 +223,7 @@ def make_book_head(TName):
  
 def add_task(*args):
  l2.insert('end',l1.get(l1.curselection()))
+ l3.insert('end',str(len(task_data[l1.get(l1.curselection())]['vopros'])))
  return
 
 def add_all_task(*args):
@@ -256,17 +261,19 @@ def make_book(*args):
     f = open(test_name+'.tex', 'w')
     f.writelines(make_book_head(test_name))
     fsolv = open(test_name+'_solv.txt', 'w')
+    j={tkey_name:0 for tkey_name in l2.get(0, END)}
     for tkey_name in l2.get(0, END):
         f.writelines(make_book_theme_head(test_name,tkey_name))
         f.write("\\begin{enumerate}\n")
         fsolv.write("Вариант: "+str(tkey_name)+":  ")
+        j[tkey_name]+=1
         i=0
         for iii in range(1, ntests):
             i=i+1
             tname=task_data[tkey_name]
             f.write("\\begin{minipage}{\\textwidth}\n\\item ")
             bAnswer=int(answer_type.get())
-            task = ParseTask(tname,bAnswer)
+            task = ParseTask(tname,bAnswer,randAns=j[tkey_name],compl=0)
             f.writelines(task[0])
             fsolv.write(str(i)+":"+str(task[1])+" ")
             f.write("\n\\end{minipage}\n\n")
@@ -326,6 +333,10 @@ def make_test(*args):
     os.system('cmp_tex.bat')
     return
     
+def lyview(*args):
+    """connect the yview action together"""
+    l2.yview(*args)
+    l3.yview(*args)
     
 root = Tk()
 root.title("Test Maker")
@@ -353,9 +364,13 @@ l1.activate(2)
 
 l2 = Listbox(mainframe, height=10,width=60)
 l2.grid(column=3+col0, row=0+row0, sticky=(N,W,E,S),rowspan = 15)
-s2 = ttk.Scrollbar(mainframe, orient=VERTICAL, command=l2.yview)
+l3 = Listbox(mainframe, height=10,width=5)
+l3.grid(column=5+col0, row=0+row0, sticky=(N,W,E,S),rowspan = 15)
+s2 = ttk.Scrollbar(mainframe, orient=VERTICAL)
 s2.grid(column=4+col0, row=0+row0, sticky=(N,S),rowspan = 15)
 l2['yscrollcommand'] = s2.set
+l3['yscrollcommand'] = s2.set
+s2.config(command=lyview)
 ttk.Button(mainframe, text="++>>", command=add_task, width = 13).grid(column=2+col0, row=0+row0, sticky=(W,N),columnspan = 1)
 ttk.Button(mainframe, text="--<<", command=remove_task, width = 13).grid(column=2+col0, row=1+row0, sticky=(W,N),columnspan = 1)
 ttk.Button(mainframe, text="Добавить все", command=add_all_task, width = 13).grid(column=2+col0, row=2+row0, sticky=(W,N),columnspan = 1)
