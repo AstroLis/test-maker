@@ -11,6 +11,10 @@ from tex_structures_tm import MakeMatrix
 BoolOperands=['\\wedge','\\vee','\\rightarrow','\\leftrightarrow','|','\\downarrow','\\oplus']
 BoolOrder=   [0       ,   1    ,       2      ,         3        , 0 ,     0       ,    3]
 varNames=    ['x_1','x_2','x_3','x_4']
+varNamesSet0=['A','B','C','D']
+varNamesSet= ['(x \\in A)','(x \\in B)','(x \\in C)','(x \\in D)']
+varNamesSetNeg= ['(x \\notin A)','(x \\notin B)','(x \\notin C)','(x \\notin D)']
+BoolOperandsSet=['\\cap','\\cup','\\rightarrow','\\leftrightarrow','|','\\downarrow','\\Delta']
 #varNames=    ['A','B','C','D']
 #varVal  =    [170,204,240]
 #varVal  =    [43690,52428,61680,65280]
@@ -60,6 +64,32 @@ def DStrIbool(i,number_of_vars=4,knf=False):
     strf+='}'
  return strf
 
+def DStrIboolSet(i,number_of_vars=4,knf=False):
+ xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
+ strf=''
+ f=i
+ first=1
+ for ii in range(0,number_of_vars):
+  if not first:
+   if(knf):
+    strf+=BoolOperandsSet[1]
+   else:
+    strf+=BoolOperandsSet[0]
+  else:
+   first=0
+  if(xxi[ii][f]):
+   if knf:
+    strf+=varNamesSetNeg[ii]
+   else: 
+    strf+=varNamesSet[ii]
+  else:
+   if not knf:
+    strf+=varNamesSetNeg[ii]
+   else: 
+    strf+=varNamesSet[ii]
+ return strf
+ 
+ 
 def DStrFromNbool(n,number_of_vars=4,knf=False):
  #analog of DStrFromN from optimal forms
  if knf:
@@ -84,6 +114,29 @@ def DStrFromNbool(n,number_of_vars=4,knf=False):
    strf='\\emptyset'
  return strf
 
+def DStrFromNboolSet(n,number_of_vars=4,knf=False):
+ if knf:
+  ff=NtoList(DoNeg(n,nb=16))
+ else:
+  ff=NtoList(n)
+ strf=''
+ first=1
+ for f in ff:
+  if number_of_vars==3 and f%2:
+   continue
+  if not first:
+   if knf:
+    strf+=BoolOperandsSet[0]
+   else:
+    strf+=BoolOperandsSet[1]
+  else:
+   first=0
+  strf+='('+DStrIboolSet(f,number_of_vars,knf)+')'
+ if strf=='':
+   strf='\\emptyset'
+ return strf
+ 
+ 
 def DoNeg(x1,nb=16):
  mask=pow(2,nb)-1
  return mask^x1
@@ -738,6 +791,58 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
  knf=DStrFromNbool(form[1],number_of_vars,knf=True)
  return (form,"tree"+str(v_cou-1)+".eps",strtab,carno,optf,optfk,dnf,knf)
 
+def TestA(x,A): #1
+ xA=math.sqrt(pow(x[0]-A[0],2)+pow(x[1]-A[1],2))
+ if(xA<A[2]):
+  return 1
+ else:
+  return 0
+  
+def CheckDForm(ff,x,y,AA,number_of_vars=3):
+ xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
+ for i in range(0,number_of_vars):
+  bit=xxi[i][ff]     #f%2
+  if bit!=TestA((x,y),AA[i]):
+   return False
+ return True
+
+
+def PrintCirqPerf(iPerf,imax):
+ varc=open('var_count','r')
+ v_cou=int(varc.readline())
+ varc.close() 
+ ccc=canvas.canvas()
+ AA=[]
+ for i in range(0,imax):
+  xA=0.4*math.cos(math.pi*2.*i/imax)
+  yA=0.4*math.sin(math.pi*2.*i/imax)
+  rA=0.75
+  A=[xA,yA,rA]
+  AA.append(A)
+ ff=NtoList(iPerf)
+ print(ff)
+ ir=100
+ for ix in range(-ir,ir,3):
+  for iy in range(-ir,ir,3):
+   x=2.*ix/ir
+   y=2.*iy/ir
+   for f in ff:
+    if CheckDForm(f,x,y,AA):
+     ccc.stroke(path.circle(x,y,0.01),[color.gray(0.5)])
+ for A in AA:
+  ccc.stroke(path.circle(A[0],A[1],A[2]))
+ ccc.stroke(path.rect(-2, -2, 4, 4))
+ for i in range(0,3):
+  ccc.text(AA[i][0]*4,AA[i][1]*4, varNamesSet0[i], [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ ccc.text(-1.75,1.7, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ cname="venn"+str(v_cou)
+ ccc.writeEPSfile(cname)
+ v_cou=v_cou+1
+ vc=open('var_count','w')
+ vc.write(str(v_cou))
+ vc.close()
+ return cname
+
  
 def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
 #task type:
@@ -792,6 +897,11 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
   for j in range(0,nQuest):
     iNewPage+=1
     ((form1,nform2,w),cn,strtab,carno,optf,optfk,dnf,knf)=MakeFormulaTM(qcompl[j],qvar[j])
+    dnfset=DStrFromNboolSet(nform2,qvar[j],knf=False)
+    knfset=DStrFromNboolSet(nform2,qvar[j],knf=True)
+    venn=''
+    if qvar[j]==3:
+     venn=PrintCirqPerf(nform2,3)
     #of = Optimize12Forms(forms1, forms2, nform2)
     #sof=DStrFrom123Forms(of)
     #tex_file.write("Вариант "+str(i)+":\n$$\n f(x_1,x_2,x_3,x_4)="+form1+'\n$$\n\\bigskip\n')
@@ -809,6 +919,8 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
     tex_file_sol.write("Задача "+str(i)+"."+str(j+1)+":\n$$\n"+form1+'\n$$\n\\bigskip\n')
     #tex_file_sol.write('Perfect form '+str(i)+': \n$$\n'+DStrFromNbool(nform2)+'\n$$\n')
     #tex_file_sol.write('Perfect form opt '+str(i)+': \n$$\n'+sof+'\n')
+    if qvar[j]==3:
+     tex_file_sol.write("\\includegraphics{"+venn+"}\n")
     tex_file_sol.write("\\includegraphics{"+cn+"}\n")
     #tex_file.write('Truth table:\n'+MakeMatrix(trtab)+'\n')
     tex_file_sol.write('Truth table:\n'+strtab+'\n\n')
@@ -817,6 +929,8 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
     tex_file_sol.write('Optimal form K:\n$'+optfk+'$\n\n')
     tex_file_sol.write('DNF :\n$'+dnf+'$\n\n')
     tex_file_sol.write('KNF :\n$'+knf+'$\n\n')
+    tex_file_sol.write('DNFs :\n$'+dnfset+'$\n\n')
+    tex_file_sol.write('KNFs :\n$'+knfset+'$\n\n')
     tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
     #if(not iNewPage%2):
     # tex_file_sol.write("\\newpage\n")
@@ -833,7 +947,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 #random.seed(0)
 #OptimalNewK()
 #MakeControlTaskFormulas()
-#MakeControlTaskFormulas(nOfTasks=2,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4])
+#MakeControlTaskFormulas(nOfTasks=1,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,3,3])
 #((form1,nform2,w),cn,strtab,carno,optf,optfk)=MakeFormulaTM(number_of_element=7,number_of_vars=4)
 #print(nform2)
 #print(form1)
