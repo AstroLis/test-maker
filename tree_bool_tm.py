@@ -559,103 +559,89 @@ def MakeForrestFormulas():
 
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
-def SumNForms(ff):
- r=0
+def SumNForms(ff,knf):
+ if knf:
+   r=pow(2,16)-1
+ else: 
+   r=0
  for f in ff:
-  r=r|f
- return r
-
-def SumNFormsK(ff):
- r=pow(2,16)-1
- for f in ff:
-  r=r&f
+  if knf:
+   r=r&f
+  else: 
+   r=r|f
  return r
  
-def FilterMarkForm(mf,n):
+def FilterMarkForm(mf,n,knf):
   rez=mf
-#  print(mf)
   for i in range(4,0,-1):
    for f in list(rez.keys()):
-#    print(f,mf[f])
     if(len(rez[f])==i):
      ff={f2:rez[f2] for f2 in rez if not f2==f}
-     if SumNForms(ff)==n:
-      del rez[f]
-  return rez
-
-def FilterMarkFormK(mf,n):
-  rez=mf
-#  print(mf)
-  for i in range(4,0,-1):
-   for f in list(rez.keys()):
-#    print(f,mf[f])
-    if(len(rez[f])==i):
-     ff={f2:rez[f2] for f2 in rez if not f2==f}
-     if SumNFormsK(ff)==n:
+     if SumNForms(ff,knf)==n:
       del rez[f]
   return rez
   
-def StrMarkForm(mf):
+def StrMarkForm(mf,sets,knf):
  first=0
  s=''
  ns=0
  for f in mf:
   if first:
-   s+=' \\vee '
+   if sets:
+    s+=' {} '.format(BoolOperandsSet[not knf])
+   else:
+    if not knf:
+     s+=' {} '.format(BoolOperands[not knf])
+    else:
+     s+=' '
+  if knf: 
+   if len(mf[f])>1:  
+    s+='('   
   first=1
   f1=0
   nw=pow(2,16)-1
   for ff in mf[f]:
-   #if f1:
-   # s+=' \\wedge '
-   f1=1 
-   if ff==10:
-    s='1'
-    break
-   if ff>0:
-    s+=varNames[ff-1]
-    nw=nw&varVal[ff-1]
-   else:
-    s+=' \\neg '+varNames[abs(ff)-1]
-    nw=nw&DoNeg(varVal[abs(ff)-1])
-  ns=ns|nw  
- print('ns=',ns)   
- return s   
-
-def StrMarkFormK(mf):
- first=0
- s=''
- ns=pow(2,16)-1
- for f in mf:
-  if first:
-   s+=' '
-  s+='(' 
-  first=1
-  f1=0
-  nw=0
-  for ff in mf[f]:
    if f1:
-    s+=' \\vee '
+       if sets:
+        s+=' {} '.format(BoolOperandsSet[knf])
+       else:
+        if not knf:
+         s+=' '
+        else:
+         s+=' {} '.format(BoolOperands[knf])
    f1=1 
-   if ff==0:
-    s='0'
-    break
    if ff>0:
-    s+=varNames[ff-1]
-    nw=nw|varVal[ff-1]
+    if sets:
+     s+=varNamesSet[ff-1]
+    else: 
+     s+=varNames[ff-1]
+    if knf:
+     nw=nw|varVal[ff-1]
+    else: 
+     nw=nw&varVal[ff-1]
    else:
-    s+=' \\neg '+varNames[abs(ff)-1]
-    nw=nw|DoNeg(varVal[abs(ff)-1])
-  s+=')' 
-  ns=ns&nw  
+    if sets:
+     s+=varNamesSetNeg[abs(ff)-1]
+    else: 
+     s+=' \\neg '+varNames[abs(ff)-1]
+    if knf:
+     nw=nw|DoNeg(varVal[abs(ff)-1])
+    else: 
+     nw=nw&DoNeg(varVal[abs(ff)-1])
+  if knf:   
+   if len(mf[f])>1:  
+    s+=')' 
+   ns=ns&nw
+  else:   
+   ns=ns|nw  
  print('ns=',ns)   
  return s   
 
-def OptimalNew(n):
+def OptimalNew(n,knf=False):
 # ((f,n,w),cn)=MakeFormulaTM(5,4)
 # print(((f,n,w),cn))
  forms=[]
- op='\\wedge'
+ op=BoolOperands[knf]
 # forms.append({0:'0',1:'1'})
  forms.append({0:set([0]),pow(2,16)-1:set([10])})
  forms.append({})
@@ -682,60 +668,22 @@ def OptimalNew(n):
  markform={}
  for ff in forms:
   for f in ff:
-   if f&n==f:
-    markform[f]=ff[f]
+   if knf:
+    if f|n==f:
+     markform[f]=ff[f]
+   else:  
+    if f&n==f:
+     markform[f]=ff[f]
  #print(forms)
 # print(markform)
- filtform=FilterMarkForm(markform,n)
+ filtform=FilterMarkForm(markform,n,knf)
  print(markform)
- ss=StrMarkForm(markform)
+ ss=StrMarkForm(markform,False,knf)
+ ss2=StrMarkForm(markform,True,knf)
  print(ss)
  if ss=='':
-  return '0'
- return ss
-
-def OptimalNewK(n=0):
- #((f,n,w),cn)=MakeFormulaTM(5,4)
- #print(((f,n,w),cn))
- forms=[]
- op='\\vee'
-# forms.append({0:'0',1:'1'})
- forms.append({0:set([0]),pow(2,16)-1:set([10])})
- forms.append({})
- for i in range(4):
-  forms[1][varVal[i]]=set([i+1])
-  forms[1][DoNeg(varVal[i])]=set([-(i+1)])
-#  forms[1][varVal[i]]=varNames[i]
-#  forms[1][DoNeg(varVal[i])]='\\neg '+varNames[i]
- forms.append({})
- forms.append({})
- forms.append({})
- for i in range(2,5):
-  for f1 in forms[1]:
-   for fi in forms[i-1]:
-    if not f1==fi: 
-     r=DoOper(op,f1,fi,nb=16)
-     f=forms[1][f1]|forms[i-1][fi]
-     if r not in forms[i-2] and len(f)==i and r not in forms[0]:
-       forms[i][r]=f
-# for f in forms:
-#  print(len(set(f))) 
-# for f in forms[4]:
-#  print('{:016b}'.format(f),f,forms[4][f]) 
- markform={}
- for ff in forms:
-  for f in ff:
-   if f|n==f:
-    markform[f]=ff[f]
- #print(forms)
-# print(markform)
- filtform=FilterMarkFormK(markform,n)
- print(markform)
- ss=StrMarkFormK(markform)
- print(ss)
- if ss=='':
-  return '0'
- return ss
+  return ('0','\\emptyset')
+ return (ss,ss2)
  
 def MakeFormulaTM(number_of_element=10,number_of_vars=4):
  number_of_chemes=10
@@ -746,14 +694,16 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
  xx=4
  yy=2
  #v_cou+=1
+ form=('',0,0)
  max_p=number_of_element*2
- myTree1 = BinaryTree(1)
- while (BinaryTree.id_count!=max_p):
-   BinaryTree.id_count = 1
-   myTree1 = BinaryTree(1)
-   for i in range(10):
-     myTree1.randTree(number_of_vars)
- form=MakeFormulaFromTree(myTree1,0)
+ while form[1]==0 or form[1]==(pow(2,16)-1):
+     myTree1 = BinaryTree(1)
+     while (BinaryTree.id_count!=max_p):
+       BinaryTree.id_count = 1
+       myTree1 = BinaryTree(1)
+       for i in range(10):
+         myTree1.randTree(number_of_vars)
+     form=MakeFormulaFromTree(myTree1,0)
  print(form)
  varc=open('var_count','r')
  v_cou=int(varc.readline())
@@ -785,11 +735,11 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
    trtab+=[xxi[kk][jj]]
  strtab=MakeTable('f',xHead,yHead,trtab,yAlign=0) 
  carno=MakeCarnoMap(yHead)
- optf=OptimalNew(form[1])
- optfk=OptimalNewK(form[1])
+ optf=OptimalNew(form[1],False)
+ optfk=OptimalNew(form[1],True)
  dnf=DStrFromNbool(form[1],number_of_vars,knf=False)
  knf=DStrFromNbool(form[1],number_of_vars,knf=True)
- return (form,"tree"+str(v_cou-1)+".eps",strtab,carno,optf,optfk,dnf,knf)
+ return (form,"tree"+str(v_cou-1)+".eps",strtab,carno,optf[0],optfk[0],dnf,knf,optf[1],optfk[1])
 
 def TestA(x,A): #1
  xA=math.sqrt(pow(x[0]-A[0],2)+pow(x[1]-A[1],2))
@@ -896,7 +846,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
   tex_file_sol.write("Вариант "+str(i)+':\n')
   for j in range(0,nQuest):
     iNewPage+=1
-    ((form1,nform2,w),cn,strtab,carno,optf,optfk,dnf,knf)=MakeFormulaTM(qcompl[j],qvar[j])
+    ((form1,nform2,w),cn,strtab,carno,optf,optfk,dnf,knf,dnfs,knfs)=MakeFormulaTM(qcompl[j],qvar[j])
     dnfset=DStrFromNboolSet(nform2,qvar[j],knf=False)
     knfset=DStrFromNboolSet(nform2,qvar[j],knf=True)
     venn=''
@@ -931,6 +881,8 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
     tex_file_sol.write('KNF :\n$'+knf+'$\n\n')
     tex_file_sol.write('DNFs :\n$'+dnfset+'$\n\n')
     tex_file_sol.write('KNFs :\n$'+knfset+'$\n\n')
+    tex_file_sol.write('DNFs2 :\n$'+dnfs+'$\n\n')
+    tex_file_sol.write('KNFs2 :\n$'+knfs+'$\n\n')
     tex_file_sol.write('\\noindent\\rule{\\textwidth}{0.4pt}\n\n')
     #if(not iNewPage%2):
     # tex_file_sol.write("\\newpage\n")
@@ -947,7 +899,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 #random.seed(0)
 #OptimalNewK()
 #MakeControlTaskFormulas()
-#MakeControlTaskFormulas(nOfTasks=1,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,3,3])
+MakeControlTaskFormulas(nOfTasks=2,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,3,3])
 #((form1,nform2,w),cn,strtab,carno,optf,optfk)=MakeFormulaTM(number_of_element=7,number_of_vars=4)
 #print(nform2)
 #print(form1)
