@@ -1,6 +1,6 @@
 {
 "title":"Графы, бинарные операции",
-"zadacha":"'Графы $G_1$ и $G_2$ заданы матрицами смежности: \\\\* \\\\begin{minipage}[c]{0.2\\\\textwidth}'+MakeMatrix(A2)+'\\\\end{minipage} \\\\begin{minipage}[c]{0.2\\\\textwidth}, '+MakeMatrix(A4)+'\\\\end{minipage}\\n\\n'",
+"zadacha":"'Орграфы $G_1$ и $G_2$ заданы матрицами смежности: \\\\* \\\\begin{minipage}[c]{0.2\\\\textwidth}'+MakeMatrix(A2)+'\\\\end{minipage} \\\\begin{minipage}[c]{0.2\\\\textwidth}, '+MakeMatrix(A4)+'\\\\end{minipage}\\n\\n'",
 "vopros":{
           "v1":"'Тогда матрица смежности графа, полученного в результате объединения графов $G_1$ и $G_2$, имеет вид:'",
           "v2":"'Тогда матрица смежности графа, полученного в результате пересечения графов $G_1$ и $G_2$, имеет вид:'",
