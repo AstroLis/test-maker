@@ -14,6 +14,7 @@
                        "z_graph_smezh_3.json",
                        "z_graph_oper_un.json",
                        "z_graph_kruskal.json",
+                       "z_graph_dijkstra1.json",
                        "z_graph_oper_bin.json",
                        "z_mnozh_decart_otv.json",
                        "z_mnozh_venn1.json",
