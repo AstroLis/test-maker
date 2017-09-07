@@ -273,7 +273,8 @@ def make_book(*args):
             tname=task_data[tkey_name]
             f.write("\\begin{minipage}{\\textwidth}\n\\item ")
             bAnswer=int(answer_type.get())
-            task = ParseTask(tname,bAnswer,randAns=j[tkey_name],compl=0)
+            #task = ParseTask(tname,bAnswer,randAns=j[tkey_name],compl=0) #disable random in 4type task
+            task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
             fsolv.write(str(i)+":"+str(task[1])+" ")
             f.write("\n\\end{minipage}\n\n")
