@@ -1,0 +1,20 @@
+{
+"title":"Формула по схеме",
+"zadacha":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} Выбрать аналитический вид функции, соответствующий представленной схеме:\\\\end{minipage}'",
+"answer_style":"'line'",
+"vopros":{
+          "v1":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} \\\\includegraphics[]{'+A2[1]+'} \\\\end{minipage}'"         
+         }, 
+"param":{
+         "A1":"random.randint(1,8)",
+         "A2":"tree_bool_tm.MakeFormulaTM(number_of_element=5,number_of_vars=4)",
+         "A3":"0",
+         "A4":"0",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'$f(x_1,x_2,x_3,x_4)=({})$'.format(A2[0][0])"        
+        }
+}
