@@ -31,6 +31,13 @@
             "z_mnozh_decart.json",
             "z_algebra.json"
             ],
+"Астрономия":["./tasks/astro/z_sin-cos.json",
+              "./tasks/astro/z_radians.json",
+              "./tasks/astro/z_grad.json",
+              "./tasks/astro/z_sin-cosm.json",
+              "./tasks/astro/z_angl-sin-cosm.json",
+              "./tasks/astro/z_alien.json"
+            ],
 "7. Булевы функции":["z_trtab.json",
                      "z_b_sdnf_po_vekt.json",
                      "z_b_sknf_po_vekt.json",

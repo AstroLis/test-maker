@@ -1,0 +1,18 @@
+{
+"title":"Градусы(кратн-Пи)",
+"zadacha":"'Скольки радианам соответствует угол в '+'{:6.0f}$^{{\\\\circ}}$?'.format(int((A5*180/A4)*10000)/10000)",
+"vopros":{
+          "v1":"''"
+         }, 
+"param":{
+         "A1":"random.randint(0,1)",
+         "A2":"[math.cos,math.sin,math.tan]",
+         "A3":"['\\\\cos','\\\\sin','\\\\tg']",
+         "A4":"random.randint(2,4)",
+         "A5":"random.randint(2,9)",
+         "A7":"0"
+        },
+"otvet":{
+         "o1":"'$\\\\frac{'+str(A5)+'\\\\pi}{'+str(A4)+'}$ радиан'"
+        }
+}

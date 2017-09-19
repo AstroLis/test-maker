@@ -1,0 +1,24 @@
+{
+"title":"Радианы(кратн-Пи)",
+"zadacha":"'Скольки градусам соответствует угол в $\\\\frac{'+str(A5)+'\\\\pi}{'+str(A4)+'}$ радиан?'",
+"vopros":{
+          "v1":"''"
+         }, 
+"param":{
+         "A1":"random.randint(0,1)",
+         "A2":"[math.cos,math.sin,math.tan]",
+         "A3":"['\\\\cos','\\\\sin','\\\\tg']",
+         "A4":"random.randint(2,4)",
+         "A5":"random.randint(2,9)",
+         "A6":"[('урне','урны'),('коробке','коробки'),('емкосте','емкости'),('вазе','вазы')]",
+         "A7":"0",
+         "iAll":"random.randint(10,18)",
+         "iCvet":"random.randint(2,int(2*iAll/3))",
+         "iCvet1":"random.randint(1,iCvet)",
+         "iCvet2":"iCvet-iCvet1",
+         "iIzvl":"random.randint(2,4)"
+        },
+"otvet":{
+         "o1":"'{:6.0f}$^{{\\\\circ}}$'.format(int((A5*180/A4)*10000)/10000)"
+        }
+}

@@ -1,0 +1,24 @@
+{
+"title":"Sin(мал)",
+"zadacha":"'Чему приближенно равен $'+A3[A1]+'('+str(A5[A4])+A6[A4]+')$?'",
+"vopros":{
+          "v1":"''"
+         }, 
+"param":{
+         "A1":"random.randint(0,2)",
+         "A2":"[math.cos,math.sin,math.tan]",
+         "A3":"['\\\\cos','\\\\sin','\\\\tg']",
+         "A4":"random.randint(0,2)",
+         "A5":"[random.randint(1,60),random.randint(1,60),random.randint(1,4)]",
+         "A6":"['\\'\\'','\\'','^{{\\\\circ}}']",
+         "A7":"[206265,206265/60,206265/60/60]",
+         "iAll":"random.randint(10,18)",
+         "iCvet":"random.randint(2,int(2*iAll/3))",
+         "iCvet1":"random.randint(1,iCvet)",
+         "iCvet2":"iCvet-iCvet1",
+         "iIzvl":"random.randint(2,4)"
+        },
+"otvet":{
+         "o1":"'{:8.7f}'.format(int(A2[A1](A5[A4]/A7[A4])*1000000)/1000000)"
+        }
+}

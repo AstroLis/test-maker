@@ -175,8 +175,9 @@ def make_page_head(TName,Nz,ii):
  th=[]
  th.append("\\flushright{"+str(TName)+"}\n\n")
  #th.append("\\centering{ТЕСТ\n\n Теория Вероятностей и Математическая Статистика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
- th.append("\\centering{ТЕСТ\n\n Дискретная Математика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
+ #th.append("\\centering{ТЕСТ\n\n Дискретная Математика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
  #th.append("\\centering{ТЕСТ по ТВ и МС. Вариант \\textnumero "+str(ii)+"("+str(TName)+")}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
+ th.append("\\centering{ТЕСТ\n\n Астрофизика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Гр. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
  th.append("\\begin{tabular}{|c|");
  for tt in range(0,Nz):
    th.append("c|");
