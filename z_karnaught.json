@@ -5,7 +5,7 @@
           "v1":"'${}$'.format(A2[0][0])",
           "v2":"'({:016b})'.format(A3[0][1])",
           "v3":"'{}'.format(A4[2])",
-          "v4":"'\\\\includegraphics{'+A5[1]+'}'"  
+          "v4":"'\\\\includegraphics[]{'+A5[1]+'}'"  
          }, 
 "param":{
          "A1":"random.randint(4,8)",

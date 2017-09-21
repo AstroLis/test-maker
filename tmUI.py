@@ -140,11 +140,11 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     else: 
      for i in range(0,4):
       #rt.append('\\begin{minipage}[c]{0.24\\textwidth}\n')
-      rt.append('\\begin{minipage}[c]{0.02\\textwidth}\n')
+      rt.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
       #rt.append('\\small')
       rt.append(str(i+1)+') ')
       rt.append('\\end{minipage}\n')      
-      rt.append('\\begin{minipage}[c]{0.2\\textwidth}\n')
+      rt.append('\\begin{minipage}[c]{0.2\\linewidth}\n')
       rt.append(otvs[rrr[i]])
       rt.append('\\end{minipage}\n')      
       #if(i==1):
@@ -208,8 +208,20 @@ def make_test_head(TName,Nz):
  th.append("\\begin{document}\n")
  #th.append("Тест по теории вероятности "+str(datetime.datetime.now()))
  return th
-
 def make_book_head(TName):
+ th=[]
+ th.append("\\documentclass[8pt,a5paper]{extbook}\n")
+ th.append("\\usepackage{graphicx}\n")
+ th.append("\\usepackage{amsmath}\n")
+ th.append("\\usepackage[left=1.5cm,right=1.5cm,top=1.6cm,bottom=1.4cm,bindingoffset=0cm]{geometry}\n")
+ th.append("\\usepackage[russian]{babel}\n")
+ th.append("\\setlength{\\arraycolsep}{1pt}\n")
+ th.append("\\setlength{\\tabcolsep}{2pt}\n")
+ th.append("\\begin{document}\n")
+ th.append("Тест генератора сборника "+str(datetime.datetime.now()))
+ return th
+
+def make_book_head0(TName):
  th=[]
  th.append("\\documentclass[12pt]{article}\n")
  th.append("\\usepackage{graphicx}\n")
@@ -271,11 +283,12 @@ def make_book(*args):
         for iii in range(1, ntests):
             i=i+1
             tname=task_data[tkey_name]
-            f.write("\\begin{minipage}{\\textwidth}\n\\item ")
+            f.write("\\begin{minipage}{\\linewidth}\n\\item ")
             bAnswer=int(answer_type.get())
             #task = ParseTask(tname,bAnswer,randAns=j[tkey_name],compl=0) #disable random in 4type task
             task = ParseTask(tname,bAnswer)
-            f.writelines(task[0])
+            filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.5]') for x in task[0]]
+            f.writelines(filt_sc)
             fsolv.write(str(i)+":"+str(task[1])+" ")
             f.write("\n\\end{minipage}\n\n")
         fsolv.write("\n")
@@ -339,6 +352,7 @@ def lyview(*args):
     l2.yview(*args)
     l3.yview(*args)
     
+random.seed(0)
 root = Tk()
 root.title("Test Maker")
 col0=2

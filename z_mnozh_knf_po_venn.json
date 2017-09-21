@@ -1,6 +1,6 @@
 {
 "title":"КНФ по Венну",
-"zadacha":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} Записать элементы заштрихованного множества на диаграмме Эйлера-Венна:\\\\end{minipage}'",
+"zadacha":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} На диаграмме Эйлера-Венна изображены множества $A, B, C$ и универсальное множество $U$. Тогда заштрихованная область соответствует множеству:\\\\end{minipage}'",
 "answer_style":"'line'",
 "vopros":{
           "v1":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} \\\\includegraphics[]{'+A4+'} \\\\end{minipage}'"         
