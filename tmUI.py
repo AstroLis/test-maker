@@ -210,11 +210,17 @@ def make_test_head(TName,Nz):
  return th
 def make_book_head(TName):
  th=[]
- th.append("\\documentclass[8pt,a5paper]{extbook}\n")
+ th.append("\\documentclass[12pt,a5paper]{extbook}\n")
  th.append("\\usepackage{graphicx}\n")
  th.append("\\usepackage{amsmath}\n")
- th.append("\\usepackage[left=1.5cm,right=1.5cm,top=1.6cm,bottom=1.4cm,bindingoffset=0cm]{geometry}\n")
+ th.append("\\usepackage[left=1.5cm,right=1.5cm,top=1.6cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
+ th.append("\\usepackage{fancyhdr}\n")
+ th.append("\\pagestyle{fancy}\n")
+ th.append("\\fancyhead[LE,RO]{\\textsl{\\rightmark}}\n")
+ th.append("\\fancyhead[LO,RE]{\\textsl{\\leftmark}}\n")
+ th.append("\\fancyfoot[C]{\\thepage}\n")
+
  th.append("\\setlength{\\arraycolsep}{1pt}\n")
  th.append("\\setlength{\\tabcolsep}{2pt}\n")
  th.append("\\begin{document}\n")
