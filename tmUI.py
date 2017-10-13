@@ -50,7 +50,7 @@ def MakeTable(xyT,xHead,yHead,data,ff=2):
 
 def MakeMatrix(data,ff=2):
  tb=''
- tb+=('$$ \\small \\begin{pmatrix}')
+ tb+=('$$ \\begin{pmatrix*}[r]')
  for y in data:
   i=0
   for x in y:
@@ -63,7 +63,7 @@ def MakeMatrix(data,ff=2):
    else:
     tb+=('\\text{-}'+'{:g}'.format(-x))   
   tb+=('\\\\')
- tb+=(' \\end{pmatrix}$$')
+ tb+=(' \\end{pmatrix*}$$')
  return tb
  
 
@@ -88,6 +88,49 @@ def EvalAnswer(dParams,dAnsw):
     pp=EvalParams(dParams)
     return EvalAnswerCore(dAnsw,**pp)
      
+def MakeQAStyle(quest,ans,style): 
+    qa=[]    
+    if(style=="'line'"):
+        qa.append(quest[0] + '\n\n')
+        for i in range(0,4):
+            qa.append(str(i+1)+')  '+ans[i]+'\n\n')
+        return qa
+    if(style=="'qa_line'"):
+        qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")  
+        qa.append(quest[0] + '\n\n')
+        qa.append("\\end{minipage}\n")  
+        qa.append("\\begin{minipage}[l]{0.66\\linewidth}\n")  
+        for i in range(0,4):
+            qa.append(str(i+1)+')  '+ans[i]+'\n\n')
+        qa.append("\\end{minipage}\n")  
+        return qa
+    if(style=="'qa_block'"):
+        qa.append("\n\n\\begin{minipage}[r]{0.43\\linewidth}\n")  
+        qa.append(quest[0] + '\n\n')
+        qa.append("\\end{minipage}\n")  
+        qa.append("\\begin{minipage}[l]{0.66\\linewidth}\n")  
+        for i in range(0,4):
+          qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
+          qa.append(str(i+1)+') ')
+          qa.append('\\end{minipage}\n')      
+          qa.append('\\begin{minipage}[c]{0.3\\linewidth}\n')
+          qa.append(ans[i])
+          qa.append('\\end{minipage}\n')
+          if(i==1):
+            qa.append('\n\n')
+        qa.append("\\end{minipage}\n")  
+        return qa
+        
+  #default     
+    qa.append(quest[0] + '\n\n')
+    for i in range(0,4):
+      qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
+      qa.append(str(i+1)+') ')
+      qa.append('\\end{minipage}\n')      
+      qa.append('\\begin{minipage}[c]{0.2\\linewidth}\n')
+      qa.append(ans[i])
+      qa.append('\\end{minipage}\n')      
+    return qa
   
 def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     rt=[]
@@ -104,6 +147,8 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     print(vv)
     print(oo)
     vo = list(zip(vv, oo))
+    quest=[]
+    answ=[]
     if(len(vv)>4):
      random.shuffle(vv)
      rt.append(str(eval(parser.expr(data['vopros'][vv[qnum]]).compile())) + '\n\n')
@@ -112,11 +157,11 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
      #vv=['v1','v2','v3','v4']
      if not randAns:
       random.shuffle(vo)
-     rt.append(str(eval(parser.expr(data['vopros'][vo[qnum][0]]).compile()))+'\n\n')
+     quest.append(str(eval(parser.expr(data['vopros'][vo[qnum][0]]).compile())))
      for o in oo:
       otvs.append(str(eval(parser.expr( data['otvet'][o] ).compile())))
     elif (len(data['vopros'])==1):
-     rt.append(str(eval(parser.expr(data['vopros']['v1']).compile()))+'\n\n')
+     quest.append(str(eval(parser.expr(data['vopros']['v1']).compile()))+'\n\n')
      otvs.append(str(eval(parser.expr( data['otvet']['o1'] ).compile())))
      for i in range(2,5):
           otvs.append(EvalAnswer(data['param'],data['otvet']['o1']))
@@ -130,25 +175,17 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     ncu=rrr.index(ncu0)
     
     if not bAnswer:
+     rt.append(quest[0]+'\n\n')
      return (rt,otvs[rrr[ncu]])
+
     
+    
+    for i in range(0,4):
+       answ.append(otvs[rrr[i]])
+    qast=''       
     if("answer_style" in data):
-     print(data["answer_style"])
-     #if(data["answer_style"]=='line'):
-     for i in range(0,4):
-       rt.append(str(i+1)+')  '+otvs[rrr[i]]+'\n\n')     
-    else: 
-     for i in range(0,4):
-      #rt.append('\\begin{minipage}[c]{0.24\\textwidth}\n')
-      rt.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
-      #rt.append('\\small')
-      rt.append(str(i+1)+') ')
-      rt.append('\\end{minipage}\n')      
-      rt.append('\\begin{minipage}[c]{0.2\\linewidth}\n')
-      rt.append(otvs[rrr[i]])
-      rt.append('\\end{minipage}\n')      
-      #if(i==1):
-      #  rt.append('\n')
+     qast=data["answer_style"]
+    rt.extend(MakeQAStyle(quest,answ,qast))  
     #rt.append('\nCorrect answer: '+str(ncu+1))
     return (rt,str(ncu+1))
  
@@ -203,6 +240,7 @@ def make_test_head(TName,Nz):
  th.append("\\documentclass[12pt]{article}\n")
  th.append("\\usepackage{graphicx}\n")
  th.append("\\usepackage{amsmath}\n")
+ th.append("\\usepackage{mathtools}\n")
  th.append("\\usepackage[left=0.5cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
  th.append("\\begin{document}\n")
@@ -213,6 +251,7 @@ def make_book_head(TName):
  th.append("\\documentclass[12pt,a5paper]{extbook}\n")
  th.append("\\usepackage{graphicx}\n")
  th.append("\\usepackage{amsmath}\n")
+ th.append("\\usepackage{mathtools}\n")
  th.append("\\usepackage[left=1.5cm,right=1.5cm,top=1.6cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
  th.append("\\usepackage{fancyhdr}\n")
@@ -429,7 +468,7 @@ ttk.Label(mainframe, text="Задача:").grid(column=0+col0, row=-1+row0, stic
 #for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
 root.grid_columnconfigure(0, weight=1)
 root.grid_rowconfigure(0, weight=1)
-jz=open("tlist.json","r")
+jz=open("./tasks/tlist.json","r")
 jzz=jz.read()
 themdata=json.loads(jzz)
 task_data={}

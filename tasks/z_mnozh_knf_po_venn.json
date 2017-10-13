@@ -1,9 +1,9 @@
 {
 "title":"КНФ по Венну",
-"zadacha":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} На диаграмме Эйлера-Венна изображены множества $A, B, C$ и универсальное множество $U$. Тогда заштрихованная область соответствует множеству:\\\\end{minipage}'",
-"answer_style":"'line'",
+"zadacha":"'На диаграмме Эйлера-Венна изображены множества $A, B, C$ и универсальное множество $U$. Тогда заштрихованная область соответствует множеству:'",
+"answer_style":"'qa_line'",
 "vopros":{
-          "v1":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} \\\\includegraphics[]{'+A4+'} \\\\end{minipage}'"         
+          "v1":"' \\\\includegraphics[]{'+A4+'} '"         
          }, 
 "param":{
          "A1":"random.randint(1,8)",
