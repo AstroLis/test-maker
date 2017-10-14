@@ -1,8 +1,9 @@
 {
 "title":"Графы, матрица смежности 2",
-"zadacha":"'Выберите орграф, заданный матрицей смежности'+MakeMatrix(A1[3])",
+"zadacha":"'Выберите орграф, заданный матрицей смежности'+NL",
+"answer_style":"'qa_block'",
 "vopros":{
-          "v1":"''"
+          "v1":"'{{\\\\footnotesize $$S='+MakeMatrix(A1[3],baks=0)+'$$}}'"
          }, 
 "param":{
          "A1":"graph_tm.MakeGraphTM(5,1,0)",

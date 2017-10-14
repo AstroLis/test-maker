@@ -48,9 +48,11 @@ def MakeTable(xyT,xHead,yHead,data,ff=2):
  tb+=('\\end{tabular}')
  return tb
 
-def MakeMatrix(data,ff=2):
+def MakeMatrix(data,ff=2,baks=1):
  tb=''
- tb+=('$$ \\begin{pmatrix*}[r]')
+ if baks:
+     tb+='$$'
+ tb+=(' \\begin{pmatrix*}[r]')
  for y in data:
   i=0
   for x in y:
@@ -63,7 +65,9 @@ def MakeMatrix(data,ff=2):
    else:
     tb+=('\\text{-}'+'{:g}'.format(-x))   
   tb+=('\\\\')
- tb+=(' \\end{pmatrix*}$$')
+ tb+=(' \\end{pmatrix*}')
+ if baks:
+     tb+='$$'
  return tb
  
 
@@ -105,10 +109,10 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\end{minipage}\n")  
         return qa
     if(style=="'qa_block'"):
-        qa.append("\n\n\\begin{minipage}[r]{0.43\\linewidth}\n")  
+        qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")
         qa.append(quest[0] + '\n\n')
         qa.append("\\end{minipage}\n")  
-        qa.append("\\begin{minipage}[l]{0.66\\linewidth}\n")  
+        qa.append("\\begin{minipage}[l]{0.76\\linewidth}\n")
         for i in range(0,4):
           qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
           qa.append(str(i+1)+') ')
@@ -239,7 +243,7 @@ def make_test_head(TName,Nz):
  th=[]
  th.append("\\documentclass[12pt]{article}\n")
  th.append("\\usepackage{graphicx}\n")
- th.append("\\usepackage{amsmath}\n")
+ th.append("\\usepackage[fleqn]{amsmath}\n")
  th.append("\\usepackage{mathtools}\n")
  th.append("\\usepackage[left=0.5cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
@@ -255,6 +259,7 @@ def make_book_head(TName):
  th.append("\\usepackage[left=1.5cm,right=1.5cm,top=1.6cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
  th.append("\\usepackage{fancyhdr}\n")
+ th.append("\\usepackage{enumitem}\n")
  th.append("\\pagestyle{fancy}\n")
  th.append("\\fancyhead[LE,RO]{\\textsl{\\rightmark}}\n")
  th.append("\\fancyhead[LO,RE]{\\textsl{\\leftmark}}\n")
@@ -321,7 +326,7 @@ def make_book(*args):
     j={tkey_name:0 for tkey_name in l2.get(0, END)}
     for tkey_name in l2.get(0, END):
         f.writelines(make_book_theme_head(test_name,tkey_name))
-        f.write("\\begin{enumerate}\n")
+        f.write("\\begin{enumerate}[leftmargin=*]\n")
         fsolv.write("Вариант: "+str(tkey_name)+":  ")
         j[tkey_name]+=1
         i=0
@@ -332,7 +337,7 @@ def make_book(*args):
             bAnswer=int(answer_type.get())
             #task = ParseTask(tname,bAnswer,randAns=j[tkey_name],compl=0) #disable random in 4type task
             task = ParseTask(tname,bAnswer)
-            filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.5]') for x in task[0]]
+            filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.6]') for x in task[0]]
             f.writelines(filt_sc)
             fsolv.write(str(i)+":"+str(task[1])+" ")
             f.write("\n\\end{minipage}\n\n")

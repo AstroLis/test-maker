@@ -78,7 +78,7 @@ def grMult(m1,m2):
 
 def MakeMatrix(data,ff=2):
  tb=''
- tb+=(' {\\small $$ \\begin{pmatrix}')
+ tb+=(' {$$ \\begin{pmatrix}')
  for y in data:
   i=0
   for x in y:
@@ -135,7 +135,7 @@ def norm_(d1):
   dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
   if(dd==0.0):
       return (0.0,0.0)
-  print(d1,dd)
+  #print(d1,dd)
   return (d1[0]/dd,d1[1]/dd)
 def diff_(p1,p2):
   return (p2[0]-p1[0],p2[1]-p1[1])
@@ -198,31 +198,41 @@ def calc_cos(p0,p1,p2):
 
 def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1):
     global ccc
+    sc=0.7
+    scs=1
     fi=1
     ccc = canvas.canvas()
     if(calc_random_path):
      ccc.fill(path.circle(probs[0][0],probs[0][1], 0.2))
      ccc.stroke(path.circle(probs[0][0],probs[0][1], 0.15))
      ccc.stroke(path.circle(probs[fi][0],probs[fi][1], 0.2))
+    xx=[x[0] for x in probs]
+    yy=[y[1] for y in probs]
+    #print('xx:',xx)
+    #print('yy:',yy)
+    minx=min(xx)
+    maxx=max(xx)
+    miny=min(yy)
+    maxy=max(yy)
     for jj in range(nv):
      pp=probs[jj]
      #if(directed):
      # ccc.stroke(path.circle(pp[0],pp[1], 0.1))
      #else:
-     ccc.fill(path.circle(pp[0],pp[1], 0.1))
+     ccc.fill(path.circle(pp[0]*sc,pp[1]*sc, 0.1))
      
      for ph in path_to[jj]:
       dxx=pp[0]+(probs[ph][0]-pp[0])*2/3.
       dyy=pp[1]+(probs[ph][1]-pp[1])*2/3.
       if(directed):
-       ccc.stroke(path.line(pp[0], pp[1], dxx, dyy),[deco.earrow([deco.filled()])])
-      ccc.stroke(path.line(pp[0], pp[1], probs[ph][0],probs[ph][1]))
+       ccc.stroke(path.line(pp[0]*sc, pp[1]*sc, dxx*sc, dyy*sc),[deco.earrow([deco.filled()])])
+      ccc.stroke(path.line(pp[0]*sc, pp[1]*sc, probs[ph][0]*sc,probs[ph][1]*sc))
      text_d0=0.0
      text_d1=0.0
      for phi in path_a[jj]:
       if(not phi==jj):
        ph=probs[phi]
-       print(pp,ph)
+       #print(pp,ph)
        d1=diff_(pp,ph)
        dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
        text_d0+=d1[0]/dd
@@ -231,7 +241,10 @@ def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1):
       ntd=norm_((text_d0,text_d1))
      else:
       ntd=norm_((random.randint(-10,10),random.randint(-10,10)))
-     ccc.text(pp[0]-0.5*ntd[0],pp[1]-0.5*ntd[1], str(jj+1), [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+     ccc.text(pp[0]*sc-0.5*ntd[0]*scs,pp[1]*sc-0.5*ntd[1]*scs, str(jj+1), [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+    #ccc.stroke(path.rect(minx-1, miny-1, maxx-minx+2,maxy-miny+2))
+    ccc.stroke(path.rect(-3*sc, -3*sc, 6*sc,6*sc))
+    #ccc.stroke(path.circle(0,0,3))
     ccc.writeEPSfile(gr_name)
 
 
@@ -250,7 +263,7 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,rand
     varc.close()
     ii=1
     v_cou+=1
-    print('ii=',ii)
+    #print('ii=',ii)
     id_count = 1
     sc=4
     s1=2

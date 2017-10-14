@@ -1,8 +1,9 @@
 {
 "title":"Графы, матрица смежности 3",
-"zadacha":"'Для орграфа, заданного матрицей смежности, выберите матрицу инцидентности'+MakeMatrix(A1[3])",
+"zadacha":"'Для  орграфа, заданного матрицей смежности, найти матрицу инцидентности'+NL",
+"answer_style":"'qa_block'",
 "vopros":{
-          "v1":"''"
+          "v1":"'{{\\\\footnotesize $$S='+MakeMatrix(A1[3],baks=0)+'$$}}'"
          }, 
 "param":{
          "A1":"graph_tm.MakeGraphTM(5,1,0)",
@@ -14,6 +15,6 @@
          "A7":"0"
         },
 "otvet":{
-         "o1":"'\\\\tiny '+MakeMatrix(A1[2])"         
+         "o1":"'{{\\\\scriptsize '+MakeMatrix(A1[3])+'}}'"         
         }
 }
