@@ -91,13 +91,13 @@ def EvalAnswerCore(dAnsw,**kwargs):
 def EvalAnswer(dParams,dAnsw):
     pp=EvalParams(dParams)
     return EvalAnswerCore(dAnsw,**pp)
-     
+AnsLabel=['{{\\bf 1) }}','{{\\bf 2) }}','{{\\bf 3) }}','{{\\bf 4) }}']
 def MakeQAStyle(quest,ans,style): 
     qa=[]    
     if(style=="'line'"):
         qa.append(quest[0] + '\n\n')
         for i in range(0,4):
-            qa.append(str(i+1)+')  '+ans[i]+'\n\n')
+            qa.append(AnsLabel[i]+ans[i]+'\n\n')
         return qa
     if(style=="'qa_line'"):
         qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")  
@@ -105,7 +105,7 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\end{minipage}\n")  
         qa.append("\\begin{minipage}[l]{0.66\\linewidth}\n")  
         for i in range(0,4):
-            qa.append(str(i+1)+')  '+ans[i]+'\n\n')
+            qa.append(AnsLabel[i]+ans[i]+'\n\n')
         qa.append("\\end{minipage}\n")  
         return qa
     if(style=="'qa_block'"):
@@ -115,7 +115,7 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\begin{minipage}[l]{0.76\\linewidth}\n")
         for i in range(0,4):
           qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
-          qa.append(str(i+1)+') ')
+          qa.append(AnsLabel[i])
           qa.append('\\end{minipage}\n')      
           qa.append('\\begin{minipage}[c]{0.3\\linewidth}\n')
           qa.append(ans[i])
@@ -124,12 +124,24 @@ def MakeQAStyle(quest,ans,style):
             qa.append('\n\n')
         qa.append("\\end{minipage}\n")  
         return qa
+    if(style=="'block'"):
+        qa.append(quest[0] + '\n\n')
+        for i in range(0,4):
+          qa.append('\\begin{minipage}[c]{0.05\\linewidth}\n')
+          qa.append(AnsLabel[i])
+          qa.append('\\end{minipage}\n')      
+          qa.append('\\begin{minipage}[c]{0.4\\linewidth}\n')
+          qa.append(ans[i])
+          qa.append('\\end{minipage}\n')
+          if(i==1):
+            qa.append('\n\n')
+        return qa
         
   #default     
     qa.append(quest[0] + '\n\n')
     for i in range(0,4):
       qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
-      qa.append(str(i+1)+') ')
+      qa.append(AnsLabel[i])
       qa.append('\\end{minipage}\n')      
       qa.append('\\begin{minipage}[c]{0.2\\linewidth}\n')
       qa.append(ans[i])

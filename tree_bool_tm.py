@@ -492,6 +492,28 @@ def MakeCarnoMap(tvect):
    val=[tvect[i] for i in ind4]
 #   return MakeTable('$x_1 x_2 \setminus x_3 x_4$',xv,yv4,val) 
    return MakeTable(' ',xv,yv4,val) 
+
+#{
+#\footnotesize
+#\begin{tabular}{c|c|c|c|c|c|} 
+#%\cline{3-6}
+#%\backslashbox{\scriptsize $x_1x_2$}{\scriptsize $x_3x_4$}
+#\multicolumn{2}{c}{}&\multicolumn{4}{c}{$x_3x_4$}\\
+#\cline{3-6}
+#\multicolumn{2}{c|}{}&\bf 00&\bf 01&\bf 11&\bf 10\\ 
+#\cline{2-6} 
+#\multirow{4}{*}{ \rotatebox[origin=c]{90}{$x_1x_2$}}
+#&\bf 00&0&0&1&1\\ 
+#\cline{2-6}  
+#&\bf 01&0&0&0&0\\ 
+#\cline{2-6}  
+#&\bf 11&0&0&0&0\\ 
+#\cline{2-6}  
+#&\bf 10&0&0&0&0\\ 
+#\cline{2-6} 
+#\end{tabular}
+#}
+
    
  
 def MakeForrestFormulas():
