@@ -1,8 +1,9 @@
 {
-"title":"Графы, Крускал",
-"zadacha":"'Граф G задан матрицей весов:'+MakeMatrix(A2)",
+"title":"Алгоритм Крускала",
+"zadacha":"'Для графа G, заданного матрицей весов, найти матрицу весов минимального остовного дерева.'",
+"answer_style":"'qa_block'",
 "vopros":{
-          "v1":"'Матрица весов минимального остовного дерева для графа G имеет вид:'"
+          "v1":"'{\\\\small '+MakeMatrix(A2)+'}'"
          }, 
 "param":{
          "A1":"graph_tm.NewGraph(6,6,sym=True)",
@@ -10,6 +11,6 @@
          "A3":"np.array(A1.kruskal())"
          },
 "otvet":{
-         "o1":"MakeMatrix(A3)"
+         "o1":"'{\\\\scriptsize '+MakeMatrix(A3)+'}'"
         }
 }

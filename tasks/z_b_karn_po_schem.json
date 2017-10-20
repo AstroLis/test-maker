@@ -1,8 +1,9 @@
 {
 "title":"Карно по схеме",
-"zadacha":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} Для булевой функции $f(x_1,x_2,x_3,x_4)$,  представленной схемой, выбрать соответствующую Карту Карно\\\\end{minipage}'",
+"zadacha":"'Для булевой функции $f(x_1,x_2,x_3,x_4)$,  представленной схемой, выбрать соответствующую Карту Карно \\n\\n'",
+"answer_style":"'img_row'",
 "vopros":{
-          "v1":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} \\\\includegraphics[]{'+A2[1]+'} \\\\end{minipage}'"         
+          "v1":"' \\\\includegraphics[]{'+A2[1]+'} '"         
          }, 
 "param":{
          "A1":"random.randint(1,8)",

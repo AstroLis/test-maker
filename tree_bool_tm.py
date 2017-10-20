@@ -489,30 +489,26 @@ def MakeCarnoMap(tvect):
 #   return MakeTable('$x_1 \setminus x_2 x_3$',xv,yv3,val) 
    return MakeTable(' ',xv,yv3,val) 
   if len(tvect)==16:
-   val=[tvect[i] for i in ind4]
-#   return MakeTable('$x_1 x_2 \setminus x_3 x_4$',xv,yv4,val) 
-   return MakeTable(' ',xv,yv4,val) 
+     val=[tvect[i] for i in ind4]
+     tb='{'
+     tb+=('\\footnotesize\n')
+     tb+=('\\begin{tabular}{c|c|c|c|c|c|}\n') 
+     tb+=('\\multicolumn{2}{c}{}&\\multicolumn{4}{c}{$x_3x_4$}\\\\\n') 
+     tb+=('\\cline{3-6}\n') 
+     tb+=('\\multicolumn{2}{c|}{}&\\tiny \\bf 00&\\tiny \\bf 01&\\tiny \\bf 11&\\tiny \\bf 10\\\\\n')  
+     tb+=('\\cline{2-6}\n')  
+     tb+=('\\multirow{4}{*}{ \\rotatebox[origin=c]{90}{$x_1x_2$}}\n') 
+     id=0
+     for y in yv4:
+      tb+='&\\tiny \\bf '+(str(y))
+      for x in xv:
+       tb+=('&')
+       tb+=(str(val[id]))
+       id=id+1
+      tb+=('\\\\ \\cline{2-6}')
+     tb+=('\\end{tabular} }')
+     return tb
 
-#{
-#\footnotesize
-#\begin{tabular}{c|c|c|c|c|c|} 
-#%\cline{3-6}
-#%\backslashbox{\scriptsize $x_1x_2$}{\scriptsize $x_3x_4$}
-#\multicolumn{2}{c}{}&\multicolumn{4}{c}{$x_3x_4$}\\
-#\cline{3-6}
-#\multicolumn{2}{c|}{}&\bf 00&\bf 01&\bf 11&\bf 10\\ 
-#\cline{2-6} 
-#\multirow{4}{*}{ \rotatebox[origin=c]{90}{$x_1x_2$}}
-#&\bf 00&0&0&1&1\\ 
-#\cline{2-6}  
-#&\bf 01&0&0&0&0\\ 
-#\cline{2-6}  
-#&\bf 11&0&0&0&0\\ 
-#\cline{2-6}  
-#&\bf 10&0&0&0&0\\ 
-#\cline{2-6} 
-#\end{tabular}
-#}
 
    
  
@@ -617,7 +613,7 @@ def StrMarkForm(mf,sets,knf):
     if not knf:
      s+=' {} '.format(BoolOperands[not knf])
     else:
-     s+=' '
+     s+='\\;'
   if knf: 
    if len(mf[f])>1:  
     s+='('   
@@ -630,7 +626,7 @@ def StrMarkForm(mf,sets,knf):
         s+=' {} '.format(BoolOperandsSet[knf])
        else:
         if not knf:
-         s+=' '
+         s+='\\;'
         else:
          s+=' {} '.format(BoolOperands[knf])
    f1=1 
@@ -647,7 +643,8 @@ def StrMarkForm(mf,sets,knf):
     if sets:
      s+=varNamesSetNeg[abs(ff)-1]
     else: 
-     s+=' \\neg '+varNames[abs(ff)-1]
+#     s+=' \\neg '+varNames[abs(ff)-1]
+     s+=' \\overline{'+varNames[abs(ff)-1]+'}'
     if knf:
      nw=nw|DoNeg(varVal[abs(ff)-1])
     else: 

@@ -108,6 +108,15 @@ def MakeQAStyle(quest,ans,style):
             qa.append(AnsLabel[i]+ans[i]+'\n\n')
         qa.append("\\end{minipage}\n")  
         return qa
+    if(style=="'qa_line2'"):
+        qa.append("\n\n\\begin{minipage}[r]{0.5\\linewidth}\n")  
+        qa.append(quest[0] + '\n\n')
+        qa.append("\\end{minipage}\n")  
+        qa.append("\\begin{minipage}[l]{0.5\\linewidth}\n")  
+        for i in range(0,4):
+            qa.append(AnsLabel[i]+ans[i]+'\n\n')
+        qa.append("\\end{minipage}\n")  
+        return qa
     if(style=="'qa_block'"):
         qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")
         qa.append(quest[0] + '\n\n')
@@ -136,9 +145,19 @@ def MakeQAStyle(quest,ans,style):
           if(i==1):
             qa.append('\n\n')
         return qa
+    if(style=="'img_row'"):
+        qa.append(quest[0] + '\n\n')
+        qa.append('\\hskip -0.5cm\n')
+#        qa.append('\\vskip 0.4cm\n')        
+        for i in range(0,4):
+          qa.append('\\begin{minipage}[c]{0.24\\linewidth}\n')
+          qa.append('{\\hskip 0.5cm'+AnsLabel[i]+'}\n\\vskip -0.5cm\n')
+          qa.append(ans[i])
+          qa.append('\\end{minipage}\n')      
+        return qa
         
   #default     
-    qa.append(quest[0] + '\n\n')
+    qa.append(quest[0] + '\n')
     for i in range(0,4):
       qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
       qa.append(AnsLabel[i])
@@ -222,14 +241,16 @@ def ParseTask(data,bAnswer,randAns=0,compl=0):
 
 def make_book_theme_head(TName,them_name):
  th=[]
- th.append("\\section{"+them_name+"}") 
+ th.append("\\section{"+them_name+"}")
+ #th.append("\n\\vskip -1.5cm\n")
+ 
  return th
 def make_page_head(TName,Nz,ii):
  th=[]
  th.append("\\flushright{"+str(TName)+"}\n\n")
  #th.append("\\centering{ТЕСТ\n\n Теория Вероятностей и Математическая Статистика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
- th.append("\\centering{ТЕСТ\n\n Дискретная Математика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
- #th.append("\\centering{ТЕСТ по ТВ и МС. Вариант \\textnumero "+str(ii)+"("+str(TName)+")}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
+ #th.append("\\centering{ТЕСТ\n\n Дискретная Математика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
+ th.append("\\centering{ТЕСТ по ТВ и МС. Вариант \\textnumero "+str(ii)+"("+str(TName)+")}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
  th.append("\\begin{tabular}{|c|");
  for tt in range(0,Nz):
    th.append("c|");
@@ -272,10 +293,16 @@ def make_book_head(TName):
  th.append("\\usepackage[russian]{babel}\n")
  th.append("\\usepackage{fancyhdr}\n")
  th.append("\\usepackage{enumitem}\n")
+ th.append("\\usepackage{rotating}")
+ th.append("\\usepackage{supertabular}") 
+ th.append("\\usepackage{multirow}")
+
  th.append("\\pagestyle{fancy}\n")
- th.append("\\fancyhead[LE,RO]{\\textsl{\\rightmark}}\n")
- th.append("\\fancyhead[LO,RE]{\\textsl{\\leftmark}}\n")
+ th.append("\\fancyhead[LE,RO]{\\footnotesize \\textsl{\\rightmark}}\n")
+ th.append("\\fancyhead[LO,RE]{\\footnotesize \\textsl{\\leftmark}}\n")
  th.append("\\fancyfoot[C]{\\thepage}\n")
+ th.append("\\setenumerate{label=\\thesection.\\arabic*.}\n")
+ th.append("\\renewcommand\\thesection{\\arabic{section}}\n")
 
  th.append("\\setlength{\\arraycolsep}{1pt}\n")
  th.append("\\setlength{\\tabcolsep}{2pt}\n")
@@ -338,21 +365,21 @@ def make_book(*args):
     j={tkey_name:0 for tkey_name in l2.get(0, END)}
     for tkey_name in l2.get(0, END):
         f.writelines(make_book_theme_head(test_name,tkey_name))
-        f.write("\\begin{enumerate}[leftmargin=*]\n")
+        f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=0pt]\n")
         fsolv.write("Вариант: "+str(tkey_name)+":  ")
         j[tkey_name]+=1
         i=0
         for iii in range(1, ntests):
             i=i+1
-            tname=task_data[tkey_name]
-            f.write("\\begin{minipage}{\\linewidth}\n\\item ")
+            tname=task_data[tkey_name]       
+            f.write("\\begin{minipage}{\\linewidth}\n\\vskip 0.5cm\n\\item ")
             bAnswer=int(answer_type.get())
             #task = ParseTask(tname,bAnswer,randAns=j[tkey_name],compl=0) #disable random in 4type task
             task = ParseTask(tname,bAnswer)
             filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.6]') for x in task[0]]
             f.writelines(filt_sc)
             fsolv.write(str(i)+":"+str(task[1])+" ")
-            f.write("\n\\end{minipage}\n\n")
+            f.write("\n\\end{minipage}\n")
         fsolv.write("\n")
         f.write("\\end{enumerate}\n")
         f.write("\\newpage\n")

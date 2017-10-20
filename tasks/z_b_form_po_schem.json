@@ -1,9 +1,9 @@
 {
 "title":"Формула по схеме",
-"zadacha":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} Выбрать аналитический вид функции, соответствующий представленной схеме:\\\\end{minipage}'",
+"zadacha":"' Выбрать аналитический вид функции $f(x_1,x_2,x_3,x_4)$, соответствующий представленной схеме:\\n\\n'",
 "answer_style":"'line'",
 "vopros":{
-          "v1":"'\\\\begin{minipage}[c]{0.45\\\\textwidth} \\\\includegraphics[]{'+A2[1]+'} \\\\end{minipage}'"         
+          "v1":"' \\\\includegraphics[]{'+A2[1]+'} '"         
          }, 
 "param":{
          "A1":"random.randint(1,8)",
@@ -15,6 +15,6 @@
          "A7":"0"                  
         },
 "otvet":{
-         "o1":"'$f(x_1,x_2,x_3,x_4)=({})$'.format(A2[0][0])"        
+         "o1":"'${}$'.format(A2[0][0])"        
         }
 }
