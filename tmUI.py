@@ -91,11 +91,11 @@ def EvalAnswerCore(dAnsw,**kwargs):
 def EvalAnswer(dParams,dAnsw):
     pp=EvalParams(dParams)
     return EvalAnswerCore(dAnsw,**pp)
-AnsLabel=['{{\\bf 1) }}','{{\\bf 2) }}','{{\\bf 3) }}','{{\\bf 4) }}']
+AnsLabel=['{{\\bf \\small 1) }}','{{\\bf \\small 2) }}','{{\\bf \\small 3) }}','{{\\bf \\small 4) }}']
 def MakeQAStyle(quest,ans,style): 
     qa=[]    
     if(style=="'line'"):
-        qa.append(quest[0] + '\n\n')
+        qa.append(quest[0] + '\n\\flushleft\n')
         for i in range(0,4):
             qa.append(AnsLabel[i]+ans[i]+'\n\n')
         return qa
@@ -118,12 +118,12 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\end{minipage}\n")  
         return qa
     if(style=="'qa_block'"):
-        qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")
+        qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n\\flushleft\n")
         qa.append(quest[0] + '\n\n')
         qa.append("\\end{minipage}\n")  
         qa.append("\\begin{minipage}[l]{0.76\\linewidth}\n")
         for i in range(0,4):
-          qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
+          qa.append('\\begin{minipage}[c]{0.05\\linewidth}\n')
           qa.append(AnsLabel[i])
           qa.append('\\end{minipage}\n')      
           qa.append('\\begin{minipage}[c]{0.3\\linewidth}\n')

@@ -435,7 +435,7 @@ def paintTree(tree,lvl,x1,y1):
         hv2y=y1-m/2
         if(not tree.type):
           #BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
-          BinaryTree.ccc.text(x1-0.5*m-0.1,y1, "$"+varNames[tree.var]+"$")
+          BinaryTree.ccc.text(x1-0.8*m-0.1,y1-0.2*m, "$"+varNames[tree.var]+"$",[text.size.LARGE])
           return
         else:
            if not tree.neg:
