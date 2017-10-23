@@ -99,6 +99,12 @@ def MakeQAStyle(quest,ans,style):
         for i in range(0,4):
             qa.append(AnsLabel[i]+ans[i]+'\n\n')
         return qa
+    if(style=="'line_item'"):
+        qa.append(quest[0] + '\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n')
+        for i in range(0,4):
+            qa.append('\\item '+ans[i]+'\n')
+        qa.append('\\end{enumerate}\n')    
+        return qa
     if(style=="'qa_line'"):
         qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")  
         qa.append(quest[0] + '\n\n')
@@ -296,12 +302,22 @@ def make_book_head(TName):
  th.append("\\usepackage{rotating}")
  th.append("\\usepackage{supertabular}") 
  th.append("\\usepackage{multirow}")
+ th.append("\\usepackage{chngcntr}\n")
+ th.append("\\usepackage{titlesec}\n")
 
  th.append("\\pagestyle{fancy}\n")
- th.append("\\fancyhead[LE,RO]{\\footnotesize \\textsl{\\rightmark}}\n")
- th.append("\\fancyhead[LO,RE]{\\footnotesize \\textsl{\\leftmark}}\n")
+ 
+ th.append("\\counterwithout{section}{chapter}\n")
+ th.append("\\addto\\captionsrussian{\\renewcommand{\\chaptername}{Часть}}\n")
+ th.append("\\titleformat{\\chapter}{\\LARGE\\bfseries}{\\chaptertitlename\\ \\thechapter.}{3pt}{\\LARGE\\bfseries}\n")
+ 
+ th.append("\\fancyhead[LO]{\\footnotesize \\textsl{\\rightmark}}\n")
+ th.append("\\fancyhead[RE]{\\footnotesize \\textsl{\\leftmark}}\n")
+ th.append("\\fancyhead[RO]{}\n")
+ th.append("\\fancyhead[LE]{}\n")
+
  th.append("\\fancyfoot[C]{\\thepage}\n")
- th.append("\\setenumerate{label=\\thesection.\\arabic*.}\n")
+ th.append("\\setenumerate{label=\\textbf{\\thesection.\\arabic*.}}\n")
  th.append("\\renewcommand\\thesection{\\arabic{section}}\n")
 
  th.append("\\setlength{\\arraycolsep}{1pt}\n")
@@ -365,7 +381,7 @@ def make_book(*args):
     j={tkey_name:0 for tkey_name in l2.get(0, END)}
     for tkey_name in l2.get(0, END):
         f.writelines(make_book_theme_head(test_name,tkey_name))
-        f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=0pt]\n")
+        f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt]\n")
         fsolv.write("Вариант: "+str(tkey_name)+":  ")
         j[tkey_name]+=1
         i=0
