@@ -295,7 +295,7 @@ def make_book_head(TName):
  th.append("\\usepackage{graphicx}\n")
  th.append("\\usepackage{amsmath}\n")
  th.append("\\usepackage{mathtools}\n")
- th.append("\\usepackage[left=1.5cm,right=1.5cm,top=1.6cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ th.append("\\usepackage[left=1.5cm,right=1.5cm,top=2cm,bottom=1.5cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
  th.append("\\usepackage{fancyhdr}\n")
  th.append("\\usepackage{enumitem}\n")
@@ -317,11 +317,13 @@ def make_book_head(TName):
  th.append("\\fancyhead[LE]{}\n")
 
  th.append("\\fancyfoot[C]{\\thepage}\n")
- th.append("\\setenumerate{label=\\textbf{\\thesection.\\arabic*.}}\n")
- th.append("\\renewcommand\\thesection{\\arabic{section}}\n")
+ th.append("\\setenumerate{label=\\textbf{\\thesection\\arabic*.}}\n")
+ th.append("\\renewcommand\\thesection{\\arabic{section}.}\n")
 
  th.append("\\setlength{\\arraycolsep}{1pt}\n")
  th.append("\\setlength{\\tabcolsep}{2pt}\n")
+ th.append("\\setlength{\\headsep}{0pt}\n") 
+ 
  th.append("\\begin{document}\n")
  th.append("Тест генератора сборника "+str(datetime.datetime.now()))
  return th
@@ -381,7 +383,7 @@ def make_book(*args):
     j={tkey_name:0 for tkey_name in l2.get(0, END)}
     for tkey_name in l2.get(0, END):
         f.writelines(make_book_theme_head(test_name,tkey_name))
-        f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt]\n")
+        f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
         fsolv.write("Вариант: "+str(tkey_name)+":  ")
         j[tkey_name]+=1
         i=0
