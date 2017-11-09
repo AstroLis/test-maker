@@ -28,6 +28,14 @@ def Shuf(x):
 def RB(s):
  return s.replace('[','\{').replace(']','\}') 
  
+def Ninv(iPerf,l=16):
+ ff=0
+ for i in range(0,l):
+  ff+=(iPerf%2)*pow(2,l-1-i)
+  iPerf=iPerf>>1
+ return ff
+ 
+ 
 def MakeTable(xyT,xHead,yHead,data,ff=2):
  tb=''
  tb+=('\\begin{tabular}{|c|')

@@ -72,7 +72,9 @@
                      "./tasks/z_b_mindnf_po_karn.json",
                      "./tasks/z_b_dnf_po_form.json",
                      "./tasks/z_b_form_po_schem.json",
-                     "./tasks/z_b_dnf_po_schem.json"
+                     "./tasks/z_b_dnf_po_schem.json",
+                     "./tasks/z_b_zazhig_po_vect.json",
+                     "./tasks/z_b_zazhig_po_opt.json"
     ],            
 "7. Булевы функции":["./tasks/z_trtab.json",
                      "./tasks/z_b_sdnf_po_vekt.json",
