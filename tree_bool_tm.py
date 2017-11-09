@@ -814,6 +814,42 @@ def PrintCirqPerf(iPerf,imax):
  vc.close()
  return cname
 
+def MakeZazhigalkin(nA=5,nV=4):
+ va=[i for i in range(0,16)]
+ random.shuffle(va)
+ rva=va[0:nA]
+ strZ=''
+ nZ=0
+ vGr=[[],
+      [0],[1],[2],[3],
+      [0,1],[0,2],[0,3],[1,2],[1,3],[2,3],
+      [0,1,2],[0,1,3],[0,2,3],[1,2,3],
+      [0,1,2,3]]
+ ffl=1     
+ for i in range(0,16):
+     if i in rva:
+        term=pow(2,16)-1
+        sterm=''
+        for j in vGr[i]:
+           sterm+=varNames[j]
+           term=DoOper('\\wedge',term,varVal[j])
+        if sterm=='': sterm='1'
+        nZ=DoOper('\\oplus',nZ,term)
+        if ffl :
+            strZ+=sterm
+            ffl=0
+        else:
+            strZ+='\\oplus '+sterm
+ return (nZ,strZ)        
+
+def MakeZazhigalkinTask(nA=5,number_of_vars=4,bOpt=True):
+ form=MakeZazhigalkin(nA,number_of_vars)
+ if bOpt:
+    optf=OptimalNew(form[0],False)
+    optfk=OptimalNew(form[0],True)
+ dnf=DStrFromNbool(form[0],number_of_vars,knf=False)
+ knf=DStrFromNbool(form[0],number_of_vars,knf=True)
+ return (form[0],form[1],dnf,knf,optf[0],optfk[0])
  
 def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
 #task type:
@@ -912,6 +948,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
 
+#print(MakeZazhigalkinTask()) 
 #MakeForrest()
 #print(MakeTreeTM())
 #OptimalNew()
