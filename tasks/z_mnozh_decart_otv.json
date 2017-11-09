@@ -1,7 +1,9 @@
 {
 "title":"ƒекартово произведение множеств",
+"chapter":"“еори€ множеств",
+"titleb":"ƒекартово произведение множеств",
 "zadacha":"'ƒл€ множеств A='+RB(str(D))+', B='+RB(str(E))+' выбрать выражение, соответствующее декартову произведению вида:'",
-"answer_style":"'line'",
+"answer_style":"'line_item'",
 "vopros":{
 "v1":"'$A \\\\times B$'",
 "v2":"'$B \\\\times A$'",
@@ -21,9 +23,9 @@
          "O4":"[[i,j] for i in E for j in E]"         
         },
 "otvet":{
-         "o1":"RB('${}$'.format(O1))",
-         "o2":"RB('${}$'.format(O2))",
-         "o3":"RB('${}$'.format(O3))",
-         "o4":"RB('${}$'.format(O4))"
+         "o1":"('$'+RB(str(O1)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')",
+         "o2":"('$'+RB(str(O2)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')",
+         "o3":"('$'+RB(str(O3)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')",
+         "o4":"('$'+RB(str(O4)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')"         
         }
 }

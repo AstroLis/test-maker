@@ -105,6 +105,15 @@ def MakeQAStyle(quest,ans,style):
             qa.append('\\item '+ans[i]+'\n')
         qa.append('\\end{enumerate}\n')    
         return qa
+    if(style=="'qa_line_item'"):
+        qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")  
+        qa.append(quest[0] + '\n\n')
+        qa.append("\\end{minipage}\n")  
+        qa.append("\\begin{minipage}[l]{0.66\\linewidth}\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n")  
+        for i in range(0,4):
+            qa.append('\\item '+ans[i]+'\n')
+        qa.append("\\end{enumerate}\n\\end{minipage}\n")  
+        return qa
     if(style=="'qa_line'"):
         qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")  
         qa.append(quest[0] + '\n\n')
@@ -245,9 +254,14 @@ def ParseTask(data,bAnswer,randAns=0,compl=0):
      return aa
 
 
-def make_book_theme_head(TName,them_name):
+def make_book_theme_head(TName,them_name,chap_name,ch=0):
  th=[]
+ if ch:
+    th.append("\\chapter{"+chap_name+"}") 
+ th.append("\\begin{minipage}[]{\\linewidth}\\vskip 6mm ")    
  th.append("\\section{"+them_name+"}")
+ th.append("\\end{minipage}") 
+ th.append("\\sectionmark{"+them_name+"}")
  #th.append("\n\\vskip -1.5cm\n")
  
  return th
@@ -310,21 +324,28 @@ def make_book_head(TName):
  th.append("\\counterwithout{section}{chapter}\n")
  th.append("\\addto\\captionsrussian{\\renewcommand{\\chaptername}{Часть}}\n")
  th.append("\\titleformat{\\chapter}{\\LARGE\\bfseries}{\\chaptertitlename\\ \\thechapter.}{3pt}{\\LARGE\\bfseries}\n")
- 
+ th.append("\\titlespacing{\\chapter}{0pt}{0pt}{0pt}\n")
+
+ th.append("\\titleformat{\\section}{\\large\\bfseries}{\\thesection.~~}{2pt}{\\large\\bfseries}\n")
  th.append("\\fancyhead[LO]{\\footnotesize \\textsl{\\rightmark}}\n")
  th.append("\\fancyhead[RE]{\\footnotesize \\textsl{\\leftmark}}\n")
  th.append("\\fancyhead[RO]{}\n")
  th.append("\\fancyhead[LE]{}\n")
 
  th.append("\\fancyfoot[C]{\\thepage}\n")
- th.append("\\setenumerate{label=\\textbf{\\thesection\\arabic*.}}\n")
- th.append("\\renewcommand\\thesection{\\arabic{section}.}\n")
+ th.append("\\setenumerate{label=\\textbf{\\thesection.\\arabic*.}}\n")
+ th.append("\\renewcommand\\thesection{\\arabic{section}}\n")
 
  th.append("\\setlength{\\arraycolsep}{1pt}\n")
  th.append("\\setlength{\\tabcolsep}{2pt}\n")
+ th.append("\\setlength{\\parskip}{\\baselineskip}\n")
+ th.append("\\setlength{\\parindent}{0ex}\n")
+ 
  th.append("\\setlength{\\headsep}{0pt}\n") 
  
  th.append("\\begin{document}\n")
+ th.append("\\tableofcontents\n")
+
  th.append("Тест генератора сборника "+str(datetime.datetime.now()))
  return th
 
@@ -381,8 +402,19 @@ def make_book(*args):
     f.writelines(make_book_head(test_name))
     fsolv = open(test_name+'_solv.txt', 'w')
     j={tkey_name:0 for tkey_name in l2.get(0, END)}
+    ch_name0=''
+    th_name=''
     for tkey_name in l2.get(0, END):
-        f.writelines(make_book_theme_head(test_name,tkey_name))
+        if 'chapter' in task_data[tkey_name]:
+            ch_name=task_data[tkey_name]['chapter']
+        else:
+            ch_name=''
+        if 'titleb' in task_data[tkey_name]:
+            th_name=task_data[tkey_name]['titleb']
+        else:
+            th_name=tkey_name
+        f.writelines(make_book_theme_head(test_name,th_name,ch_name,ch_name!=ch_name0))
+        ch_name0=ch_name
         f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
         fsolv.write("Вариант: "+str(tkey_name)+":  ")
         j[tkey_name]+=1
