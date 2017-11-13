@@ -427,12 +427,13 @@ def paintTree(tree,lvl,x1,y1):
     #m=0.1
     m=0.7
     if tree != None:
-        #BinaryTree.ccc.fill(path.circle(x1,y1,m))
         xr=x1-m*2
         yr=y1-m
         hvx=x1-m*3
         hv1y=y1+m/2
         hv2y=y1-m/2
+#        hv1y=y1
+#        hv2y=y1
         if(not tree.type):
           #BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
           BinaryTree.ccc.text(x1-0.8*m-0.1,y1-0.2*m, "$"+varNames[tree.var]+"$",[text.size.LARGE])
@@ -453,8 +454,10 @@ def paintTree(tree,lvl,x1,y1):
            multr=tree.right.width
            ml2= 1 if multl else 0
            mr2= 1 if multr else 0
-           yn1=hv1y+multl*m+ml2*0.1*m
-           yn2=hv2y-multr*m-mr2*0.1*m
+           yn1=hv1y+ml2*(multr)*(1+mr2*0.1)*m-ml2*mr2*m/2
+           yn2=hv2y-mr2*(multl)*(1+ml2*0.1)*m+mr2*ml2*m/2
+#           yn1=hv1y+multl*m+ml2*0.1*m
+#           yn2=hv2y-multr*m-mr2*0.1*m
            lvl=lvl*0.5
            BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx,yn1))
            BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx,yn2))
@@ -472,6 +475,8 @@ def writeHead(tex_file):
  tex_file.write("\\usepackage[left=1cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  tex_file.write("\\usepackage{amsmath}\n")
  tex_file.write("\\usepackage{caption}\n")
+ tex_file.write("\\usepackage{multirow}\n")
+ tex_file.write("\\usepackage{rotating}\n")
  tex_file.write("\\usepackage{subcaption}\n")
  tex_file.write("\\begin{document}\n")
  tex_file.write("\\pagenumbering{gobble}\n")
@@ -954,9 +959,9 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 #OptimalNew()
 #print(MakeFormulaTM(number_of_element=7,number_of_vars=3))
 #MakeForrestFormulas()
-#random.seed(0)
+#random.seed(9)
 #OptimalNewK()
-#MakeControlTaskFormulas()
+#MakeControlTaskFormulas(1,1,[1],[10],[4])
 #MakeControlTaskFormulas(nOfTasks=2,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,3,3])
 #((form1,nform2,w),cn,strtab,carno,optf,optfk)=MakeFormulaTM(number_of_element=7,number_of_vars=4)
 #print(nform2)
