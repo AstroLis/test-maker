@@ -41,9 +41,9 @@
             ],
 "—борник с ответами":[
                        "./tasks/z_oper_mnozh_o2.json",
+                       "./tasks/z_mnozh_decart_otv.json",
                        "./tasks/z_mnozh_venn_po_dnf.json",
                        "./tasks/z_mnozh_dnf_po_venn.json",
-                       "./tasks/z_mnozh_decart_otv.json",
                        "./tasks/z_algebra1.json",
                        "./tasks/z_graph_u_incin_2.json",
                        "./tasks/z_graph_u_incin.json",

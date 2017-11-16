@@ -262,8 +262,10 @@ def ParseTask(data,bAnswer,randAns=0,compl=0):
      return aa
 
 
-def make_book_theme_head(TName,them_name,chap_name,ch=0):
+def make_book_theme_head(TName,them_name,chap_name,part_name,ch=0,pa=0):
  th=[]
+ if pa:
+    th.append("\\part{"+part_name+"}") 
  if ch:
     th.append("\\chapter{"+chap_name+"}") 
  th.append("\\begin{minipage}[]{\\linewidth}\\vskip 6mm ")    
@@ -331,10 +333,11 @@ def make_book_head(TName):
  
  th.append("\\counterwithout{section}{chapter}\n")
  th.append("\\addto\\captionsrussian{\\renewcommand{\\chaptername}{Часть}}\n")
- th.append("\\titleformat{\\chapter}{\\LARGE\\bfseries}{\\chaptertitlename\\ \\thechapter.}{3pt}{\\LARGE\\bfseries}\n")
+ th.append("\\titleformat{\\chapter}{\\LARGE\\bfseries}{ }{3pt}{\\LARGE\\bfseries}\n")
  th.append("\\titlespacing{\\chapter}{0pt}{0pt}{0pt}\n")
 
  th.append("\\titleformat{\\section}{\\large\\bfseries}{\\thesection.~~}{2pt}{\\large\\bfseries}\n")
+ th.append("\\renewcommand{\\chaptermark}[1]{\\markboth{ #1}{}}\n")
  th.append("\\fancyhead[LO]{\\footnotesize \\textsl{\\rightmark}}\n")
  th.append("\\fancyhead[RE]{\\footnotesize \\textsl{\\leftmark}}\n")
  th.append("\\fancyhead[RO]{}\n")
@@ -411,18 +414,20 @@ def make_book(*args):
     fsolv = open(test_name+'_solv.txt', 'w')
     j={tkey_name:0 for tkey_name in l2.get(0, END)}
     ch_name0=''
+    p_name0=''
     th_name=''
     for tkey_name in l2.get(0, END):
         if 'chapter' in task_data[tkey_name]:
-            ch_name=task_data[tkey_name]['chapter']
+            (part_name,ch_name)=task_data[tkey_name]['chapter'].split('.')
         else:
             ch_name=''
         if 'titleb' in task_data[tkey_name]:
             th_name=task_data[tkey_name]['titleb']
         else:
             th_name=tkey_name
-        f.writelines(make_book_theme_head(test_name,th_name,ch_name,ch_name!=ch_name0))
+        f.writelines(make_book_theme_head(test_name,th_name,ch_name,part_name,ch_name!=ch_name0,part_name!=p_name0))
         ch_name0=ch_name
+        p_name0=part_name
         f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
         fsolv.write("Вариант: "+str(tkey_name)+":  ")
         j[tkey_name]+=1

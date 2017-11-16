@@ -247,7 +247,14 @@ def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1):
     #ccc.stroke(path.circle(0,0,3))
     ccc.writeEPSfile(gr_name)
 
-
+def MatrMult(a,b):
+    return [[sum([a[j][k]*b[k][i] for k in range(0,len(b))]) for i in range(0,len(a[0]))]for j in range(0,len(a))]
+    
+def PowerSmezh(m,n):
+    mm=[[int(i==j) for i in range(0,len(m))]for j in range(0,len(m))]
+    for i in range (0,n):
+        mm=MatrMult(mm,m)
+    return mm
 def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,random_weights=0):
     random.seed()
     global id_count
@@ -430,7 +437,7 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,rand
       if weighted: 
        sml=int(10*dist_(probs[i],probs[p]))
        if random_weights:
-        sml=random.randint(1,20)
+        sml=random.randint(1,5)
       else:
        sml=1      
       smezh[i][p]=sml
@@ -604,7 +611,15 @@ def MakeGraphsMatrPath():
 #MakeGraphsMatr()  
 #MakeGraphs()  
 
-#tmp = MakeGraphTM(nv = 8, directed = 0, calc_random_path = 0, weighted = 1, filter_zero = 1, random_weights = 1)
+#tmp = MakeGraphTM(nv = 4, directed = 1, calc_random_path = 0, weighted = 0, filter_zero = 1, random_weights = 1)
+#print(tmp)
+#nm=np.matrix(tmp[3])
+#mm=np.matrix(tmp[3])
+#for k in range(0,4):
+#    print(k)
+#    print(mm)
+#    mm=mm*nm    
+    
 #print (tmp[6])
 #grph=[list(set(x)) for x in tmp[6]]
 #print(grph)
