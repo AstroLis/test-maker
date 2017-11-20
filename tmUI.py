@@ -330,18 +330,23 @@ def make_book_head(TName):
  th.append("\\usepackage{titlesec}\n")
 
  th.append("\\pagestyle{fancy}\n")
- 
+
+ th.append("\\let\\Oldpart\\part\n")
+ th.append("\\newcommand{\\parttitle}{}\n")
+ th.append("\\renewcommand{\\part}[1]{\\Oldpart{#1}\\renewcommand{\\parttitle}{#1}}\n")
+
  th.append("\\counterwithout{section}{chapter}\n")
  th.append("\\addto\\captionsrussian{\\renewcommand{\\chaptername}{Часть}}\n")
  th.append("\\titleformat{\\chapter}{\\LARGE\\bfseries}{ }{3pt}{\\LARGE\\bfseries}\n")
  th.append("\\titlespacing{\\chapter}{0pt}{0pt}{0pt}\n")
-
  th.append("\\titleformat{\\section}{\\large\\bfseries}{\\thesection.~~}{2pt}{\\large\\bfseries}\n")
+
  th.append("\\renewcommand{\\chaptermark}[1]{\\markboth{ #1}{}}\n")
- th.append("\\fancyhead[LO]{\\footnotesize \\textsl{\\rightmark}}\n")
- th.append("\\fancyhead[RE]{\\footnotesize \\textsl{\\leftmark}}\n")
- th.append("\\fancyhead[RO]{}\n")
- th.append("\\fancyhead[LE]{}\n")
+ th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\thesection.\\ #1}}\n")
+ th.append("\\fancyhead[LE]{\\footnotesize \\textsl{\\rightmark}}\n")
+ th.append("\\fancyhead[RO]{\\footnotesize \\textsl{\\leftmark}}\n")
+ th.append("\\fancyhead[LO]{\\footnotesize \\textsl{\\parttitle}}\n")
+ th.append("\\fancyhead[RE]{}\n")
 
  th.append("\\fancyfoot[C]{\\thepage}\n")
  th.append("\\setenumerate{label=\\textbf{\\thesection.\\arabic*.}}\n")
