@@ -640,7 +640,12 @@ def MakeGraphsMatrPath():
 #print(gr1)
 #print(gr1.kruskal())
 #print(MakeMatrix(gr1.smezh))
+
 #gr2=NewGraph(4,3)
+#G=nx.from_numpy_matrix(gr2.smezh,create_using=nx.MultiDiGraph())
+#for i in G:
+# print(i,G[i])
+ 
 #print(gr2.dijkstra1(1))
 #print(grAnd(gr1.smezh,gr2.smezh))
 #print(grMult(gr1.smezh,gr2.smezh))

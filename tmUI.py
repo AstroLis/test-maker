@@ -180,7 +180,7 @@ def MakeQAStyle(quest,ans,style):
         return qa
         
   #default     
-    qa.append(quest[0] + '\n')
+    qa.append(quest[0] + '\n\n')
     for i in range(0,4):
       qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
       qa.append(AnsLabel[i])
@@ -368,7 +368,7 @@ def make_book_head0(TName):
  th.append("\\usepackage[left=0.5cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
  th.append("\\begin{document}\n")
- th.append("Тест генератора сборника "+str(datetime.datetime.now()))
+ th.append("Тест сборника сборка"+str(datetime.datetime.now()))
  return th
  
  
