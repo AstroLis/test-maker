@@ -17,15 +17,15 @@
          "C1":"[i for i in range(A0+1,A0+6)]",
          "D":"Shuf(A1)",
          "E":"Shuf(B1)",
-         "O1":"[[i,j] for i in D for j in E]",
-         "O2":"[[i,j] for i in E for j in D]",
-         "O3":"[[i,j] for i in D for j in D]",
-         "O4":"[[i,j] for i in E for j in E]"         
+         "O1":"[(i,j) for i in D for j in E]",
+         "O2":"[(i,j) for i in E for j in D]",
+         "O3":"[(i,j) for i in D for j in D]",
+         "O4":"[(i,j) for i in E for j in E]"         
         },
 "otvet":{
-         "o1":"('$'+RB(str(O1)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')",
-         "o2":"('$'+RB(str(O2)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')",
-         "o3":"('$'+RB(str(O3)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')",
-         "o4":"('$'+RB(str(O4)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')"         
+         "o1":"('$'+RB(str(O1)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')",
+         "o2":"('$'+RB(str(O2)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')",
+         "o3":"('$'+RB(str(O3)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')",
+         "o4":"('$'+RB(str(O4)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')"         
         }
 }
