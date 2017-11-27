@@ -64,6 +64,7 @@
                        "./tasks/z_graph_oper_bin.json",
                        "./tasks/z_graph_kruskal.json",
                        "./tasks/z_graph_dijkstra1.json",
+                       "./tasks/z_b_trtab_po_form.json",                       
                        "./tasks/z_trtab.json",
                      "./tasks/z_b_sdnf_po_vekt.json",
                      "./tasks/z_b_vekt_po_sdnf.json",
