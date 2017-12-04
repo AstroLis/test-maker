@@ -117,7 +117,7 @@ def MakeForrest():
  tex_file.write("\\begin{document}\n")
  tex_file.write("\\pagenumbering{gobble}\n")
  tex_file.write("\\captionsetup{labelformat=empty}\n")
- for i in range(0,100):
+ for i in range(0,10):
     tex_file.write("\\begin{figure}[]\n")
     cn=MakeTreeTM(10)
     rr=random.randint(0,3)
@@ -129,6 +129,6 @@ def MakeForrest():
     
  tex_file.write("\\end{document}\n")
  
-#MakeForrest() 
+MakeForrest() 
 #print(MakeTreeTM())
 
