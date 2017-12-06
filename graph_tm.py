@@ -245,8 +245,8 @@ def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1):
     #ccc.stroke(path.rect(minx-1, miny-1, maxx-minx+2,maxy-miny+2))
     ccc.stroke(path.rect(-3*sc, -3*sc, 6*sc,6*sc))
     #ccc.stroke(path.circle(0,0,3))
-#    ccc.writeEPSfile(gr_name)
-    ccc.writePDFfile(gr_name)
+    ccc.writeEPSfile(gr_name)
+#    ccc.writePDFfile(gr_name)
 
 def MatrMult(a,b):
     return [[sum([a[j][k]*b[k][i] for k in range(0,len(b))]) for i in range(0,len(a[0]))]for j in range(0,len(a))]
@@ -609,26 +609,42 @@ def MakeGraphsMatrPath():
 
  tex_file.write("\\end{document}\n")
 
+def LocStructCluben(N):
+    #N=8
+    tmp = MakeGraphTM(nv = N, directed = 0, calc_random_path = 0, weighted = 0, filter_zero = 1, random_weights = 1)
+    #print(tmp)
+    G=nx.from_numpy_matrix(nm,create_using=nx.MultiDiGraph())
+    #print('FW:')
+    fw=nx.floyd_warshall(G)
+    #for i in fw:
+    # print(i,fw[i])
+    #print('G:')
+    #for i in G:
+    # print(i,G[i])
+    #print(list(fw[0].keys()))
+    exc=[max([fw[i][j] for j in range(0,N)]) for i in range(0,N)]
+    #exc=[fw[i] for i in fw]
+    m=min(exc)
+    cluben=[i+1 for i in range(0,N) if exc[i]==m]
+    print('exc:',exc)
+    print('Cluben:',cluben)
+    return (tmp[0],cluben)
+
+def FindPathsForFixedLenght(N,n,i,j):
+    tmp = MakeGraphTM(nv = N, directed = 0, calc_random_path = 0, weighted = 0, filter_zero = 1, random_weights = 1)
+    nm=np.matrix(tmp[3])
+    mm=np.matrix(tmp[3])
+    print('Smezhn:')
+    print(mm)    
+    for k in range(0,n-1):
+        mm=nm*mm
+    print(mm)    
+    return (tmp[0],mm[i,j])    
+    #print(nm)    
+#print(FindPathsForFixedLenght(4,3,1,2))    
+#LocStructCluben(8)
 #MakeGraphsMatr()  
 #MakeGraphs()  
-N=8
-tmp = MakeGraphTM(nv = N, directed = 0, calc_random_path = 0, weighted = 0, filter_zero = 1, random_weights = 1)
-print(tmp)
-nm=np.matrix(tmp[3])
-print(nm)
-G=nx.from_numpy_matrix(nm,create_using=nx.MultiDiGraph())
-print('FW:')
-fw=nx.floyd_warshall(G)
-for i in fw:
- print(i,fw[i])
-print('G:')
-for i in G:
- print(i,G[i])
-#print(list(fw[0].keys()))
-exc=[max([fw[i][j] for j in range(0,N)]) for i in range(0,N)]
-#exc=[fw[i] for i in fw]
-print('exc:',exc)
-
 #mm=np.matrix(tmp[3])
 #for k in range(0,4):
 #    print(k)

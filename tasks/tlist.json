@@ -48,6 +48,8 @@
                        "./tasks/z_mnozh_dnf_po_venn.json",
                        "./tasks/z_algebra1.json",
                        "./tasks/z_graph_locstr5.json",
+                       "./tasks/z_graph_marsh.json",
+                       "./tasks/z_graph_cluben.json",
                        "./tasks/z_graph_u_incin_2.json",
                        "./tasks/z_graph_u_incin.json",
                        "./tasks/z_graph_u_smezh_2.json",
