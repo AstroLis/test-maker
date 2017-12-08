@@ -613,6 +613,7 @@ def LocStructCluben(N):
     #N=8
     tmp = MakeGraphTM(nv = N, directed = 0, calc_random_path = 0, weighted = 0, filter_zero = 1, random_weights = 1)
     #print(tmp)
+    nm=np.matrix(tmp[3])
     G=nx.from_numpy_matrix(nm,create_using=nx.MultiDiGraph())
     #print('FW:')
     fw=nx.floyd_warshall(G)
