@@ -1,0 +1,22 @@
+{
+"title":"вектор по СКНФ",
+"chapter":"Булевы функции. Нормальные формы",
+"titleb":"Нахождение вектора значений по СКНФ",
+"zadacha":"'Для булевой функции $f(x_1,x_2,x_3,x_4)=({})$ выбрать соответствующий вектор значений'.format(A2[7])",
+"answer_style":"'block'",
+"vopros":{
+          "v1":"''"
+         }, 
+"param":{
+         "A1":"random.randint(4,8)",
+         "A2":"tree_bool_tm.MakeFormulaTM(number_of_element=7,number_of_vars=4)",
+         "A3":"0",
+         "A4":"0",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'$({:016b})$'.format(Ninv(A2[0][1]))"         
+        }
+}

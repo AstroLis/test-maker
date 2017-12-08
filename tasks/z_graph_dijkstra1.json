@@ -1,0 +1,22 @@
+{
+"title":"Алгоритм Дейкстры",
+"chapter":"Теория графов. Задачи на графах",
+"titleb":"Нахождение кратчайшего пути",
+"zadacha":"'Граф G задан матрицей весов. Используя алгоритм Дейкстры, найти кратчайшие пути из вершины {} во все остальные.'.format(A2+1)",
+"answer_style":"'qa_line_item'",
+"vopros":{
+          "v1":"'{\\\\footnotesize'+ MakeMatrix(A1.smezh)+'}'"
+         }, 
+ 
+"param":{
+         "A0":"6",
+         "A1":"graph_tm.NewGraph(A0,A0,sym=False)",
+         "A2":"random.randint(0,5)",
+         "A3":"A1.dijkstra1(A2)",
+         "A4":"['\\\\mbox{{{{\\\\textbf {}:}} {}, l={};}} '.format(i+1,([(j+1) for j in A3[1][i]]),A3[0][i] if i in A3[0] else '$\\\\emptyset$') for i in range(0,A0)]",
+         "A5":"''.join(A4)"
+         },
+"otvet":{
+         "o1":"'{\\\\footnotesize '+A5+'}'"
+        }
+}

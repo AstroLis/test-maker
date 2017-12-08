@@ -1,0 +1,21 @@
+{
+"title":"Поиск маршрута",
+"chapter":"Теория графов. Маршруты в графах",
+"titleb":"Поиск маршрута",
+"zadacha":"'Для графа, представленного на рисунке, найдите количество маршрутов длины {} между вершинами {} и {}\\n'.format(A1,A2+1,A3+1)",
+"answer_style":"'qa_line'",
+"vopros":{
+          "v1":"'\\\\includegraphics[]{'+A4[0]+'}'"
+         }, 
+"param":{
+         "A0":"4",
+         "A1":"3",
+         "A2":"random.randint(0,A1-1)",
+         "A3":"random.randint(0,A1-1)",
+         "A4":"graph_tm.FindPathsForFixedLenght(A0,A1,A2,A3)",
+         "A7":"0"
+        },
+"otvet":{
+         "o1":"str(A4[1])"
+        }
+}

@@ -9,4 +9,6 @@
 *.pdf
 *.txt
 *.zip
+*.toc
 __pycache_*
+*.rar

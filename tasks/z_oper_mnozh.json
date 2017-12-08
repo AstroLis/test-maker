@@ -1,0 +1,24 @@
+{
+"title":"ќперации над множествами",
+"zadacha":"'ƒл€ заданных множеств A='+RB(str(D))+', B='+RB(str(E))+' и универсального множества $U=[1,2,3,...,20]$, записать множества, €вл€ющиес€ результатами операций: '",
+"vopros":{
+"v1":"'$A \\\\cup B$, $A \\\\cap B$, $A \\\\setminus B$, $B \\\\setminus A$, $A \\\\Delta B$, $\\\\bar{A}$'",
+"v2":"'$A \\\\cup B$, $A \\\\cap B$, $A \\\\setminus B$, $B \\\\setminus A$, $A \\\\Delta B$, $\\\\bar{A}$'",
+"v3":"'$A \\\\cup B$, $A \\\\cap B$, $A \\\\setminus B$, $B \\\\setminus A$, $A \\\\Delta B$, $\\\\bar{A}$'",
+"v4":"'$A \\\\cup B$, $A \\\\cap B$, $A \\\\setminus B$, $B \\\\setminus A$, $A \\\\Delta B$, $\\\\bar{A}$'",
+"v5":"'$A \\\\cup B$, $A \\\\cap B$, $A \\\\setminus B$, $B \\\\setminus A$, $A \\\\Delta B$, $\\\\bar{A}$'",
+"v6":"'$A \\\\cup B$, $A \\\\cap B$, $A \\\\setminus B$, $B \\\\setminus A$, $A \\\\Delta B$, $\\\\bar{A}$'"
+         }, 
+"param":{
+         "A0":"random.randint(1,10)",
+         "A1":"[i for i in range(A0,A0+5)]",
+         "B1":"[i for i in range(A0+3,A0+7)]",
+         "C1":"[i for i in range(A0+1,A0+6)]",
+         "D":"Shuf(A1)",
+         "E":"Shuf(B1)",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+        }
+}

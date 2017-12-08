@@ -1,0 +1,28 @@
+{
+"title":"Бинарные операции над орграфами",
+"chapter":"Теория графов. Операции над графами",
+"titleb":"Бинарные операции над графами",
+"zadacha":"'Орграфы $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ заданы матрицами смежности $S_1$ и $S_2$: \\n\\n \\\\begin{minipage}[c]{0.3\\\\linewidth} \\\\footnotesize $$S_1='+MakeMatrix(A2,baks=0)+' $$\\\\end{minipage} \\\\begin{minipage}[c]{0.3\\\\linewidth} \\\\footnotesize $$S_2='+MakeMatrix(A4,baks=0)+' $$\\\\end{minipage}\\n\\n'",
+"vopros":{
+          "v1":"'Тогда матрица смежности графа, полученного в результате объединения графов $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$, имеет вид:\\n\\n'",
+          "v2":"'Тогда матрица смежности графа, полученного в результате пересечения графов $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$, имеет вид:\\n\\n'",
+          "v3":"'Тогда матрица смежности графа, полученного в результате умножения графа $\\\\overrightarrow{G}_1$ на $\\\\overrightarrow{G}_2$, имеет вид:\\n\\n'",
+          "v4":"'Тогда матрица смежности графа, полученного в результате умножения графа $\\\\overrightarrow{G}_2$ на $\\\\overrightarrow{G}_1$, имеет вид:\\n\\n'"
+         }, 
+"param":{
+         "A1":"graph_tm.NewGraph(5,3)",
+         "A2":"copy.copy(A1.smezh)",
+         "A3":"graph_tm.NewGraph(5,3)",
+         "A4":"copy.copy(A3.smezh)",
+         "A5":"graph_tm.grOr(A2,A4)",
+         "A6":"graph_tm.grAnd(A2,A4)",
+         "A7":"graph_tm.grMult(A2,A4)",
+         "A8":"graph_tm.grMult(A4,A2)"
+        },
+"otvet":{
+         "o1":"'{{\\\\scriptsize '+MakeMatrix(A5)+'}}'",
+         "o2":"'{{\\\\scriptsize '+MakeMatrix(A6)+'}}'",
+         "o3":"'{{\\\\scriptsize '+MakeMatrix(A7)+'}}'",
+         "o4":"'{{\\\\scriptsize '+MakeMatrix(A8)+'}}'"
+        }
+}
