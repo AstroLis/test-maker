@@ -104,7 +104,7 @@ def EvalParams(dParams):
      print(A)
      print(dParams[A])
      exec(str(A)+'='+str(dParams[A]),globals())
-     pars[A]=eval(dParams[A],globals())
+     pars[A]=eval(A,globals())
      print(pars[A])
     return pars 
 def EvalAnswerCore(dAnsw,**kwargs):
