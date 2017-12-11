@@ -20,6 +20,19 @@ def Cnm(n,m):
    return 0
  return math.factorial(n)/(math.factorial(m)*math.factorial(n-m))
 
+def bool_num_term(n,m):
+ idig=8
+ print('start bool_num_term:',n,m)
+ a=random.randint(n,m)
+ bits=[i<a for i in range(0,idig)]
+ random.shuffle(bits)
+ ii=0
+ for i in range(0,idig):
+  ii+=bits[i]*pow(2,i*2+1)
+  ii+=bits[i]*pow(2,i*2)
+ print('({:016b})'.format(ii)) 
+ return ii
+
 def Shuf(x):
  xx=list(x)
  random.shuffle(xx)
