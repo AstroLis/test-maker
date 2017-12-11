@@ -20,16 +20,20 @@ def Cnm(n,m):
    return 0
  return math.factorial(n)/(math.factorial(m)*math.factorial(n-m))
 
-def bool_num_term(n,m):
- idig=8
+def bool_num_term(n,m,nv=3):
+ idig=pow(2,nv)
  print('start bool_num_term:',n,m)
  a=random.randint(n,m)
  bits=[i<a for i in range(0,idig)]
  random.shuffle(bits)
  ii=0
- for i in range(0,idig):
-  ii+=bits[i]*pow(2,i*2+1)
-  ii+=bits[i]*pow(2,i*2)
+ if nv==3:
+    for i in range(0,idig):
+        ii+=bits[i]*pow(2,i*2+1)
+        ii+=bits[i]*pow(2,i*2)
+ if nv==4:       
+    for i in range(0,idig):
+        ii+=bits[i]*pow(2,i)
  print('({:016b})'.format(ii)) 
  return ii
 
@@ -127,13 +131,22 @@ def MakeQAStyle(quest,ans,style):
         qa.append('\\end{enumerate}\n')    
         return qa
     if(style=="'qa_line_item'"):
-        qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")  
+        qa.append("\n\n\\begin{minipage}[r]{0.25\\linewidth}\n")  
         qa.append(quest[0] + '\n\n')
         qa.append("\\end{minipage}\n")  
-        qa.append("\\begin{minipage}[l]{0.66\\linewidth}\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n")  
+        qa.append("\\begin{minipage}[l]{0.75\\linewidth}\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n")  
         for i in range(0,4):
             qa.append('\\item '+ans[i]+'\n')
         qa.append("\\end{enumerate}\n\\end{minipage}\n")  
+        return qa
+    if(style=="'qa_line_item_inv'"):
+        qa.append("\\begin{minipage}[l]{0.75\\linewidth}\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n")  
+        for i in range(0,4):
+            qa.append('\\item '+ans[i]+'\n')
+        qa.append("\\end{enumerate}\n\\end{minipage}\n")  
+        qa.append("\n\n\\begin{minipage}[r]{0.25\\linewidth}\n")  
+        qa.append(quest[0] + '\n\n')
+        qa.append("\\end{minipage}\n")  
         return qa
     if(style=="'qa_line'"):
         qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")  

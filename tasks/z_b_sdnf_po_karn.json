@@ -3,20 +3,20 @@
 "chapter":"Булевы функции. Карта Карно",
 "titleb":"Нахождение БФ по карте Карно",
 "zadacha":"'Для булевой функции $f(x_1,x_2,x_3,x_4)$ известна карта Карно. Выбрать соответствующую СДНФ'+NL+NL",
-"answer_style":"'qa_line'",
+"answer_style":"'qa_line_item'",
 "vopros":{
-          "v1":"'\\\\small {}'.format(A2[3])" 
+          "v1":"'\\\\small {}'.format(A3)" 
          }, 
 "param":{
-         "A1":"random.randint(4,8)",
-         "A2":"tree_bool_tm.MakeFormulaTM(number_of_element=7,number_of_vars=4)",
-         "A3":"0",
+         "A1":"bool_num_term(3,4,nv=4)",
+         "A2":"tree_bool_tm.DStrFromNbool(A1,4,knf=False)",
+         "A3":"tree_bool_tm.MakeCarnoMap(tree_bool_tm.NtoListB(Ninv(A1),16))",
          "A4":"0",
          "A5":"0",
          "A6":"0",
          "A7":"0"                  
         },
 "otvet":{
-         "o1":"'${}$'.format(A2[6])" 
+         "o1":"'${}$'.format(A2)" 
         }
 }
