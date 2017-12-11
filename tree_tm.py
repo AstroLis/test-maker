@@ -1,4 +1,6 @@
 import random
+import numpy as np
+import networkx as nx
 from shutil import copyfile
 from pyx import *
 
@@ -6,7 +8,7 @@ from pyx import *
 # in this implementation, a node is inserted between an existing node and the root
 class BinaryTree():
     id_count=1
-    probs=[]
+    probs={}
     probs_all=[]
     ccc=canvas.canvas()
     bx = 0.8
@@ -15,6 +17,7 @@ class BinaryTree():
       self.left = None
       self.right = None
       self.rootid = BinaryTree.id_count
+      BinaryTree.probs[self.rootid]=[]
       BinaryTree.id_count+=1
       self.dimx=0
       self.dimy=0
@@ -49,9 +52,11 @@ class BinaryTree():
        if(not self.type):
         if(random.randint(0,1)):
           tt=random.randint(1,2)
-          self.type=tt
+          self.type=tt          
           self.left=BinaryTree(random.random())
+          BinaryTree.probs[self.rootid].append(self.left.rootid)
           self.right=BinaryTree(random.random())
+          BinaryTree.probs[self.rootid].append(self.right.rootid)
        else:
         self.left.randTree()
         self.right.randTree()
@@ -88,17 +93,36 @@ def MakeTreeTM(number_of_element=10):
  max_p=n_*2
  while (BinaryTree.id_count!=max_p):
    BinaryTree.id_count = 1
+   BinaryTree.probs = {}
    myTree1 = BinaryTree(0.5)
    for i in range(10):
      myTree1.randTree()
  print(BinaryTree.id_count)    
  lvl=4
  paintTree(myTree1, lvl, 0, 5)
+# print(BinaryTree.probs)
  BinaryTree.ccc.writeEPSfile("tree"+str(v_cou))
  vc=open('var_count','w')
  vc.write(str(v_cou))
  vc.close()
- return ("tree"+str(v_cou)+".eps")
+ return ("tree"+str(v_cou)+".eps",BinaryTree.probs)
+def RadDiam(N=10):
+ (fn,gr)=MakeTreeTM(N)
+ print(gr)
+ grl=len(gr)
+ mm=np.zeros((grl,grl))
+ for i in gr:
+    for j in gr[i]:
+        mm[i-1][j-1]=1
+        mm[j-1][i-1]=1
+ G=nx.from_numpy_matrix(mm,create_using=nx.MultiDiGraph())
+ fw=nx.floyd_warshall(G)
+ exc=[max([fw[i][j] for j in range(0,N)]) for i in range(0,N)]
+ mn=min(exc)
+ mx=max(exc)
+#    cluben=[i+1 for i in range(0,N) if exc[i]==m]
+ print('exc:',exc)
+ 
 def MakeForrest(): 
  v_cou=0 
  tex_file=open('tree'+str(v_cou)+'.tex','w')
@@ -129,6 +153,8 @@ def MakeForrest():
     
  tex_file.write("\\end{document}\n")
  
-MakeForrest() 
-#print(MakeTreeTM())
+RadDiam(17) 
+#MakeForrest() 
+#tr=MakeTreeTM(10)
+
 
