@@ -429,27 +429,27 @@ def paintTree(tree,lvl,x1,y1):
     if tree != None:
         xr=x1-m*2
         yr=y1-m
-        hvx=x1-m*3
+        hvx=x1-m*2.5
         hv1y=y1+m/2
         hv2y=y1-m/2
 #        hv1y=y1
 #        hv2y=y1
         if(not tree.type):
           #BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
-          BinaryTree.ccc.text(x1-0.8*m-0.1,y1-0.2*m, "$"+varNames[tree.var]+"$",[text.size.LARGE])
+          BinaryTree.ccc.text(x1-0.8*m-0.06,y1-0.2*m, "$"+varNames[tree.var]+"$",[text.size.LARGE])
           return
         else:
            if not tree.neg:
             BinaryTree.ccc.stroke(path.rect(xr,yr,m,m*2))
             plotBoolSchemElem(BinaryTree.ccc, '\\downarrow', xr, yr, m)
-            BinaryTree.ccc.stroke(path.line(xr,y1,xr-m,y1))
-            xr-=2*m
-            hvx-=2*m
+            BinaryTree.ccc.stroke(path.line(xr,y1,xr-0.5*m,y1))
+            xr-=1.5*m
+            hvx-=1.5*m
            BinaryTree.ccc.stroke(path.rect(xr,yr,m,m*2))
            plotBoolSchemElem(BinaryTree.ccc, BoolOperands[tree.prob], xr, yr, m)
            BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
-           BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx+m,hv1y))
-           BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx+m,hv2y))
+           BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx+0.5*m,hv1y))
+           BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx+0.5*m,hv2y))
            multl=tree.left.width
            multr=tree.right.width
            ml2= 1 if multl else 0
