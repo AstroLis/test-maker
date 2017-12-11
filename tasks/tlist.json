@@ -85,6 +85,7 @@
                      "./tasks/z_b_zazhig_po_opt.json"
     ],            
 "7. Булевы функции":["./tasks/z_trtab.json",
+                     "./tasks/z_b_nf_po_venn4.json",
                      "./tasks/z_b_sdnf_po_vekt.json",
                      "./tasks/z_b_sknf_po_vekt.json",
                      "./tasks/z_b_sdnf_po_sknf.json",

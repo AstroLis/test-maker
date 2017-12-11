@@ -1,0 +1,22 @@
+{
+"title":"НФ по Венну 4",
+"chapter":"Булевы функции. Нормальные формы",
+"titleb":"Нормальная форма на диаграмме Эйлера-Венна",
+"zadacha":"'Обозначим булевыми переменными $x_1=(a \\\\in A)$, $x_2=(a \\\\in B)$, $x_3=(a \\\\in C)$, $x_4=(a \\\\in D)$. Выберете диаграмму Эйлера-Венна, соответствующую выражению:'+NL+NL",
+"vopros":{
+          "v1":"'${}$'.format(A2)" 
+         }, 
+"param":{
+         "A0":"random.randint(0,1)",
+         "A1":"bool_num_term(3,4,4) if A0 else bool_num_term(12,13,4)",
+         "A2":"tree_bool_tm.DStrFromNbool(A1,4,not A0)",
+         "A3":"0",
+         "A4":"tree_bool_tm.PrintEllipsePerf(A1,4)",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"' \\\\includegraphics[]{'+A4+'} '"
+        }
+}
