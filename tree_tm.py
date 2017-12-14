@@ -71,7 +71,7 @@ def paintTree(tree,lvl,x1,y1):
         if(not tree.type):
           return
         else:
-           y2=y1-0.5
+           y2=y1-0.3
            x0=x1-lvl
            x2=x1+lvl
            lvl=lvl*0.5
@@ -102,6 +102,7 @@ def MakeTreeTM(number_of_element=10):
  paintTree(myTree1, lvl, 0, 5)
 # print(BinaryTree.probs)
  BinaryTree.ccc.writeEPSfile("tree"+str(v_cou))
+# BinaryTree.ccc.writePDFfile("tree"+str(v_cou))
  vc=open('var_count','w')
  vc.write(str(v_cou))
  vc.close()
@@ -115,14 +116,20 @@ def RadDiam(N=10):
     for j in gr[i]:
         mm[i-1][j-1]=1
         mm[j-1][i-1]=1
+ #print(mm)       
  G=nx.from_numpy_matrix(mm,create_using=nx.MultiDiGraph())
+ #for i in G:
+ #  print(i,G[i])
  fw=nx.floyd_warshall(G)
- exc=[max([fw[i][j] for j in range(0,N)]) for i in range(0,N)]
+ exc=[max([fw[i][j] for j in range(0,grl)]) for i in range(0,grl)]
  mn=min(exc)
  mx=max(exc)
-#    cluben=[i+1 for i in range(0,N) if exc[i]==m]
+ cluben=[i+1 for i in range(0,grl) if exc[i]==mn]
+ perif=[i+1 for i in range(0,grl) if exc[i]==mx]
  print('exc:',exc)
- 
+ print(mn,mx)
+ print(cluben,perif)
+ return (fn,(mn,mx,len(cluben),len(perif)))
 def MakeForrest(): 
  v_cou=0 
  tex_file=open('tree'+str(v_cou)+'.tex','w')
@@ -153,7 +160,7 @@ def MakeForrest():
     
  tex_file.write("\\end{document}\n")
  
-RadDiam(17) 
+#RadDiam(11) 
 #MakeForrest() 
 #tr=MakeTreeTM(10)
 

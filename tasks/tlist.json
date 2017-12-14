@@ -50,6 +50,7 @@
                        "./tasks/z_graph_locstr5.json",
                        "./tasks/z_graph_marsh.json",
                        "./tasks/z_graph_cluben.json",
+                       "./tasks/z_graph_cluben_crab.json",
                        "./tasks/z_graph_u_incin_2.json",
                        "./tasks/z_graph_u_incin.json",
                        "./tasks/z_graph_u_smezh_2.json",
