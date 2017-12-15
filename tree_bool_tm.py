@@ -1,4 +1,5 @@
 ﻿import random,sys,math
+import numpy as np
 from shutil import copyfile
 from pyx import *
 from tex_structures_tm import MakeTable
@@ -767,18 +768,34 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
  knf=DStrFromNbool(form[1],number_of_vars,knf=True)
  return (form,"tree"+str(v_cou-1)+".eps",strtab,carno,optf[0],optfk[0],dnf,knf,optf[1],optfk[1])
 
-def TestA(x,A): #1
- xA=math.sqrt(pow(x[0]-A[0],2)+pow(x[1]-A[1],2))
- if(xA<A[2]):
-  return 1
- else:
-  return 0
+def TestA(x,A,number_of_vars=3): #1
+ if number_of_vars==3:
+     xA=math.sqrt(pow(x[0]-A[0],2)+pow(x[1]-A[1],2))
+     if(xA<A[2]):
+      return 1
+     else:
+      return 0
+ if number_of_vars==4:
+    cos_angle = np.cos(np.radians(180.-A[5]))
+    sin_angle = np.sin(np.radians(180.-A[5]))
+
+    xc = x[0] - A[6]
+    yc = x[1] - A[7]
+
+    xct = xc * cos_angle - yc * sin_angle
+    yct = xc * sin_angle + yc * cos_angle 
+
+    rad_cc = (xct**2/(A[3])**2) + (yct**2/(A[4])**2)
+    if rad_cc<1:
+        return 1
+    else:
+        return 0
   
 def CheckDForm(ff,x,y,AA,number_of_vars=3):
  xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
  for i in range(0,number_of_vars):
   bit=xxi[i][ff]     #f%2
-  if bit!=TestA((x,y),AA[i]):
+  if bit!=TestA((x,y),AA[i],number_of_vars):
    return False
  return True
 
@@ -818,6 +835,43 @@ def PrintCirqPerf(iPerf,imax):
  vc.write(str(v_cou))
  vc.close()
  return cname
+ 
+def PrintEllipsePerf(iPerf,imax):
+ varc=open('var_count','r')
+ v_cou=int(varc.readline())
+ varc.close() 
+ ccc=canvas.canvas()
+ sc=0.65
+ AA=[(0,0,1,1*sc,2*sc,-50,  0.2*sc,1*sc-0.7),
+     (0,0,1,1*sc,2*sc,-60,    1*sc,0*sc-0.7),
+     (0,0,1,1*sc,2*sc,-120,  -1*sc,0*sc-0.7),
+     (0,0,1,1*sc,2*sc,-130,-0.2*sc,1*sc-0.7)]
+ ff=NtoList(iPerf)
+ print(ff)
+ ir=100
+ for ix in range(-ir,ir,3):
+  for iy in range(-ir,ir,3):
+   x=2.*ix/ir
+   y=2.*iy/ir
+   for f in ff:
+    if CheckDForm(f,x,y,AA,4):
+     ccc.stroke(path.circle(x,y,0.01),[color.gray(0.5)])
+ for A in AA:
+  circ=path.circle(A[0],A[1],A[2])
+  ccc.stroke(circ,[trafo.scale(sx=A[3],sy=A[4]),trafo.rotate(A[5]),trafo.translate(A[6],A[7])])
+ ccc.stroke(path.rect(-2, -2, 4, 4))
+ for i in range(0,4):
+  ccc.text(AA[i][6]*4*sc,AA[i][7]*2*sc+1.3, varNamesSet0[i], [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ ccc.text(-1.75,1.7, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ cname="venn"+str(v_cou)
+ ccc.writeEPSfile(cname)
+# ccc.writePDFfile(cname)
+ v_cou=v_cou+1
+ vc=open('var_count','w')
+ vc.write(str(v_cou))
+ vc.close()
+ return cname
+
 
 def MakeZazhigalkin(nA=5,nV=4):
  va=[i for i in range(0,16)]
@@ -953,6 +1007,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
 
+#PrintEllipsePerf(52344,4)
 #print(MakeZazhigalkinTask()) 
 #MakeForrest()
 #print(MakeTreeTM())
