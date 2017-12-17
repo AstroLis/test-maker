@@ -1,0 +1,20 @@
+{
+"title":"Булеан",
+"chapter":"Теория множеств. Операции над множествами",
+"titleb":"Булеан",
+"zadacha":"'Для множества A='+RB(str(B1))+', выбрать булеан:'",
+"answer_style":"'line_item'",
+"vopros":{
+"v1":"''"
+         }, 
+"param":{
+         "A0":"[0,1,2,3,4,5,6,7]",
+         "A1":"Shuf(A0)",
+         "B1":"A1[0:3]",
+         "C1":"powerset(B1)",
+         "O1":"list(C1)"
+        },
+"otvet":{
+         "o1":"('$'+RB(str(O1)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')"
+        }
+}

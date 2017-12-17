@@ -22,6 +22,12 @@ def Cnm(n,m):
    return 0
  return math.factorial(n)/(math.factorial(m)*math.factorial(n-m))
 
+def powerset(s):
+    result = [[]]
+    for elem in s:
+        result.extend([x + [elem] for x in result])
+    return result 
+ 
 def bool_num_term(n,m,nv=3):
  idig=pow(2,nv)
  print('start bool_num_term:',n,m)
