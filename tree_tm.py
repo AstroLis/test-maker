@@ -129,7 +129,7 @@ def RadDiam(N=10):
  print('exc:',exc)
  print(mn,mx)
  print(cluben,perif)
- return (fn,(mn,mx,len(cluben),len(perif)))
+ return (fn,(int(mn),int(mx),len(cluben),len(perif)))
 def MakeForrest(): 
  v_cou=0 
  tex_file=open('tree'+str(v_cou)+'.tex','w')
