@@ -369,7 +369,8 @@ def make_book_head(TName):
  th.append("\\usepackage{graphicx}\n")
  th.append("\\usepackage{amsmath}\n")
  th.append("\\usepackage{mathtools}\n")
- th.append("\\usepackage[left=1.5cm,right=1.5cm,top=2cm,bottom=1.5cm,bindingoffset=0cm]{geometry}\n")
+# th.append("\\usepackage[left=1.5cm,right=1.5cm,top=2cm,bottom=1.5cm,bindingoffset=0cm]{geometry}\n")
+ th.append("\\usepackage[left=1.5cm,right=1.5cm,top=2.5cm,bottom=1cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
  th.append("\\usepackage{fancyhdr}\n")
  th.append("\\usepackage{enumitem}\n")
@@ -378,6 +379,8 @@ def make_book_head(TName):
  th.append("\\usepackage{multirow}")
  th.append("\\usepackage{chngcntr}\n")
  th.append("\\usepackage{titlesec}\n")
+ th.append("\\usepackage{titletoc}\n")
+ th.append("\\usepackage{tocloft}\n")
 
  th.append("\\pagestyle{fancy}\n")
 
@@ -389,16 +392,28 @@ def make_book_head(TName):
  th.append("\\addto\\captionsrussian{\\renewcommand{\\chaptername}{Часть}}\n")
  th.append("\\titleformat{\\chapter}{\\LARGE\\bfseries}{ }{3pt}{\\LARGE\\bfseries}\n")
  th.append("\\titlespacing{\\chapter}{0pt}{0pt}{0pt}\n")
- th.append("\\titleformat{\\section}{\\large\\bfseries}{\\thesection.~~}{2pt}{\\large\\bfseries}\n")
+ th.append("\\titleformat{\\section}{\\large\\bfseries}{\\S\\thesection.~~}{2pt}{\\large\\bfseries}\n")
 
  th.append("\\renewcommand{\\chaptermark}[1]{\\markboth{ #1}{}}\n")
- th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\thesection.\\ #1}}\n")
- th.append("\\fancyhead[LE]{\\footnotesize \\textsl{\\rightmark}}\n")
- th.append("\\fancyhead[RO]{\\footnotesize \\textsl{\\leftmark}}\n")
- th.append("\\fancyhead[LO]{\\footnotesize \\textsl{\\parttitle}}\n")
- th.append("\\fancyhead[RE]{}\n")
+ th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\S\\thesection.\\ #1}}\n")
 
- th.append("\\fancyfoot[C]{\\thepage}\n")
+
+ th.append("\\titlecontents{part}[1em]{\\bf}{}{}{\\titlerule*[4pt]{.} \\thecontentspage}\n")
+ th.append("\\titlecontents{chapter}[1.5em]{\\small\\bf}{}{}{\\titlerule*[4pt]{.} \\thecontentspage}\n")
+ th.append("\\titlecontents{section}[2.5em]{\\small}{\\S\\thecontentslabel. }{}{\\titlerule*[4pt]{.} \\thecontentspage}\n")
+
+ th.append("\\renewcommand\\cftchapafterpnum{}\n")
+ th.append("\\renewcommand\\cftsecafterpnum{}\n")
+
+ th.append("\\renewcommand{\\headrule}{\\hrule height 0.5pt \\vspace{1pt}\\hrule height 1pt}\n")
+ th.append("\\fancyhead[CE]{\\footnotesize \\parttitle. \\leftmark}\n")
+ th.append("\\fancyhead[CO]{\\footnotesize \\rightmark}\n")
+ th.append("\\fancyhead[LE]{\\footnotesize \\bf{\\thepage}}\n")
+ th.append("\\fancyhead[RO]{\\footnotesize \\bf{\\thepage}}\n")
+ th.append("\\fancyhead[RE]{}\n")
+ th.append("\\fancyhead[LO]{}\n")
+ th.append("\\fancyfoot[C]{}\n")
+
  th.append("\\setenumerate{label=\\textbf{\\thesection.\\arabic*.}}\n")
  th.append("\\renewcommand\\thesection{\\arabic{section}}\n")
 
