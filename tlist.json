@@ -36,7 +36,10 @@
               "./tasks/astro/z_grad.json",
               "./tasks/astro/z_sin-cosm.json",
               "./tasks/astro/z_angl-sin-cosm.json",
-              "./tasks/astro/z_alien.json"
+              "./tasks/astro/z_kulm.json",
+              "./tasks/astro/z_kosmolet.json",
+              "./tasks/astro/z_alien.json",
+              "./tasks/astro/z_relativ.json"
             ],
 "7. Булевы функции":["z_trtab.json",
                      "z_b_sdnf_po_vekt.json",
