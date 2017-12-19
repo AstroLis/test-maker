@@ -398,10 +398,6 @@ def make_book_head(TName):
  th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\S\\thesection.\\ #1}}\n")
 
 
- th.append("\\titlecontents{part}[1em]{\\bf}{}{}{\\titlerule*[4pt]{.} \\thecontentspage}\n")
- th.append("\\titlecontents{chapter}[1.5em]{\\small\\bf}{}{}{\\titlerule*[4pt]{.} \\thecontentspage}\n")
- th.append("\\titlecontents{section}[2.5em]{\\small}{\\S\\thecontentslabel. }{}{\\titlerule*[4pt]{.} \\thecontentspage}\n")
-
  th.append("\\renewcommand\\cftchapafterpnum{}\n")
  th.append("\\renewcommand\\cftsecafterpnum{}\n")
 
@@ -423,6 +419,11 @@ def make_book_head(TName):
  th.append("\\setlength{\\parindent}{0ex}\n")
  
  th.append("\\setlength{\\headsep}{0pt}\n") 
+
+ th.append("\\renewcommand{\\cftsecpresnum}{\\S}\n") 
+ th.append("\\renewcommand{\\cftsecaftersnum}{.}\n") 
+ th.append("\\renewcommand{\\cftpartaftersnum}{.}\n") 
+ th.append("\\renewcommand{\\cftchapaftersnum}{.}\n") 
  
  th.append("\\begin{document}\n")
  th.append("\\tableofcontents\n")
