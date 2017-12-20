@@ -5,7 +5,7 @@
 "zadacha":"'ƒл€  неориентированного графа, заданного матрицей инцидентности, найти матрицу смежности'+NL",
 "answer_style":"'qa_blockm'",
 "vopros":{
-          "v1":"'{{\\\\footnotesize $$'+MakeMatrix(A1[2],baks=0)+'$$}}'"
+          "v1":"'{{ $$'+MakeMatrix(A1[2],baks=0)+'$$}}'"
          }, 
 "param":{
          "A1":"graph_tm.MakeGraphTM(5,0,0)",
@@ -17,6 +17,6 @@
          "A7":"0"
         },
 "otvet":{
-         "o1":"'{{\\\\scriptsize '+MakeMatrix(A1[3])+'}}'"         
+         "o1":"'{{ '+MakeMatrix(A1[3])+'}}'"         
         }
 }

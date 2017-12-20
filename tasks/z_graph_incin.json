@@ -17,6 +17,6 @@
          "A7":"0"
         },
 "otvet":{
-         "o1":"'{{\\\\scriptsize '+MakeMatrix(A1[2])+'}}'"         
+         "o1":"'{{ '+MakeMatrix(A1[2])+'}}'"         
         }
 }

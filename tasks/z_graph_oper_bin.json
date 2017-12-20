@@ -20,9 +20,9 @@
          "A8":"graph_tm.grMult(A4,A2)"
         },
 "otvet":{
-         "o1":"'{{\\\\scriptsize '+MakeMatrix(A5)+'}}'",
-         "o2":"'{{\\\\scriptsize '+MakeMatrix(A6)+'}}'",
-         "o3":"'{{\\\\scriptsize '+MakeMatrix(A7)+'}}'",
-         "o4":"'{{\\\\scriptsize '+MakeMatrix(A8)+'}}'"
+         "o1":"'{{ '+MakeMatrix(A5)+'}}'",
+         "o2":"'{{ '+MakeMatrix(A6)+'}}'",
+         "o3":"'{{ '+MakeMatrix(A7)+'}}'",
+         "o4":"'{{ '+MakeMatrix(A8)+'}}'"
         }
 }

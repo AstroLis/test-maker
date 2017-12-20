@@ -6,7 +6,7 @@
 "zadacha":"' Минимизировать булеву функцию $f(x_1,x_2,x_3,x_4)$ по соответствующей карте Карно'+NL+NL",
 "answer_style":"'qa_line'",
 "vopros":{
-          "v1":"'\\\\small {}'.format(A2[3])" 
+          "v1":"' {}'.format(A2[3])" 
          }, 
 "param":{
          "A1":"random.randint(4,8)",

@@ -5,7 +5,7 @@
 "zadacha":"'ќрграф $\\\\overrightarrow{{G}}$ задан матрицей весов. »спользу€ алгоритм ƒейкстры, найти кратчайшие пути из вершины {} во все остальные.'.format(A2+1)",
 "answer_style":"'qa_line_item'",
 "vopros":{
-          "v1":"'{\\\\footnotesize'+ MakeMatrix(A1.smezh)+'}'"
+          "v1":"'{'+ MakeMatrix(A1.smezh)+'}'"
          }, 
  
 "param":{
@@ -17,6 +17,6 @@
          "A5":"''.join(A4)"
          },
 "otvet":{
-         "o1":"'{\\\\footnotesize '+A5+'}'"
+         "o1":"'{ '+A5+'}'"
         }
 }

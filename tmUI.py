@@ -124,22 +124,23 @@ def EvalAnswerCore(dAnsw,**kwargs):
 def EvalAnswer(dParams,dAnsw):
     pp=EvalParams(dParams)
     return EvalAnswerCore(dAnsw,**pp)
-AnsLabel=['{{\\bf \\small 1) }}','{{\\bf \\small 2) }}','{{\\bf \\small 3) }}','{{\\bf \\small 4) }}']
+AnsLabel0=['{{\\bf \\small 1) }}','{{\\bf \\small 2) }}','{{\\bf \\small 3) }}','{{\\bf \\small 4) }}']
+AnsLabel=['{{ 1) }}','{{ 2) }}','{{ 3) }}','{{ 4) }}']
 def MakeQAStyle(quest,ans,style): 
     qa=[]    
     if(style=="'line'"):
-        qa.append(quest[0] + '\n\\flushleft\n')
+        qa.append(quest[0] + '\\vskip 2pt\n\\flushleft\n')
         for i in range(0,4):
             qa.append(AnsLabel[i]+ans[i]+'\n\n')
         return qa
     if(style=="'line_item'"):
-        qa.append(quest[0] + '\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n')
+        qa.append(quest[0] + '\\vskip 2pt\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n')
         for i in range(0,4):
             qa.append('\\item '+ans[i]+'\n')
         qa.append('\\end{enumerate}\n')    
         return qa
     if(style=="'qa_line_item'"):
-        qa.append("\n\n\\begin{minipage}[r]{0.25\\linewidth}\n")  
+        qa.append("\\vskip 2pt\n\n\\begin{minipage}[r]{0.25\\linewidth}\n")  
         qa.append(quest[0] + '\n\n')
         qa.append("\\end{minipage}\n")  
         qa.append("\\begin{minipage}[l]{0.75\\linewidth}\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n")  
@@ -148,7 +149,7 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\end{enumerate}\n\\end{minipage}\n")  
         return qa
     if(style=="'qa_line_item_inv'"):
-        qa.append("\\begin{minipage}[l]{0.75\\linewidth}\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n")  
+        qa.append("\\vskip 2pt\\begin{minipage}[l]{0.75\\linewidth}\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n")  
         for i in range(0,4):
             qa.append('\\item '+ans[i]+'\n')
         qa.append("\\end{enumerate}\n\\end{minipage}\n")  
@@ -157,7 +158,7 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\end{minipage}\n")  
         return qa
     if(style=="'qa_line'"):
-        qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")  
+        qa.append("\\vskip 2pt\n\n\\begin{minipage}[r]{0.33\\linewidth}\n")  
         qa.append(quest[0] + '\n\n')
         qa.append("\\end{minipage}\n")  
         qa.append("\\begin{minipage}[l]{0.66\\linewidth}\n")  
@@ -166,7 +167,7 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\end{minipage}\n")  
         return qa
     if(style=="'qa_line2'"):
-        qa.append("\n\n\\begin{minipage}[r]{0.5\\linewidth}\n")  
+        qa.append("\\vskip 2pt\n\n\\begin{minipage}[r]{0.5\\linewidth}\n")  
         qa.append(quest[0] + '\n\n')
         qa.append("\\end{minipage}\n")  
         qa.append("\\begin{minipage}[l]{0.5\\linewidth}\n")  
@@ -175,7 +176,7 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\end{minipage}\n")  
         return qa
     if(style=="'qa_block'"):
-        qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n\\flushleft\n")
+        qa.append("\\vskip 2pt\n\n\\begin{minipage}[r]{0.33\\linewidth}\n\\flushleft\n")
         qa.append(quest[0] + '\n\n')
         qa.append("\\end{minipage}\n")  
         qa.append("\\begin{minipage}[l]{0.76\\linewidth}\n")
@@ -191,7 +192,7 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\end{minipage}\n")  
         return qa
     if(style=="'qa_blockm'"):
-        qa.append("\n\n\\begin{minipage}[r]{0.33\\linewidth}\n\\flushleft\n")
+        qa.append("\\vskip 2pt\n\n\\begin{minipage}[r]{0.33\\linewidth}\n\\flushleft\n")
         qa.append(quest[0] + '\n\n')
         qa.append("\\end{minipage}\n")  
         qa.append("\\begin{minipage}[l]{0.76\\linewidth}\n")
@@ -207,7 +208,7 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\end{minipage}\n")  
         return qa
     if(style=="'block'"):
-        qa.append(quest[0] + '\n\n')
+        qa.append(quest[0] + '\\vskip 2pt\n\n')
         for i in range(0,4):
           qa.append('\\begin{minipage}[c]{0.05\\linewidth}\n')
           qa.append(AnsLabel[i])
@@ -219,18 +220,18 @@ def MakeQAStyle(quest,ans,style):
             qa.append('\n\n')
         return qa
     if(style=="'img_row'"):
-        qa.append(quest[0] + '\n\n')
-        qa.append('\\hskip -0.5cm\n')
+        qa.append(quest[0] + '\\vskip 2pt\n\n')
+        qa.append('\\vskip -0.5cm\n')
 #        qa.append('\\vskip 0.4cm\n')        
         for i in range(0,4):
           qa.append('\\begin{minipage}[c]{0.24\\linewidth}\n')
-          qa.append('{\\hskip 0.5cm'+AnsLabel[i]+'}\n\\vskip -0.5cm\n')
+          qa.append('{\\vskip 0.5cm'+AnsLabel[i]+'}\n\\vskip -0.2cm\n')
           qa.append(ans[i])
           qa.append('\\end{minipage}\n')      
         return qa
         
   #default     
-    qa.append(quest[0] + '\n\n')
+    qa.append(quest[0] + '\\vskip 2pt\n\n')
     for i in range(0,4):
       qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
       qa.append(AnsLabel[i])
@@ -318,7 +319,7 @@ def make_book_theme_head(TName,them_name,chap_name,part_name,ch=0,pa=0):
     th.append("\\part{"+part_name+"}") 
  if ch:
     th.append("\\chapter{"+chap_name+"}") 
- th.append("\\begin{minipage}[]{\\linewidth}\\vskip 6mm ")    
+ th.append("\\begin{minipage}[]{\\linewidth}\\vskip 10pt ")    
  th.append("\\section{"+them_name+"}")
  th.append("\\end{minipage}") 
  th.append("\\sectionmark{"+them_name+"}")
@@ -365,7 +366,7 @@ def make_test_head(TName,Nz):
  return th
 def make_book_head(TName):
  th=[]
- th.append("\\documentclass[12pt,a5paper]{extbook}\n")
+ th.append("\\documentclass[10pt,a5paper]{extbook}\n")
  th.append("\\usepackage{graphicx}\n")
  th.append("\\usepackage{amsmath}\n")
  th.append("\\usepackage{mathtools}\n")
@@ -390,22 +391,22 @@ def make_book_head(TName):
 
  th.append("\\counterwithout{section}{chapter}\n")
  th.append("\\addto\\captionsrussian{\\renewcommand{\\chaptername}{Часть}}\n")
- th.append("\\titleformat{\\chapter}{\\LARGE\\bfseries}{ }{3pt}{\\LARGE\\bfseries}\n")
+ th.append("\\titleformat{\\chapter}{\\large\\bfseries}{ }{3pt}{\\large\\bfseries}\n")
  th.append("\\titlespacing{\\chapter}{0pt}{0pt}{0pt}\n")
- th.append("\\titleformat{\\section}{\\large\\bfseries}{\\S\\thesection.~~}{2pt}{\\large\\bfseries}\n")
+ th.append("\\titleformat{\\section}{\\bfseries}{\\thesection.~~}{2pt}{\\bfseries}\n")
 
  th.append("\\renewcommand{\\chaptermark}[1]{\\markboth{ #1}{}}\n")
- th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\S\\thesection.\\ #1}}\n")
+ th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\thesection.\\ #1}}\n")
 
 
  th.append("\\renewcommand\\cftchapafterpnum{}\n")
  th.append("\\renewcommand\\cftsecafterpnum{}\n")
 
- th.append("\\renewcommand{\\headrule}{\\hrule height 0.5pt \\vspace{1pt}\\hrule height 1pt}\n")
- th.append("\\fancyhead[CE]{\\footnotesize \\parttitle. \\leftmark}\n")
- th.append("\\fancyhead[CO]{\\footnotesize \\rightmark}\n")
- th.append("\\fancyhead[LE]{\\footnotesize \\bf{\\thepage}}\n")
- th.append("\\fancyhead[RO]{\\footnotesize \\bf{\\thepage}}\n")
+ th.append("\\renewcommand{\\headrule}{\\vspace{2pt}\\hrule height 0.5pt \\vspace{1pt}\\hrule height 1pt}\n")
+ th.append("\\fancyhead[CE]{\\small \\parttitle. \\leftmark}\n")
+ th.append("\\fancyhead[CO]{\\small \\rightmark}\n")
+ th.append("\\fancyhead[LE]{\\small \\bf{\\thepage}}\n")
+ th.append("\\fancyhead[RO]{\\small \\bf{\\thepage}}\n")
  th.append("\\fancyhead[RE]{}\n")
  th.append("\\fancyhead[LO]{}\n")
  th.append("\\fancyfoot[C]{}\n")
@@ -506,7 +507,7 @@ def make_book(*args):
         for iii in range(1, ntests):
             i=i+1
             tname=task_data[tkey_name]       
-            f.write("\\begin{minipage}{\\linewidth}\n\\vskip 0.5cm\n\\item ")
+            f.write("\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")
             bAnswer=int(answer_type.get())
             #task = ParseTask(tname,bAnswer,randAns=j[tkey_name],compl=0) #disable random in 4type task
             task = ParseTask(tname,bAnswer)
