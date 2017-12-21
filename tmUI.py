@@ -319,7 +319,7 @@ def make_book_theme_head(TName,them_name,chap_name,part_name,ch=0,pa=0):
     th.append("\\part{"+part_name+"}") 
  if ch:
     th.append("\\chapter{"+chap_name+"}") 
- th.append("\\begin{minipage}[]{\\linewidth}\\vskip 10pt ")    
+ th.append("\\begin{minipage}[]{\\linewidth} ")    
  th.append("\\section{"+them_name+"}")
  th.append("\\end{minipage}") 
  th.append("\\sectionmark{"+them_name+"}")
@@ -369,9 +369,10 @@ def make_book_head(TName):
  th.append("\\documentclass[10pt,a5paper]{extbook}\n")
  th.append("\\usepackage{graphicx}\n")
  th.append("\\usepackage{amsmath}\n")
+ th.append("\\usepackage{layout}\n")
  th.append("\\usepackage{mathtools}\n")
 # th.append("\\usepackage[left=1.5cm,right=1.5cm,top=2cm,bottom=1.5cm,bindingoffset=0cm]{geometry}\n")
- th.append("\\usepackage[left=1.5cm,right=1.5cm,top=2.5cm,bottom=1cm,bindingoffset=0cm]{geometry}\n")
+ th.append("\\usepackage[]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
  th.append("\\usepackage{fancyhdr}\n")
  th.append("\\usepackage{enumitem}\n")
@@ -383,6 +384,15 @@ def make_book_head(TName):
  th.append("\\usepackage{titletoc}\n")
  th.append("\\usepackage{tocloft}\n")
 
+ th.append("\\setlength{\\parindent}{0ex}\n")
+ 
+ th.append("\\setlength{\\headsep}{10pt}\n") 
+ th.append("\\setlength{\\topmargin}{-21pt}\n") 
+ th.append("\\setlength{\\oddsidemargin}{-21pt}\n") 
+ th.append("\\setlength{\\evensidemargin}{-21pt}\n") 
+ th.append("\\setlength{\\textwidth}{112mm}\n") 
+ th.append("\\setlength{\\textheight}{174mm}\n") 
+
  th.append("\\pagestyle{fancy}\n")
 
  th.append("\\let\\Oldpart\\part\n")
@@ -391,12 +401,13 @@ def make_book_head(TName):
 
  th.append("\\counterwithout{section}{chapter}\n")
  th.append("\\addto\\captionsrussian{\\renewcommand{\\chaptername}{Часть}}\n")
- th.append("\\titleformat{\\chapter}{\\large\\bfseries}{ }{3pt}{\\large\\bfseries}\n")
- th.append("\\titlespacing{\\chapter}{0pt}{0pt}{0pt}\n")
- th.append("\\titleformat{\\section}{\\bfseries}{\\thesection.~~}{2pt}{\\bfseries}\n")
+ th.append("\\titleformat{\\chapter}{\\large\\bfseries}{ }{3pt}{\\centering\\large\\bfseries}\n")
+ th.append("\\titlespacing{\\chapter}{0pt}{-18pt}{-8pt}\n")
+ th.append("\\titlespacing{\\section}{0pt}{0pt}{0pt}\n")
+ th.append("\\titleformat{\\section}{\\bfseries}{\\thesection.~}{0pt}{\\bfseries}\n")
 
  th.append("\\renewcommand{\\chaptermark}[1]{\\markboth{ #1}{}}\n")
- th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\thesection.\\ #1}}\n")
+ th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\textbf{\\thesection.}~#1}}\n")
 
 
  th.append("\\renewcommand\\cftchapafterpnum{}\n")
@@ -410,23 +421,30 @@ def make_book_head(TName):
  th.append("\\fancyhead[RE]{}\n")
  th.append("\\fancyhead[LO]{}\n")
  th.append("\\fancyfoot[C]{}\n")
-
+ 
+ th.append("\\fancypagestyle{plain}{%\n")
+ th.append("\\fancyhf{} \n")
+ th.append("\\fancyhead[CE]{\\small \\parttitle. \\leftmark}\n")
+ th.append("\\fancyhead[CO]{\\small \\rightmark}\n")
+ th.append("\\fancyhead[LE]{\\small \\bf{\\thepage}}\n")
+ th.append("\\fancyhead[RO]{\\small \\bf{\\thepage}}\n")
+ th.append("\\fancyhead[RE]{}\n")
+ th.append("\\fancyhead[LO]{}\n")
+ th.append("\\fancyfoot[C]{} }\n")
  th.append("\\setenumerate{label=\\textbf{\\thesection.\\arabic*.}}\n")
  th.append("\\renewcommand\\thesection{\\arabic{section}}\n")
 
  th.append("\\setlength{\\arraycolsep}{1pt}\n")
  th.append("\\setlength{\\tabcolsep}{2pt}\n")
  th.append("\\setlength{\\parskip}{\\baselineskip}\n")
- th.append("\\setlength{\\parindent}{0ex}\n")
- 
- th.append("\\setlength{\\headsep}{0pt}\n") 
 
- th.append("\\renewcommand{\\cftsecpresnum}{\\S}\n") 
+ th.append("\\renewcommand{\\cftsecpresnum}{ }\n") 
  th.append("\\renewcommand{\\cftsecaftersnum}{.}\n") 
  th.append("\\renewcommand{\\cftpartaftersnum}{.}\n") 
  th.append("\\renewcommand{\\cftchapaftersnum}{.}\n") 
  
  th.append("\\begin{document}\n")
+ th.append("\\layout\n")
  th.append("\\tableofcontents\n")
 
  th.append("Тест генератора сборника "+str(datetime.datetime.now()))
