@@ -16,6 +16,6 @@
          "A7":"0"                  
         },
 "otvet":{
-         "o1":"'{}'.format(A2[2])"         
+         "o1":"'\\\\scriptsize {}'.format(A2[2])"         
         }
 }

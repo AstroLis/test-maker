@@ -20,9 +20,9 @@
          "A8":"A1.MergeNodeIJDel(A5,A6)"
         },
 "otvet":{
-         "o1":"'{{'+MakeMatrix(A3[0])+'}}'",
-         "o2":"'{{'+MakeMatrix(A4[0])+'}}'",
-         "o3":"'{{'+MakeMatrix(A7)+'}}'",
-         "o4":"'{{'+MakeMatrix(A8)+'}}'"
+         "o1":"'{{\\\\scriptsize '+MakeMatrix(A3[0])+'}}'",
+         "o2":"'{{\\\\scriptsize '+MakeMatrix(A4[0])+'}}'",
+         "o3":"'{{\\\\scriptsize '+MakeMatrix(A7)+'}}'",
+         "o4":"'{{\\\\scriptsize '+MakeMatrix(A8)+'}}'"
         }
 }

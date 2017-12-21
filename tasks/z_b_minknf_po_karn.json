@@ -3,7 +3,7 @@
 "zadacha":"'Для булевой функции $f(x_1,x_2,x_3,x_4)$ известна карта Карно. Выбрать соответствующую сокращенную КНФ'+NL+NL",
 "answer_style":"'qa_line'",
 "vopros":{
-          "v1":"'{}'.format(A2[3])" 
+          "v1":"'\\\\small {}'.format(A2[3])" 
          }, 
 "param":{
          "A1":"random.randint(4,8)",

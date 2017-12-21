@@ -5,7 +5,7 @@
 "zadacha":"'Выбрать СДНФ по известной для булевой функции $f(x_1,x_2,x_3,x_4)$ карте Карно'+NL+NL",
 "answer_style":"'qa_line_item'",
 "vopros":{
-          "v1":"'{}'.format(A3)" 
+          "v1":"'\\\\small {}'.format(A3)" 
          }, 
 "param":{
          "A1":"bool_num_term(3,4,nv=4)",
