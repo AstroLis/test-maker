@@ -5,7 +5,7 @@
 "zadacha":"'Для дерева, представленного на рисунке, найдите радиус, диаметр, число корневых вершин, число периферийных вершин'+NL",
 "answer_style":"'block'",
 "vopros":{
-          "v1":"'\\\\includegraphics[]{'+A1[0]+'}'"
+          "v1":"'\\\\centering{\\\\includegraphics[]{'+A1[0]+'}}'"
          }, 
 "param":{
          "A0":"random.randint(9,11)",
