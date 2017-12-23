@@ -125,16 +125,17 @@ def EvalAnswer(dParams,dAnsw):
     pp=EvalParams(dParams)
     return EvalAnswerCore(dAnsw,**pp)
 AnsLabel0=['{{\\bf \\small 1) }}','{{\\bf \\small 2) }}','{{\\bf \\small 3) }}','{{\\bf \\small 4) }}']
-AnsLabel=['{{ 1) }}','{{ 2) }}','{{ 3) }}','{{ 4) }}']
+AnsLabel=['{{ 1)~~}}','{{ 2)~~}}','{{ 3)~~}}','{{ 4)~~}}']
 def MakeQAStyle(quest,ans,style): 
     qa=[]    
+    enumstyle='\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n'
     if(style=="'line'"):
         qa.append(quest[0] + '\\vskip 2pt\n\\flushleft\n')
         for i in range(0,4):
             qa.append(AnsLabel[i]+ans[i]+'\n\n')
         return qa
     if(style=="'line_item'"):
-        qa.append(quest[0] + '\\vskip 2pt\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n')
+        qa.append(quest[0] + '\\vskip 2pt\n'+enumstyle)
         for i in range(0,4):
             qa.append('\\item '+ans[i]+'\n')
         qa.append('\\end{enumerate}\n')    
@@ -143,13 +144,13 @@ def MakeQAStyle(quest,ans,style):
         qa.append("\\vskip 2pt\n\n\\begin{minipage}[r]{0.25\\linewidth}\n")  
         qa.append(quest[0] + '\n\n')
         qa.append("\\end{minipage}\n")  
-        qa.append("\\begin{minipage}[l]{0.75\\linewidth}\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n")  
+        qa.append("\\begin{minipage}[l]{0.75\\linewidth}\n"+enumstyle)  
         for i in range(0,4):
             qa.append('\\item '+ans[i]+'\n')
         qa.append("\\end{enumerate}\n\\end{minipage}\n")  
         return qa
     if(style=="'qa_line_item_inv'"):
-        qa.append("\\vskip 2pt\\begin{minipage}[l]{0.75\\linewidth}\n\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n")  
+        qa.append("\\vskip 2pt\\begin{minipage}[l]{0.75\\linewidth}\n"+enumstyle)  
         for i in range(0,4):
             qa.append('\\item '+ans[i]+'\n')
         qa.append("\\end{enumerate}\n\\end{minipage}\n")  
