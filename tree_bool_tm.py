@@ -12,6 +12,7 @@ from tex_structures_tm import MakeMatrix
 BoolOperands=['\\wedge','\\vee','\\rightarrow','\\leftrightarrow','|','\\downarrow','\\oplus']
 BoolOrder=   [0       ,   1    ,       2      ,         3        , 0 ,     0       ,    3]
 varNames=    ['x_1','x_2','x_3','x_4']
+varNamesNeg=    ['\\bar{x}_1','\\bar{x}_2','\\bar{x}_3','\\bar{x}_4']
 varNamesSet0=['A','B','C','D']
 varNamesSet=[' A ',' B ',' C ',' D ']
 varNamesSetNeg=['\\overline{A}','\\overline{B}','\\overline{C}','\\overline{D}']
@@ -52,19 +53,14 @@ def DStrIbool(i,number_of_vars=4,knf=False):
    first=0
   if(xxi[ii][f]):
    if knf:
-    #strf+='\\neg '
-    strf+='\\overline{'
-   strf+=varNames[ii]
-   if knf:
-    strf+='}'
+    strf+=varNamesNeg[ii]
+   else:
+    strf+=varNames[ii]
   else:
    if not knf:
-    #strf+='\\neg '
-    strf+='\\overline{'
-   strf+=varNames[ii]
-   if not knf:
-    #strf+='\\neg '
-    strf+='}'
+    strf+=varNamesNeg[ii]
+   else:
+    strf+=varNames[ii]
  return strf
 
 def DStrIboolSet(i,number_of_vars=4,knf=False):
@@ -650,7 +646,8 @@ def StrMarkForm(mf,sets,knf):
      s+=varNamesSetNeg[abs(ff)-1]
     else: 
 #     s+=' \\neg '+varNames[abs(ff)-1]
-     s+=' \\overline{'+varNames[abs(ff)-1]+'}'
+#     s+=' \\overline{'+varNames[abs(ff)-1]+'}'
+      s+=varNamesNeg[abs(ff)-1]
     if knf:
      nw=nw|DoNeg(varVal[abs(ff)-1])
     else: 

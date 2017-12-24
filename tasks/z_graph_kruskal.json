@@ -5,7 +5,7 @@
 "zadacha":"'Для графа G, заданного матрицей весов, найти матрицу весов минимального остовного дерева методом Крускала'",
 "answer_style":"'qa_blockm'",
 "vopros":{
-          "v1":"'{\\\\footnotesize '+MakeMatrix(A2)+'}'"
+          "v1":"'\\\\footnotesize '+MakeMatrix(A2,baks=2)+''"
          }, 
 "param":{
          "A1":"graph_tm.NewGraph(6,6,sym=True)",
@@ -13,6 +13,6 @@
          "A3":"np.array(A1.kruskal())"
          },
 "otvet":{
-         "o1":"'{\\\\scriptsize '+MakeMatrix(A3)+'}'"
+         "o1":"'\\\\scriptsize '+MakeMatrix(A3)+''"
         }
 }

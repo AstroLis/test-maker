@@ -83,8 +83,8 @@ def MakeTable(xyT,xHead,yHead,data,ff=2):
 
 def MakeMatrix(data,ff=2,baks=1):
  tb=''
- if baks:
-     tb+='$$'
+ for j in range (0,baks):
+     tb+='$'
  tb+=(' \\begin{pmatrix*}[r]')
  for y in data:
   i=0
@@ -99,8 +99,8 @@ def MakeMatrix(data,ff=2,baks=1):
     tb+=('\\text{-}'+'{:g}'.format(-x))   
   tb+=('\\\\')
  tb+=(' \\end{pmatrix*}')
- if baks:
-     tb+='$$'
+ for j in range (0,baks):
+     tb+='$'
  return tb
  
 
@@ -128,7 +128,7 @@ AnsLabel0=['{{\\bf \\small 1) }}','{{\\bf \\small 2) }}','{{\\bf \\small 3) }}',
 AnsLabel=['{{ 1)~~}}','{{ 2)~~}}','{{ 3)~~}}','{{ 4)~~}}']
 def MakeQAStyle(quest,ans,style): 
     qa=[]    
-    enumstyle='\\flushleft\\begin{enumerate}[leftmargin=*,label=\\textbf{\\arabic*)},itemsep=0pt, parsep=0pt]\n'
+    enumstyle='\\flushleft\\begin{enumerate}[leftmargin=*,label={\\arabic*)},itemsep=0pt, parsep=0pt]\n'
     if(style=="'line'"):
         qa.append(quest[0] + '\\vskip 2pt\n\\flushleft\n')
         for i in range(0,4):
@@ -139,6 +139,15 @@ def MakeQAStyle(quest,ans,style):
         for i in range(0,4):
             qa.append('\\item '+ans[i]+'\n')
         qa.append('\\end{enumerate}\n')    
+        return qa
+    if(style=="'one_line'"):
+        qa.append("\\vskip 2pt\n")
+        qa.append(quest[0] + '\n')
+        qa.append("\\vskip 2pt\n")
+        for i in range(0,4):
+            qa.append("\\begin{minipage}[r]{0.24\\linewidth}\n")
+            qa.append(AnsLabel[i]+ans[i]+'\n')
+            qa.append("\\end{minipage}\n")
         return qa
     if(style=="'qa_line_item'"):
         qa.append("\\vskip 2pt\n\n\\begin{minipage}[r]{0.25\\linewidth}\n")  
@@ -185,7 +194,7 @@ def MakeQAStyle(quest,ans,style):
           qa.append('\\begin{minipage}[c]{0.05\\linewidth}\n')
           qa.append(AnsLabel[i])
           qa.append('\\end{minipage}\n')      
-          qa.append('\\begin{minipage}[c]{0.3\\linewidth}\n')
+          qa.append('\\begin{minipage}[c]{0.39\\linewidth}\n')
           qa.append(ans[i])
           qa.append('\\end{minipage}\n')
           if(i==1):
@@ -201,7 +210,7 @@ def MakeQAStyle(quest,ans,style):
           qa.append('\\begin{minipage}[c]{0.05\\linewidth}\n')          
           qa.append(AnsLabel[i])
           qa.append('\\end{minipage}\n')      
-          qa.append('\\begin{minipage}[c]{0.3\\linewidth}\\vskip -0.3cm\n')
+          qa.append('\\begin{minipage}[c]{0.3\\linewidth}\n')
           qa.append(ans[i])
           qa.append('\\end{minipage}\n')
           if(i==1):
@@ -230,14 +239,23 @@ def MakeQAStyle(quest,ans,style):
           qa.append(ans[i])
           qa.append('\\end{minipage}\n')      
         return qa
-        
-  #default     
+    if (style == "'truth_tables'"):
+        qa.append(quest[0] + '\\vskip 2pt\n\n')
+        for i in range(0, 4):
+            qa.append('\\begin{minipage}[c]{0.03\\linewidth}\n')
+            qa.append(AnsLabel[i])
+            qa.append('\\end{minipage}\hspace{5pt}\n')
+            qa.append('\\begin{minipage}[c]{0.19\\linewidth}\n')
+            qa.append(ans[i])
+            qa.append('\\end{minipage}\n')
+        return qa
+    #default
     qa.append(quest[0] + '\\vskip 2pt\n\n')
     for i in range(0,4):
-      qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
+      qa.append('\\begin{minipage}[c]{0.017\\linewidth}\n')
       qa.append(AnsLabel[i])
-      qa.append('\\end{minipage}\n')      
-      qa.append('\\begin{minipage}[c]{0.2\\linewidth}\n')
+      qa.append('\\end{minipage}\n')
+      qa.append('\\begin{minipage}[c]{0.22\\linewidth}\n')
       qa.append(ans[i])
       qa.append('\\end{minipage}\n')      
     return qa
@@ -317,7 +335,12 @@ def ParseTask(data,bAnswer,randAns=0,compl=0):
 def make_book_theme_head(TName,them_name,chap_name,part_name,ch=0,pa=0):
  th=[]
  if pa:
-    th.append("\\part{"+part_name+"}") 
+    th.append("\n~\n")
+    th.append("\\vskip 1pt\n")
+    th.append("\\begin{minipage}{\linewidth}\n")
+    th.append("\\part{"+part_name+"}\n")
+    th.append("\\gdef\parttitle{"+part_name+"}\n")
+    th.append("\\end{minipage}\n")
  if ch:
     th.append("\\chapter{"+chap_name+"}") 
  th.append("\\begin{minipage}[]{\\linewidth} ")    
@@ -392,7 +415,8 @@ def make_book_head(TName):
  th.append("\\setlength{\\oddsidemargin}{-21pt}\n") 
  th.append("\\setlength{\\evensidemargin}{-21pt}\n") 
  th.append("\\setlength{\\textwidth}{112mm}\n") 
- th.append("\\setlength{\\textheight}{174mm}\n") 
+# th.append("\\setlength{\\textheight}{174mm}\n")
+ th.append("\\setlength{\\textheight}{473pt}\n")
 
  th.append("\\pagestyle{fancy}\n")
 
@@ -400,12 +424,25 @@ def make_book_head(TName):
  th.append("\\newcommand{\\parttitle}{}\n")
  th.append("\\renewcommand{\\part}[1]{\\Oldpart{#1}\\renewcommand{\\parttitle}{#1}}\n")
 
+ th.append("\\renewcommand{\\thechapter}{~}\n")
+ th.append("\\renewcommand{\\thepart}{~}\n")
+
  th.append("\\counterwithout{section}{chapter}\n")
+
  th.append("\\addto\\captionsrussian{\\renewcommand{\\chaptername}{Часть}}\n")
+
  th.append("\\titleformat{\\chapter}{\\large\\bfseries}{ }{3pt}{\\centering\\large\\bfseries}\n")
- th.append("\\titlespacing{\\chapter}{0pt}{-18pt}{-8pt}\n")
- th.append("\\titlespacing{\\section}{0pt}{0pt}{0pt}\n")
+
+ th.append("\\titleclass{\\part}{straight}\n")
+ th.append("\\titleclass{\\chapter}{straight}\n")
+ th.append("\\titleclass{\\section}{straight}\n")
+ th.append("\\titlespacing*{\\part}{0pt}{0pt}{0pt}\n")
+ th.append("\\titlespacing*{\\chapter}{0pt}{0pt}{-5pt}\n")
+ th.append("\\titlespacing*{\\section}{0pt}{0pt}{0pt}\n")
+
  th.append("\\titleformat{\\section}{\\bfseries}{\\thesection.~}{0pt}{\\bfseries}\n")
+ th.append("\\titleformat{\\part}{\\Large\\bfseries}{}{3pt}{\centering\Large\\bfseries}\n")
+ th.append("\\titleformat{\\chapter}{\\large\\bfseries}{}{3pt}{\centering\large\\bfseries}\n")
 
  th.append("\\renewcommand{\\chaptermark}[1]{\\markboth{ #1}{}}\n")
  th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\textbf{\\thesection.}~#1}}\n")
@@ -415,18 +452,20 @@ def make_book_head(TName):
  th.append("\\renewcommand\\cftsecafterpnum{}\n")
 
  th.append("\\renewcommand{\\headrule}{\\vspace{2pt}\\hrule height 0.5pt \\vspace{1pt}\\hrule height 1pt}\n")
+
+ th.append("\\fancypagestyle{fancy1}{ % \n")
  th.append("\\fancyhead[CE]{\\small \\parttitle. \\leftmark}\n")
  th.append("\\fancyhead[CO]{\\small \\rightmark}\n")
  th.append("\\fancyhead[LE]{\\small \\bf{\\thepage}}\n")
  th.append("\\fancyhead[RO]{\\small \\bf{\\thepage}}\n")
  th.append("\\fancyhead[RE]{}\n")
  th.append("\\fancyhead[LO]{}\n")
- th.append("\\fancyfoot[C]{}\n")
+ th.append("\\fancyfoot[C]{}}\n")
  
- th.append("\\fancypagestyle{plain}{%\n")
+ th.append("\\fancypagestyle{plain1}{%\n")
  th.append("\\fancyhf{} \n")
- th.append("\\fancyhead[CE]{\\small \\parttitle. \\leftmark}\n")
- th.append("\\fancyhead[CO]{\\small \\rightmark}\n")
+ th.append("\\fancyhead[CE]{}\n")
+ th.append("\\fancyhead[CO]{}\n")
  th.append("\\fancyhead[LE]{\\small \\bf{\\thepage}}\n")
  th.append("\\fancyhead[RO]{\\small \\bf{\\thepage}}\n")
  th.append("\\fancyhead[RE]{}\n")
@@ -439,16 +478,26 @@ def make_book_head(TName):
  th.append("\\setlength{\\tabcolsep}{2pt}\n")
  th.append("\\setlength{\\parskip}{\\baselineskip}\n")
 
- th.append("\\renewcommand{\\cftsecpresnum}{ }\n") 
- th.append("\\renewcommand{\\cftsecaftersnum}{.}\n") 
- th.append("\\renewcommand{\\cftpartaftersnum}{.}\n") 
- th.append("\\renewcommand{\\cftchapaftersnum}{.}\n") 
+ th.append("\\setlength{\cftbeforetoctitleskip}{0pt}\n")
+ th.append("\\setlength{\cftaftertoctitleskip}{0pt}\n")
+ th.append("\\setlength{\cftbeforepartskip}{4pt}\n")
+ th.append("\\setlength{\cftbeforechapskip}{4pt}\n")
+ th.append("\\setlength{\cftbeforesecskip}{0pt}\n")
+ th.append("\\addto\\captionsrussian{\\renewcommand{\\contentsname}{\\hfill\\bfseries\\Large О\\,Г\\,Л\\,А\\,В\\,Л\\,Е\\,Н\\,И\\,Е\\hfill}}\n")
+ th.append("\\renewcommand{\\cfttoctitlefont}{\\large\\bfseries}\n")
+ th.append("\\renewcommand{\\cftaftertoctitle}{ }\n")
+ th.append("\\renewcommand{\\cftsecpresnum}{ }\n")
+ th.append("\\renewcommand{\\cftsecaftersnum}{.}\n")
+ th.append("\\renewcommand{\\cftaftertoctitle}{\\thispagestyle{plain1}}\n")
  
  th.append("\\begin{document}\n")
- th.append("\\layout\n")
+# th.append("\\layout\n")
+ th.append("\\pagestyle{plain1}\n")
  th.append("\\tableofcontents\n")
+ th.append("\\clearpage\n")
+ th.append("\\pagestyle{fancy1}\n")
 
- th.append("Тест генератора сборника "+str(datetime.datetime.now()))
+ th.append("%Тест генератора сборника "+str(datetime.datetime.now()))
  return th
 
 def make_book_head0(TName):

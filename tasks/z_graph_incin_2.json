@@ -5,7 +5,7 @@
 "zadacha":"'Выберите орграф, заданный матрицей инцидентности'+NL",
 "answer_style":"'qa_block'",
 "vopros":{
-          "v1":"'{{\\\\footnotesize '+MakeMatrix(A1[2])+'}}'"
+          "v1":"'\\\\footnotesize '+MakeMatrix(A1[2],baks=2)+''"
          }, 
 "param":{
          "A1":"graph_tm.MakeGraphTM(5,1,0)",
