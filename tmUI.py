@@ -130,6 +130,7 @@ def MakeQAStyle(quest,ans,style):
     qa=[]    
     enumstyle='\\flushleft\\begin{enumerate}[leftmargin=*,label={\\arabic*)},itemsep=0pt, parsep=0pt]\n'
     if(style=="'line'"):
+        qa.append("\\vskip 2pt\n")
         qa.append(quest[0] + '\\vskip 2pt\n\\flushleft\n')
         for i in range(0,4):
             qa.append(AnsLabel[i]+ans[i]+'\n\n')
@@ -215,7 +216,9 @@ def MakeQAStyle(quest,ans,style):
           qa.append('\\end{minipage}\n')
           if(i==1):
             qa.append('\n\n')
-        qa.append("\\end{minipage}\n")  
+            qa.append("\\vskip 2pt")
+            qa.append('\n\n')
+        qa.append("\\end{minipage}\n")
         return qa
     if(style=="'block'"):
         qa.append(quest[0] + '\\vskip 2pt\n\n')
@@ -483,11 +486,13 @@ def make_book_head(TName):
  th.append("\\setlength{\cftbeforepartskip}{4pt}\n")
  th.append("\\setlength{\cftbeforechapskip}{4pt}\n")
  th.append("\\setlength{\cftbeforesecskip}{0pt}\n")
- th.append("\\addto\\captionsrussian{\\renewcommand{\\contentsname}{\\hfill\\bfseries\\Large О\\,Г\\,Л\\,А\\,В\\,Л\\,Е\\,Н\\,И\\,Е\\hfill}}\n")
- th.append("\\renewcommand{\\cfttoctitlefont}{\\large\\bfseries}\n")
+ th.append("\\addto\\captionsrussian{\\renewcommand{\\contentsname}{\\hfill О\\,Г\\,Л\\,А\\,В\\,Л\\,Е\\,Н\\,И\\,Е\\hfill}}\n")
+ th.append("\\renewcommand{\\cfttoctitlefont}{\\Large\\bfseries}\n")
  th.append("\\renewcommand{\\cftaftertoctitle}{ }\n")
  th.append("\\renewcommand{\\cftsecpresnum}{ }\n")
  th.append("\\renewcommand{\\cftsecaftersnum}{.}\n")
+ th.append("\\renewcommand{\\cftpartfont}{\\hfill\\large\\bfseries}\n")
+
  th.append("\\renewcommand{\\cftaftertoctitle}{\\thispagestyle{plain1}}\n")
  
  th.append("\\begin{document}\n")

@@ -757,7 +757,7 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
    yHead.append(0)
   for kk in range(0,number_of_vars):
    trtab+=[xxi[kk][jj]]
- strtab=MakeTable('f',xHead,yHead,trtab,yAlign=0) 
+ strtab=MakeTable('$f$',xHead,yHead,trtab,yAlign=0)
  carno=MakeCarnoMap(yHead)
  optf=OptimalNew(form[1],False)
  optfk=OptimalNew(form[1],True)
@@ -824,7 +824,7 @@ def PrintCirqPerf(iPerf,imax):
  ccc.stroke(path.rect(-2, -2, 4, 4))
  for i in range(0,3):
   ccc.text(AA[i][0]*4,AA[i][1]*4, varNamesSet0[i], [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
- ccc.text(-1.75,1.7, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ ccc.text(-1.65,1.6, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
  cname="venn"+str(v_cou)
  ccc.writeEPSfile(cname)
  v_cou=v_cou+1
@@ -857,9 +857,11 @@ def PrintEllipsePerf(iPerf,imax):
   circ=path.circle(A[0],A[1],A[2])
   ccc.stroke(circ,[trafo.scale(sx=A[3],sy=A[4]),trafo.rotate(A[5]),trafo.translate(A[6],A[7])])
  ccc.stroke(path.rect(-2, -2, 4, 4))
- for i in range(0,4):
+ for i in range(1,3):
   ccc.text(AA[i][6]*4*sc,AA[i][7]*2*sc+1.3, varNamesSet0[i], [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
- ccc.text(-1.75,1.7, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ for i in [0,3]:
+  ccc.text(AA[i][6]*8*sc,AA[i][7]*2*sc+1.3, varNamesSet0[i], [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ ccc.text(-1.65,1.6, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
  cname="venn"+str(v_cou)
  ccc.writeEPSfile(cname)
 # ccc.writePDFfile(cname)
