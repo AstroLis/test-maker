@@ -339,10 +339,11 @@ def make_book_theme_head(TName,them_name,chap_name,part_name,ch=0,pa=0):
  th=[]
  if pa:
     th.append("\n~\n")
-    th.append("\\vskip 1pt\n")
+    th.append("\\vskip -21pt\n")
     th.append("\\begin{minipage}{\linewidth}\n")
     th.append("\\part{"+part_name+"}\n")
     th.append("\\gdef\parttitle{"+part_name+"}\n")
+    th.append("\\thispagestyle{empty1}\n")
     th.append("\\end{minipage}\n")
  if ch:
     th.append("\\chapter{"+chap_name+"}") 
@@ -459,9 +460,9 @@ def make_book_head(TName):
  th.append("\\renewcommand\\cftchapafterpnum{}\n")
  th.append("\\renewcommand\\cftsecafterpnum{}\n")
 
- th.append("\\renewcommand{\\headrule}{\\vspace{2pt}\\hrule height 0.5pt \\vspace{1pt}\\hrule height 1pt}\n")
 
  th.append("\\fancypagestyle{fancy1}{ % \n")
+ th.append("\\renewcommand{\\headrule}{\\vspace{2pt}\\hrule height 0.5pt \\vspace{1pt}\\hrule height 1pt}\n")
  th.append("\\fancyhead[CE]{\\small \\parttitle. \\leftmark}\n")
  th.append("\\fancyhead[CO]{\\small \\rightmark}\n")
  th.append("\\fancyhead[LE]{\\small \\bf{\\thepage}}\n")
@@ -472,6 +473,7 @@ def make_book_head(TName):
  
  th.append("\\fancypagestyle{plain1}{%\n")
  th.append("\\fancyhf{} \n")
+ th.append("\\renewcommand{\\headrule}{\\vspace{2pt}\\hrule height 0.5pt \\vspace{1pt}\\hrule height 1pt}\n")
  th.append("\\fancyhead[CE]{}\n")
  th.append("\\fancyhead[CO]{}\n")
  th.append("\\fancyhead[LE]{\\small \\bf{\\thepage}}\n")
@@ -479,6 +481,12 @@ def make_book_head(TName):
  th.append("\\fancyhead[RE]{}\n")
  th.append("\\fancyhead[LO]{}\n")
  th.append("\\fancyfoot[C]{} }\n")
+
+ th.append("\\fancypagestyle{empty1}{%\n")
+ th.append("\\fancyhf{} \n")
+ th.append("\\renewcommand{\\headrule}{}\n")
+ th.append("\\fancyfoot[C]{} }\n")
+ 
  th.append("\\setenumerate{label=\\textbf{\\thesection.\\arabic*.}}\n")
  th.append("\\renewcommand\\thesection{\\arabic{section}}\n")
 
@@ -486,19 +494,22 @@ def make_book_head(TName):
  th.append("\\setlength{\\tabcolsep}{2pt}\n")
  th.append("\\setlength{\\parskip}{\\baselineskip}\n")
 
- th.append("\\setlength{\cftbeforetoctitleskip}{0pt}\n")
- th.append("\\setlength{\cftaftertoctitleskip}{0pt}\n")
- th.append("\\setlength{\cftbeforepartskip}{4pt}\n")
- th.append("\\setlength{\cftbeforechapskip}{4pt}\n")
- th.append("\\setlength{\cftbeforesecskip}{0pt}\n")
+ th.append("\\setlength{\\cftbeforetoctitleskip}{0pt}\n")
+ th.append("\\setlength{\\cftaftertoctitleskip}{4pt}\n")
+ th.append("\\setlength{\\cftbeforepartskip}{4pt}\n")
+ th.append("\\setlength{\\cftbeforechapskip}{0pt}\n")
+ th.append("\\setlength{\\cftbeforesecskip}{0pt}\n")
+ th.append("\\setlength{\\cftchapindent}{-20pt}\n")
+ th.append("\\setlength{\\cftsecindent}{-2pt}\n")
+ 
  th.append("\\addto\\captionsrussian{\\renewcommand{\\contentsname}{\\hfill О\\,Г\\,Л\\,А\\,В\\,Л\\,Е\\,Н\\,И\\,Е\\hfill}}\n")
- th.append("\\renewcommand{\\cfttoctitlefont}{\\Large\\bfseries}\n")
+ th.append("\\renewcommand{\\cfttoctitlefont}{\\large\\bfseries}\n")
  th.append("\\renewcommand{\\cftaftertoctitle}{ }\n")
  th.append("\\renewcommand{\\cftsecpresnum}{ }\n")
  th.append("\\renewcommand{\\cftsecaftersnum}{.}\n")
  th.append("\\renewcommand{\\cftpartfont}{\\hfill\\large\\bfseries}\n")
 
- th.append("\\renewcommand{\\cftaftertoctitle}{\\thispagestyle{plain1}}\n")
+ th.append("\\renewcommand{\\cftaftertoctitle}{\\thispagestyle{empty1}}\n")
  
  th.append("\\begin{document}\n")
 # th.append("\\layout\n")
