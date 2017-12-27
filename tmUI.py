@@ -346,10 +346,15 @@ def make_book_theme_head(TName,them_name,chap_name,part_name,ch=0,pa=0):
     th.append("\\end{minipage}\n")
  if ch:
     th.append("\\chapter{"+chap_name+"}") 
+ if '#' in them_name:
+  (sn,sm)=them_name.split('#')
+ else:
+  sn=them_name
+  sm=them_name
  th.append("\\begin{minipage}[]{\\linewidth} ")    
- th.append("\\section{"+them_name+"}")
+ th.append("\\section{"+sn+"}")
  th.append("\\end{minipage}") 
- th.append("\\sectionmark{"+them_name+"}")
+ th.append("\\sectionmark{"+sm+"}")
  #th.append("\n\\vskip -1.5cm\n")
  
  return th
