@@ -296,6 +296,11 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
      otvs.append(str(eval(parser.expr( data['otvet']['o1'] ).compile())))
      for i in range(2,5):
           otvs.append(EvalAnswer(data['param'],data['otvet']['o1']))
+    elif (len(data['vopros'])==2):
+     quest.append(str(eval(parser.expr(data['vopros']['v1']).compile()))+'\n\n')
+     otvs.append(str(eval(parser.expr( data['otvet']['o1'] ).compile())))
+     for i in range(2,5):
+          otvs.append(EvalAnswer(data['param'],data['otvet']['o2']))
      
     if len(otvs) > len(set(otvs)):
         return ([],"")

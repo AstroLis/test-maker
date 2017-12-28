@@ -2,19 +2,23 @@
 "title":"Булеан",
 "chapter":"Теория множеств. Операции над множествами",
 "titleb":"Булеан",
-"zadacha":"'Для множества A='+RB(str(B1))+', выбрать булеан:'",
+"zadacha":"'Выберете множество, являющееся булеаном некоторого множества:'",
 "answer_style":"'line_item'",
 "vopros":{
-"v1":"''"
+"v1":"''",
+"v2":"''"
          }, 
 "param":{
-         "A0":"[0,1,2,3,4,5,6,7]",
+         "A0":"[0,1,2,3,4,5,6,7,8,9]",
          "A1":"Shuf(A0)",
          "B1":"A1[0:3]",
          "C1":"powerset(B1)",
-         "O1":"list(C1)"
+         "O1":"list(C1)",
+         "O2":"random.randint(1,len(O1)-1)",
+         "O3":"O1[:O2-1]+O1[O2+1:]"        
         },
 "otvet":{
-         "o1":"('$'+RB(str(O1)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')"
+         "o1":"('$'+RB(str(O1)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')",
+         "o2":"('$'+RB(str(O3)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')"
         }
 }
