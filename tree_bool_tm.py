@@ -338,6 +338,9 @@ class BinaryTree():
       elif basis==1: #Sheffer
         self.prob = 4
         self.neg = 1
+      elif basis==2: #Pirs
+        self.prob = 5
+        self.neg = 1
       self.var=vn
 
     def getLeftChild(self):
