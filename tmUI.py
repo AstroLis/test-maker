@@ -107,7 +107,7 @@ def MakeMatrix(data,ff=2,baks=1):
 def MakeNormalDistr(a,sigm):
  return "$$ f_X(x)=\\frac{1}{"+(str(sigm) if sigm!=1 else "")+" \\sqrt{2 \\pi}} \\cdot e^{- \\frac{"+(("(x"+("-"+str(a) if a>0 else "+"+str(-a))+")^2") if a!=0 else ("x^2"))+"}{"+str(2*sigm*sigm)+"}} $$"
 
-def EvalParams(dParams):
+def EvalParams(dParams,**kwargs):
     NL='\n\n'
     SL='\\'
     pars={}
@@ -331,7 +331,13 @@ def ParseTask(data,bAnswer,randAns=0,compl=0):
     #z=open(TName,"r")
     #zz=z.read()
     #data=json.loads(zz)
-    dPars=EvalParams(data['param'])
+    dPars={}
+    if 'const_param' in data:
+        cdPars=EvalParams(data['const_param'])
+        rdPars=EvalParams(data['param'],**cdPars)
+        dPars={**dPars,**rdPars}
+    else:
+        dPars=EvalParams(data['param'])
     print(dPars)
     aa= ParseTaskWithParams(data,bAnswer,randAns,compl,**dPars)
     if(len(aa[0])==0):
