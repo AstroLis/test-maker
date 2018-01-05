@@ -108,6 +108,7 @@
                      "./tasks/z_b_form_po_schem.json",
                      "./tasks/z_b_karn_po_schem.json",
                      "./tasks/z_b_zazhig_po_vect.json",
+                     "./tasks/z_b_shef_po_dnf.json",
                      "./tasks/z_b_zazhig_po_opt.json"
                      ]                       
 }

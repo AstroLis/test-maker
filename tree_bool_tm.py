@@ -324,7 +324,7 @@ class BinaryTree():
     ccc=canvas.canvas()
     bx = 0.8
     by = 0.4
-    def __init__(self,vn):
+    def __init__(self,vn,basis=0):
       self.left = None
       self.right = None
       self.rootid = BinaryTree.id_count
@@ -332,8 +332,12 @@ class BinaryTree():
       self.dimx=0
       self.dimy=0
       self.type=0
-      self.prob=random.randint(0,6)
-      self.neg=random.randint(0,5)
+      if not basis:
+        self.prob=random.randint(0,6)
+        self.neg=random.randint(0,5)
+      elif basis==1: #Sheffer
+        self.prob = 4
+        self.neg = 1
       self.var=vn
 
     def getLeftChild(self):
@@ -345,17 +349,17 @@ class BinaryTree():
     def getNodeValue(self):
         return self.rootid
 
-    def randTree(self,num_vars=4):
+    def randTree(self,num_vars=4,basis=0):
        if(not self.type):
         if(random.randint(0,1)):
           tt=random.randint(1,2)
           self.type=tt
           childvn=random.randint(0,num_vars-1)
-          self.left=BinaryTree(childvn)
-          self.right=BinaryTree((childvn+1)%num_vars)
+          self.left=BinaryTree(childvn, basis)
+          self.right=BinaryTree((childvn+1)%num_vars, basis)
        else:
-        self.left.randTree(num_vars)
-        self.right.randTree(num_vars)
+        self.left.randTree(num_vars, basis)
+        self.right.randTree(num_vars, basis)
 def MakeFormulaFromTree(tree,oper):
     if tree != None:
         if(not tree.type):
@@ -709,7 +713,7 @@ def OptimalNew(n,knf=False):
   return ('0','\\emptyset')
  return (ss,ss2)
  
-def MakeFormulaTM(number_of_element=10,number_of_vars=4):
+def MakeFormulaTM(number_of_element=10,number_of_vars=4,basis=0):
  number_of_chemes=10
  BinaryTree.id_count=1
  #varc=open('var_count','r')
@@ -721,12 +725,12 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
  form=('',0,0)
  max_p=number_of_element*2
  while form[1]==0 or form[1]==(pow(2,16)-1):
-     myTree1 = BinaryTree(1)
+     myTree1 = BinaryTree(1,basis)
      while (BinaryTree.id_count!=max_p):
        BinaryTree.id_count = 1
-       myTree1 = BinaryTree(1)
+       myTree1 = BinaryTree(1,basis)
        for i in range(10):
-         myTree1.randTree(number_of_vars)
+         myTree1.randTree(number_of_vars,basis)
      form=MakeFormulaFromTree(myTree1,0)
  print(form)
  varc=open('var_count','r')
