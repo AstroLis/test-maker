@@ -2,14 +2,14 @@
 "title":"вектор по СДНФ",
 "chapter":"Булевы функции. Нормальные формы",
 "titleb":"Нахождение вектора значений по СДНФ",
-"zadacha":"'Выберите вектор значений для булевой функции $f(x_1,x_2,x_3,x_4)=({})$'.format(A2[6])",
+"zadacha":"'Выберите вектор значений для булевой функции $f(x_1,x_2,x_3,x_4)=({})$'.format(A2)",
 "answer_style":"'block'",
 "vopros":{
           "v1":"''"
          }, 
 "param":{
-         "A1":"random.randint(4,8)",
-         "A2":"tree_bool_tm.MakeFormulaTM(number_of_element=7,number_of_vars=4)",
+         "A1":"bool_num_term(4,4,nv=4)",
+         "A2":"tree_bool_tm.DStrFromNbool(A1,4,knf=False)",
          "A3":"0",
          "A4":"0",
          "A5":"0",
@@ -17,6 +17,6 @@
          "A7":"0"                  
         },
 "otvet":{
-         "o1":"'$({:016b})$'.format(Ninv(A2[0][1]))"         
+         "o1":"'$({:016b})$'.format(Ninv(A1))"         
         }
 }

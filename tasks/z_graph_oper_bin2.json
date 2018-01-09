@@ -1,0 +1,36 @@
+{
+"title":"Бинарные операции над орграфами 2",
+"chapter":"Теория графов. Операции над графами",
+"titleb":"Бинарные операции над графами",
+"zadacha":"'Орграфы $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ заданы матрицами смежности $S_1$ и $S_2$ \\n\\n \\\\begin{minipage}[c]{0.3\\\\linewidth} \\\\footnotesize $$S_1='+MakeMatrix(A2,baks=0)+' $$\\\\end{minipage} \\\\begin{minipage}[c]{0.3\\\\linewidth} \\\\footnotesize $$S_2='+MakeMatrix(A4,baks=0)+' $$\\\\end{minipage}\\n\\n'",
+"vopros0":{
+          "v1":"'Выберите матрицу смежности графа, полученную в результате умножения объединения графов $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ на $\\\\overrightarrow{G}_2$\\n\\n'",
+          "v2":"'Выберите матрицу смежности графа, полученную в результате умножения пересечения графов $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ на $\\\\overrightarrow{G}_2$\\n\\n'",
+          "v3":"'Выберите матрицу смежности графа, полученную в результате умножения графа $\\\\overrightarrow{G}_1$ на объединение графов $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ \\n\\n'",
+          "v4":"'Выберите матрицу смежности графа, полученную в результате умножения графа $\\\\overrightarrow{G}_1$ на пересечения графов $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$\\n\\n'"
+         }, 
+"vopros":{
+          "v1":"'Выберите матрицу смежности графа, полученного в результате операции $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ на $\\\\overrightarrow{G}_2$\\n\\n'",
+          "v2":"'Выберите матрицу смежности графа, полученную в результате умножения пересечения графов $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ на $\\\\overrightarrow{G}_2$\\n\\n'",
+          "v3":"'Выберите матрицу смежности графа, полученную в результате умножения графа $\\\\overrightarrow{G}_1$ на объединение графов $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ \\n\\n'",
+          "v4":"'Выберите матрицу смежности графа, полученную в результате умножения графа $\\\\overrightarrow{G}_1$ на пересечения графов $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$\\n\\n'"
+         }, 
+"param":{
+         "A1":"graph_tm.NewGraph(5,3)",
+         "A2":"copy.copy(A1.smezh)",
+         "A3":"graph_tm.NewGraph(5,3)",
+         "A4":"copy.copy(A3.smezh)",
+         "A5":"graph_tm.grOr(A2,A4)",
+         "A6":"graph_tm.grAnd(A2,A4)",
+         "A7":"graph_tm.grMult(A5,A4)",
+         "A8":"graph_tm.grMult(A6,A4)",
+         "A9":"graph_tm.grMult(A2,A5)",
+         "AA":"graph_tm.grMult(A2,A6)"
+        },
+"otvet":{
+         "o1":"'\\\\scriptsize '+MakeMatrix(A7)+''",
+         "o2":"'\\\\scriptsize '+MakeMatrix(A8)+''",
+         "o3":"'\\\\scriptsize '+MakeMatrix(A9)+''",
+         "o4":"'\\\\scriptsize '+MakeMatrix(AA)+''"
+        }
+}
