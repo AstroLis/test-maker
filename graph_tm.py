@@ -237,10 +237,16 @@ def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1):
        dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
        text_d0+=d1[0]/dd
        text_d1+=d1[1]/dd
-     if( not(text_d0==0 and text_d1==0)):
-      ntd=norm_((text_d0,text_d1))
-     else:
-      ntd=norm_((random.randint(-10,10),random.randint(-10,10)))
+     if text_d0==0 and text_d1==0:
+        for i in range(nv):
+            if i==jj: 
+                continue
+            ph=probs[phi]
+            d1=diff_(pp,ph)
+            dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
+            text_d0+=d1[0]/dd
+            text_d1+=d1[1]/dd           
+     ntd=norm_((text_d0,text_d1))
      ccc.text(pp[0]*sc-0.5*ntd[0]*scs,pp[1]*sc-0.5*ntd[1]*scs, str(jj+1), [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
     #ccc.stroke(path.rect(minx-1, miny-1, maxx-minx+2,maxy-miny+2))
     ccc.stroke(path.rect(-3*sc, -3*sc, 6*sc,6*sc))
