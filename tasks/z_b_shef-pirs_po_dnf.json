@@ -11,7 +11,7 @@
          "A1":"random.randint(1,2)"
         },
 "param":{
-         "A2":"tree_bool_tm.MakeFormulaTM(number_of_element=4,number_of_vars=4,basis=A1)",
+         "A2":"tree_bool_tm.MakeFormulaTM(number_of_element=4,number_of_vars=3,basis=A1)",
          "A3":"['Шеффера','Пирса']",
          "A4":"0",
          "A5":"0",
