@@ -357,7 +357,11 @@ def make_book_theme_head(TName,them_name,chap_name,part_name,ch=0,pa=0):
     th.append("\\thispagestyle{empty1}\n")
     th.append("\\end{minipage}\n")
  if ch:
+    th.append("\n~\n")
+    th.append("\\begin{minipage}{\linewidth}\n")
     th.append("\\chapter{"+chap_name+"}") 
+    th.append("\\gdef\chaptertitle{"+chap_name+"}\n")
+    th.append("\\end{minipage}\n\n")
  if '#' in them_name:
   (sn,sm)=them_name.split('#')
  else:
@@ -440,9 +444,10 @@ def make_book_head(TName):
 
  th.append("\\pagestyle{fancy}\n")
 
- th.append("\\let\\Oldpart\\part\n")
+ #th.append("\\let\\Oldpart\\part\n")
  th.append("\\newcommand{\\parttitle}{}\n")
- th.append("\\renewcommand{\\part}[1]{\\Oldpart{#1}\\renewcommand{\\parttitle}{#1}}\n")
+ #th.append("\\renewcommand{\\part}[1]{\\Oldpart{#1}\\renewcommand{\\parttitle}{#1}}\n")
+ th.append("\\newcommand{\\chaptertitle}{}\n")
 
  th.append("\\renewcommand{\\thechapter}{~}\n")
  th.append("\\renewcommand{\\thepart}{~}\n")
@@ -464,7 +469,7 @@ def make_book_head(TName):
  th.append("\\titleformat{\\part}{\\Large\\bfseries}{}{3pt}{\centering\Large\\bfseries}\n")
  th.append("\\titleformat{\\chapter}{\\large\\bfseries}{}{3pt}{\centering\large\\bfseries}\n")
 
- th.append("\\renewcommand{\\chaptermark}[1]{\\markboth{ #1}{}}\n")
+ th.append("\\renewcommand{\\chaptermark}[1]{}\n")
  th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\textbf{\\thesection.}~#1}}\n")
 
 
@@ -474,7 +479,7 @@ def make_book_head(TName):
 
  th.append("\\fancypagestyle{fancy1}{ % \n")
  th.append("\\renewcommand{\\headrule}{\\vspace{2pt}\\hrule height 0.5pt \\vspace{1pt}\\hrule height 1pt}\n")
- th.append("\\fancyhead[CE]{\\small \\parttitle. \\leftmark}\n")
+ th.append("\\fancyhead[CE]{\\small \\parttitle. \\chaptertitle}\n")
  th.append("\\fancyhead[CO]{\\small \\rightmark}\n")
  th.append("\\fancyhead[LE]{\\small \\bf{\\thepage}}\n")
  th.append("\\fancyhead[RO]{\\small \\bf{\\thepage}}\n")
