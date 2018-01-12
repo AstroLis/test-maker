@@ -3,6 +3,7 @@ import numpy as np
 from shutil import copyfile
 from pyx import *
 from tex_structures_tm import MakeTable
+from graph_tm import dist_
 from tex_structures_tm import MakeMatrix
 #sys.path.append('./tmUI.py')
 #from tmUI import MakeMatrix
@@ -26,6 +27,8 @@ varVal  =    [65280,61680,52428,43690]
 #1100110011001100
 #1111000011110000
 #1111111100000000
+
+
 def NtoList(iPerf):
  ff=[]
  i=0
@@ -839,7 +842,8 @@ def PrintCirqPerf(iPerf,imax):
  vc.write(str(v_cou))
  vc.close()
  return cname
- 
+
+#show Lotos-like Venn diagram for iPerf bool vector
 def PrintEllipsePerf(iPerf,imax):
  varc=open('var_count','r')
  v_cou=int(varc.readline())
@@ -877,6 +881,97 @@ def PrintEllipsePerf(iPerf,imax):
  vc.write(str(v_cou))
  vc.close()
  return cname
+
+#generate free-SDNF-cell bool vector
+def GenerateNonOverlapCircles(nv=3):
+  xyb=[[-0.5,-0.25],[0.5,-0.25],[-0.25,0.5]]
+  AA=[]
+  rb=0.2
+  chk0=1
+  fcf=[]
+  rstr=''
+  while chk0:
+    rstr = ''
+    fcf=[]
+    AA = [[random.random()/2 + xyb[0][0], random.random()/4 + xyb[0][1], random.random() + rb],[0,0,0],[0,0,0]]
+    chk=1
+    while chk:
+        AA[1][0] = random.random()/2 + xyb[1][0]  #xB = random.random() / 2 + 0.5
+        AA[1][1] = random.random()/4 + xyb[1][1]  #yB = random.random() / 4 - 0.25
+        AA[1][2] = random.random()*.7 + rb          #rB = random.random() + 0.3
+        chk=(abs(dist_(AA[1],AA[0])-(AA[0][2]+AA[1][2]))<0.1)
+
+    chk=1
+    while chk:
+        AA[2][0] = random.random()/4 + xyb[2][0]
+        AA[2][1] = random.random()/2 + xyb[2][1]
+        AA[2][2] = random.random()*.7 + rb
+        chk  = (abs(dist_(AA[2],AA[0])-(AA[0][2]+AA[2][2]))<0.1)
+        chk  = chk or (abs(dist_(AA[2], AA[1]) - (AA[1][2] + AA[2][2])) < 0.1)
+        r12=AA[0][2]+AA[1][2]
+        r1=AA[0][2]
+        r2=AA[1][2]
+        if not chk and dist_(AA[1],AA[0])<r12:
+            x=[0,0]
+            x[0] = AA[0][0] + (AA[1][0] - AA[0][0])*r1/r12
+            x[1] = AA[0][1] + (AA[1][1] - AA[0][1])*r1/r12
+            ax=dist_(AA[0],x)
+            xr=math.sqrt(ax*ax+r1*r1)
+            chk = (abs(dist_(AA[2], x) - (xr + AA[2][2])) < 0.1)
+    iPerf=pow(2,16)-1
+    ff = NtoList(iPerf)
+    cf=[0 for a in ff]
+    print(ff)
+    ir = 100
+    for ix in range(-ir, ir, 3):
+        for iy in range(-ir, ir, 3):
+            x = 2. * ix / ir
+            y = 2. * iy / ir
+            for f in range(0,len(ff)):
+                if CheckDForm(ff[f], x, y, AA):
+                    cf[f]=1
+#                    ccc.stroke(path.circle(x, y, 0.01), [color.gray(0.5)])
+    ccf=[]
+    for i in range(0,len(cf)):
+        if(i%2):
+            ccf.append(cf[i])
+            if cf[i]:
+                if random.randint(1,3)==1:
+                    fcf.append(ff[i])
+                    rstr+='1'
+                else:
+                    rstr+='0'
+            else:
+                rstr+='x'
+
+    print(cf)
+    print(ccf)
+    chk0=(sum(ccf)==8)
+  print('fcf:',fcf)
+  print('rstr:',rstr)
+  varc = open('var_count', 'r')
+  v_cou = int(varc.readline())
+  varc.close()
+  ccc = canvas.canvas()
+  ir = 100
+  for ix in range(-ir, ir, 3):
+        for iy in range(-ir, ir, 3):
+            x = 2. * ix / ir
+            y = 2. * iy / ir
+            for f in fcf:
+                if CheckDForm(f, x, y, AA):
+                     ccc.stroke(path.circle(x, y, 0.01), [color.gray(0.5)])
+  for A in AA:
+      ccc.stroke(path.circle(A[0], A[1], A[2]))
+  ccc.stroke(path.rect(-2, -2, 4, 4))
+  cname = "venn" + str(v_cou)
+  ccc.writeEPSfile(cname)
+  #ccc.writePDFfile(cname)
+  v_cou = v_cou + 1
+  vc = open('var_count', 'w')
+  vc.write(str(v_cou))
+  vc.close()
+  return (cname,rstr)
 
 
 def MakeZazhigalkin(nA=5,nV=4):
@@ -1013,6 +1108,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
 
+#GenerateNonOverlapCircles(nv=3)
 #PrintEllipsePerf(52344,4)
 #print(MakeZazhigalkinTask()) 
 #MakeForrest()
