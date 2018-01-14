@@ -159,10 +159,11 @@ def DoOper(operand,x1,x2,nb=16):
  if operand=='\\oplus':
   return x1^x2
 
-def NtoListB(iPerf,l):
+def NtoListB(iPerf,l,nv=4):
  ff=[]
  for i in range(0,l):
-  ff.append(iPerf%2)
+  if not(nv==3 and i%2):
+    ff.append(iPerf%2)
   iPerf=iPerf>>1
  return ff
 
@@ -884,7 +885,8 @@ def PrintEllipsePerf(iPerf,imax):
 
 #generate free-SDNF-cell bool vector
 def GenerateNonOverlapCircles(nv=3):
-  xyb=[[-0.5,-0.25],[0.5,-0.25],[-0.25,0.5]]
+  xyb=[[-0.5,-0.5],[0.5,-0.5],[-0.25,0.25]]
+  sm=0.2
   AA=[]
   rb=0.2
   chk0=1
@@ -899,15 +901,15 @@ def GenerateNonOverlapCircles(nv=3):
         AA[1][0] = random.random()/2 + xyb[1][0]  #xB = random.random() / 2 + 0.5
         AA[1][1] = random.random()/4 + xyb[1][1]  #yB = random.random() / 4 - 0.25
         AA[1][2] = random.random()*.7 + rb          #rB = random.random() + 0.3
-        chk=(abs(dist_(AA[1],AA[0])-(AA[0][2]+AA[1][2]))<0.1)
+        chk=(abs(-abs(dist_(AA[1],AA[0])-AA[0][2])+AA[1][2])<sm)
 
     chk=1
     while chk:
         AA[2][0] = random.random()/4 + xyb[2][0]
         AA[2][1] = random.random()/2 + xyb[2][1]
         AA[2][2] = random.random()*.7 + rb
-        chk  = (abs(dist_(AA[2],AA[0])-(AA[0][2]+AA[2][2]))<0.1)
-        chk  = chk or (abs(dist_(AA[2], AA[1]) - (AA[1][2] + AA[2][2])) < 0.1)
+        chk  = (abs(-abs(dist_(AA[2],AA[0])-AA[0][2])+AA[2][2])<sm)
+        chk  = chk or (abs(-abs(dist_(AA[2], AA[1]) - AA[1][2]) + AA[2][2]) < sm)
         r12=AA[0][2]+AA[1][2]
         r1=AA[0][2]
         r2=AA[1][2]
@@ -917,7 +919,7 @@ def GenerateNonOverlapCircles(nv=3):
             x[1] = AA[0][1] + (AA[1][1] - AA[0][1])*r1/r12
             ax=dist_(AA[0],x)
             xr=math.sqrt(ax*ax+r1*r1)
-            chk = (abs(dist_(AA[2], x) - (xr + AA[2][2])) < 0.1)
+            chk = (abs(-abs(dist_(AA[2], x) - xr) + AA[2][2]) < sm)
     iPerf=pow(2,16)-1
     ff = NtoList(iPerf)
     cf=[0 for a in ff]
@@ -942,7 +944,7 @@ def GenerateNonOverlapCircles(nv=3):
                 else:
                     rstr+='0'
             else:
-                rstr+='x'
+                rstr+='{}-{}'
 
     print(cf)
     print(ccf)
@@ -964,6 +966,15 @@ def GenerateNonOverlapCircles(nv=3):
   for A in AA:
       ccc.stroke(path.circle(A[0], A[1], A[2]))
   ccc.stroke(path.rect(-2, -2, 4, 4))
+  #for i in range(0, 3):
+  ccc.text(AA[0][0]-AA[0][2]-0.1, AA[0][1] - AA[0][2]-0.1, varNamesSet0[0],
+           [text.size(2), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+  ccc.text(AA[1][0]+AA[1][2]+0.1, AA[1][1] + AA[1][2]+0.1, varNamesSet0[1],
+           [text.size(2), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+  ccc.text(AA[2][0], AA[2][1] + AA[2][2]+0.2, varNamesSet0[2],
+           [text.size(2), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+  ccc.text(-1.65, 1.6, "U", [text.size(2), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+
   cname = "venn" + str(v_cou)
   ccc.writeEPSfile(cname)
   #ccc.writePDFfile(cname)
@@ -971,7 +982,114 @@ def GenerateNonOverlapCircles(nv=3):
   vc = open('var_count', 'w')
   vc.write(str(v_cou))
   vc.close()
-  return (cname,rstr)
+  return (cname,'\\texttt{('+rstr+')}')
+
+def PaintSDNFGraph(isdnf,knf=False,number_of_vars=3,mark_vert=True):
+    varc = open('var_count', 'r')
+    v_cou = int(varc.readline())
+    if number_of_vars==3:
+        s=1
+        orts=((-math.sqrt(2)/2,-math.sqrt(2)/2),(1,0),(0,1))
+        zc=(-0.2,-0.2)
+        sc=1.8
+        op=[(ort[0]*sc+ort[1]*0.3,ort[1]*sc+ort[0]*0.3) for ort in orts]
+        od=[(ort[0]*sc,ort[1]*sc) for ort in orts]
+    else:
+        s=1.2
+        orts=((-math.sqrt(2)/2*s*1.1,-math.sqrt(2)/2*s*1.1),(1*s,0),(0,1*s),(math.cos(13/16*math.pi)*s,math.sin(13/16*math.pi)*s))
+        zc=(0.2,-0.5)
+        sc=1.8    
+        sc1=1.5
+        sc2=1.4
+        sc3=1.96
+        sc4=2.1
+        od=((orts[0][0]*sc1,orts[0][1]*sc1),
+            (orts[1][0]*sc2,orts[1][1]*sc2),
+            (orts[2][0]*sc3,orts[2][1]*sc3),
+            (orts[3][0]*sc4,orts[3][1]*sc4))
+        op=((od[0][0]-0.2,od[0][1]+0.2),
+            (od[1][0]-0.1,od[1][1]+0.3),
+            (od[2][0]+0.3,od[2][1]-0.05),
+            (od[3][0]+0.2,od[3][1]+0.2))
+    varc.close()
+    ccc = canvas.canvas()
+    cname = "sdnf_gr" + str(v_cou)
+    ccc.stroke(path.rect(-2, -2, 4, 4))
+    #ccc.writeEPSfile(cname)
+    for i in range(0,len(orts)):
+        ort=orts[i]
+        ccc.stroke(path.line(*zc, zc[0]+od[i][0],zc[1]+od[i][1]), [deco.earrow([deco.filled()]),style.linestyle.dashed,style.linewidth(0.01)])
+        ccc.text(zc[0]+op[i][0],zc[1]+op[i][1], varNames[i], [text.size(1), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+    if knf:
+        ff0=NtoList(DoNeg(isdnf))
+    else:    
+        ff0=NtoList(isdnf)
+    ff=[]    
+    for f in ff0:
+        if number_of_vars==3 and f%2: continue
+        ff.append(f)
+    xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
+    for f in ff:
+        if number_of_vars==3 and f%2: continue
+        x=zc[0]+sum([xxi[k][f]*orts[k][0] for k in range(0,number_of_vars)])
+        y=zc[1]+sum([xxi[k][f]*orts[k][1] for k in range(0,number_of_vars)])
+        if knf:
+#            ccc.fill(path.circle(x, y, 0.1),[color.gray.white])
+            ccc.stroke(path.circle(x, y, 0.1),[style.linewidth(0.03)])
+        else:
+            ccc.fill(path.circle(x, y, 0.1))
+        if number_of_vars==3 :
+            vnum=int(f/2)
+        else:
+            vnum=int(f)        
+        if mark_vert:    
+            ccc.text(x-0.15,y+0.2, str(vnum), [text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+        
+    if number_of_vars==3:
+        ffall=NtoList((pow(2,8)-1))  
+    else:
+        ffall=NtoList((pow(2,16)-1))  
+    for if1 in range(0,len(ffall)):
+        for if2 in range(if1,len(ffall)):
+            f1=ffall[if1]
+            f2=ffall[if2]
+            if CalcBits(f1^f2)==1:
+                ii1 = NtoListB(f1, 16)
+                ii2 = NtoListB(f2, 16)
+                x1 = zc[0] + sum([ii1[k] * orts[k][0] for k in range(0, number_of_vars)])
+                y1 = zc[1] + sum([ii1[k] * orts[k][1] for k in range(0, number_of_vars)])
+                x2 = zc[0] + sum([ii2[k] * orts[k][0] for k in range(0, number_of_vars)])
+                y2 = zc[1] + sum([ii2[k] * orts[k][1] for k in range(0, number_of_vars)])
+                ccc.stroke(path.line(x1, y1, x2, y2),
+                           [style.linestyle.dashed,style.linewidth(0.01)])
+    lff=len(ff)
+    smezh=[[0 for i in range(0,lff)] for j in range(0,lff)]
+    for i1 in range(lff):
+        for i2 in range(i1,lff):
+            f1=ff[i1]
+            f2=ff[i2]
+            if CalcBits(f1^f2)==1:
+                x1 = zc[0] + sum([xxi[k][f1] * orts[k][0] for k in range(0, number_of_vars)])
+                y1 = zc[1] + sum([xxi[k][f1] * orts[k][1] for k in range(0, number_of_vars)])
+                x2 = zc[0] + sum([xxi[k][f2] * orts[k][0] for k in range(0, number_of_vars)])
+                y2 = zc[1] + sum([xxi[k][f2] * orts[k][1] for k in range(0, number_of_vars)])
+                dx=x2-x1
+                dy=y2-y1
+                r=math.sqrt(dx*dx+dy*dy)
+                x1=x1+dx*0.1/r
+                x2=x2-dx*0.1/r
+                y1=y1+dy*0.1/r
+                y2=y2-dy*0.1/r
+                ccc.stroke(path.line(x1, y1, x2, y2),
+                           [style.linewidth(0.03)])
+                smezh[i1][i2]+=1
+                smezh[i2][i1]+=1                           
+    ccc.writeEPSfile(cname)
+    v_cou = v_cou + 1
+    vc = open('var_count', 'w')
+    vc.write(str(v_cou))
+    vc.close()
+    return (cname,str(NtoListB(isdnf,16,number_of_vars)),smezh)
 
 
 def MakeZazhigalkin(nA=5,nV=4):
@@ -1108,6 +1226,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
 
+#print(PaintSDNFGraph(random.randint(1,255)))
 #GenerateNonOverlapCircles(nv=3)
 #PrintEllipsePerf(52344,4)
 #print(MakeZazhigalkinTask()) 

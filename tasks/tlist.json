@@ -75,6 +75,14 @@
                      "./tasks/z_b_sdnf_po_form.json",
                      "./tasks/z_b_nf_po_venn4.json",
                      "./tasks/z_b_nepoln_po_venn.json",
+                     "./tasks/z_b_venn_po_nepoln.json",
+                     "./tasks/z_b_cube_po_vekt.json",
+                     "./tasks/z_b_cube4_po_vect.json",
+                     "./tasks/z_b_sxnf_po_cube.json",
+                     "./tasks/z_b_sxnf_po_cube4.json",
+                     "./tasks/z_b_xnf_po_cube4.json",
+                     "./tasks/z_b_smezh_po_cube.json",
+                     "./tasks/z_b_smezh_po_venn.json",
                      "./tasks/z_b_karn_po_sdnf.json",
                      "./tasks/z_b_sdnf_po_karn.json",
                      "./tasks/z_b_vekt_po_karno.json",
@@ -109,6 +117,7 @@
                      "./tasks/z_b_form_po_schem.json",
                      "./tasks/z_b_karn_po_schem.json",
                      "./tasks/z_b_zazhig_po_vect.json",
+                     "./tasks/z_b_vekt_po_cube.json",
                      "./tasks/z_b_shef_po_dnf.json",
                      "./tasks/z_b_zazhig_po_opt.json"
                      ]                       

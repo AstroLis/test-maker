@@ -186,6 +186,15 @@ def MakeQAStyle(quest,ans,style):
             qa.append(AnsLabel[i]+ans[i]+'\n\n')
         qa.append("\\end{minipage}\n")  
         return qa
+    if(style=="'qa_line_1_4'"):
+        qa.append("\\vskip 2pt\n\n\\begin{minipage}[r]{0.25\\linewidth}\n")  
+        qa.append(quest[0] + '\n\n')
+        qa.append("\\end{minipage}\n")  
+        qa.append("\\begin{minipage}[l]{0.75\\linewidth}\n")  
+        for i in range(0,4):
+            qa.append(AnsLabel[i]+ans[i]+'\n\n')
+        qa.append("\\end{minipage}\n")  
+        return qa
     if(style=="'qa_block'"):
         qa.append("\\vskip 2pt\n\n\\begin{minipage}[r]{0.33\\linewidth}\n\\flushleft\n")
         qa.append(quest[0] + '\n\n')
