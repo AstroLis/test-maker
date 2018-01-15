@@ -532,8 +532,9 @@ def make_book_head(TName):
  th.append("\\renewcommand{\\cftaftertoctitle}{ }\n")
  th.append("\\renewcommand{\\cftsecpresnum}{ }\n")
  th.append("\\renewcommand{\\cftsecaftersnum}{.}\n")
- th.append("\\renewcommand{\\cftpartfont}{\\hfill\\large\\bfseries}\n")
-
+ th.append("\\renewcommand{\\cftpartfont}{\\hfil\\large\\bfseries\hspace{10pt}}\n")
+ th.append("\\renewcommand{\\cftchapleader}{\\cftdotfill{\\cftdotsep}}\n")
+ th.append("\\cftpagenumbersoff{part}\n")
  th.append("\\renewcommand{\\cftaftertoctitle}{\\thispagestyle{empty1}}\n")
  
  th.append("\\begin{document}\n")
@@ -621,7 +622,7 @@ def make_book(*args):
         for iii in range(1, ntests):
             i=i+1
             tname=task_data[tkey_name]       
-            f.write("\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")
+            f.write("\n\\vspace{8pt plus 0pt minus 8pt}\n\n\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")
             bAnswer=int(answer_type.get())
             #task = ParseTask(tname,bAnswer,randAns=j[tkey_name],compl=0) #disable random in 4type task
             task = ParseTask(tname,bAnswer)
