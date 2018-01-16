@@ -626,7 +626,7 @@ def make_book(*args):
             bAnswer=int(answer_type.get())
             #task = ParseTask(tname,bAnswer,randAns=j[tkey_name],compl=0) #disable random in 4type task
             task = ParseTask(tname,bAnswer)
-            filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.6]') for x in task[0]]
+            filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.55]') for x in task[0]]
             f.writelines(filt_sc)
             fsolv.write(str(i)+":"+str(task[1])+" ")
             f.write("\n\\end{minipage}\n")

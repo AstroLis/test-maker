@@ -200,6 +200,8 @@ def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1):
     global ccc
     sc=0.7
     scs=1
+#    sc=2./3
+#    scs=(sc)/0.7
     fi=1
     ccc = canvas.canvas()
     if(calc_random_path):
