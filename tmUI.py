@@ -264,10 +264,10 @@ def MakeQAStyle(quest,ans,style):
     #default
     qa.append(quest[0] + '\\vskip 2pt\n\n')
     for i in range(0,4):
-      qa.append('\\begin{minipage}[c]{0.017\\linewidth}\n')
+      qa.append('\\begin{minipage}[c]{0.02\\linewidth}\n')
       qa.append(AnsLabel[i])
       qa.append('\\end{minipage}\n')
-      qa.append('\\begin{minipage}[c]{0.22\\linewidth}\n')
+      qa.append('\\begin{minipage}[c]{0.21\\linewidth}\n')
       qa.append(ans[i])
       qa.append('\\end{minipage}\n')      
     return qa
