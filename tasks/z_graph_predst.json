@@ -1,0 +1,29 @@
+{
+"title":"Способы задания, Эйлер",
+"chapter":"Теория графов. Способы задания графов",
+"titleb":"Эйлерово задание графов",
+"zadacha":"'Для неориентированного графа, представленного на рисунке, выберите соответствующуее ему выражение'+NL",
+"answer_style":"'qa_line'",
+"vopros":{
+          "v1":"'\\\\includegraphics[]{'+A3[0]+'}'",
+          "v2":"''"
+         }, 
+"const_param":{
+         "A1":"[('1','2','3','4','5','6','7','8','9'),('A','B','C','D','E','F','G','H','I','J','K'),('a','b','c','d','e','f','g','h','i','j','k',),('000','001','010','011','100','101','110','111')]",
+         "A2":"random.randint(0,3)",
+         "A22":"A1[A2]",
+         "A3":"graph_tm.MakeGraphTM(nv=5,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=A22,paint_fl=1)",
+         "A4":"['\\\\mbox{{{{\\\\textbf {}:}}~{},~}} '.format(A22[i],[A22[A3[5][i][j]] for j in range(len(A3[5][i]))]) for i in range(len(A3[5]))]",
+         "A5":"''.join(A4)"         
+         },
+"param":{
+         "A6":"0",
+         "A7":"graph_tm.MakeGraphTM(nv=5,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=0)",
+         "A8":"['\\\\mbox{{{{\\\\textbf {}:}}~{},~}} '.format(A22[i],[A22[A7[5][i][j]] for j in range(len(A7[5][i]))]) for i in range(len(A7[5]))]",
+         "A9":"''.join(A8)"         
+        },
+"otvet":{
+         "o1":"RB(A5)",        
+         "o2":"RB(A9)"        
+        }
+}
