@@ -416,6 +416,7 @@ def make_test_head(TName,Nz):
  th.append("\\usepackage{graphicx}\n")
  th.append("\\usepackage[fleqn]{amsmath}\n")
  th.append("\\usepackage{mathtools}\n")
+ th.append("\\usepackage{enumitem}\n")
  th.append("\\usepackage[left=0.5cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
  th.append("\\begin{document}\n")
