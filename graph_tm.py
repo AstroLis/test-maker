@@ -5,7 +5,67 @@ import networkx as nx
 from shutil import copyfile
 from pyx import *
 
-# simple binary tree
+def lts(lst,bb=['\\{','\\}']):
+    rz=bb[0]
+    f=0
+    for i in lst:
+        if f: rz+=', '
+        f=1
+        rz+=str(i)
+    rz+=bb[1]
+    return rz
+
+def graph_repr(path_to,directed=1,v_nams=[]):
+    nv=len(path_to)
+    weighted=0
+    random_weights=0
+    if v_nams==[]:
+        for i in range(nv):
+            v_nams.append(i+1)
+    rv_nams=[]
+    vi={}
+    iv={}
+    mi={}
+    iii={}
+    for i in range(nv):
+        rv_nams.append(v_nams[i])
+        vi[v_nams[i]]=i
+        iv[i]=v_nams[i]
+    vis=sorted(vi.keys())
+    for i in range(len(vis)):
+        mi[vis[i]]=i
+        iii[vi[vis[i]]]=i
+    incin = []
+    smezh = [[0 for i in range(0, nv)] for j in range(0, nv)]
+    edges=[]
+    verts=[]
+    if directed:
+        for ii in vi:
+            edges+=['('+str(ii)+', '+str(iv[j])+')' for j in path_to[vi[ii]]]
+            verts.append(str(ii)+': '+lts(sorted([iv[jj] for jj in path_to[vi[ii]]])))
+    repr_cl = '('+lts(sorted(vis))+', '+lts(sorted(edges))+')'
+    repr_vrt =lts(sorted(verts),'  ')
+    for ii in vi:
+        i=vi[ii]
+        for p in path_to[i]:
+            if directed:
+                incin.append([0 if (not vi[j] == i and not vi[j] == p) else 1 if vi[j] == i else -1 for j in vi])
+            else:
+                incin.append([0 if (not vi[j] == i and not vi[j] == p) else 1 for j in vi])
+            if weighted:
+                #sml = int(10 * dist_(probs[i], probs[p]))
+                if random_weights:
+                    sml = random.randint(1, 5)
+            else:
+                sml = 1
+            smezh[iii[i]][iii[p]] = sml
+            if not directed:
+                smezh[iii[i]][iii[i]] = sml
+    return (smezh,incin,repr_cl,repr_vrt)
+
+
+
+        # simple binary tree
 # in this implementation, a node is inserted between an existing node and the root
 class NewGraph:
     def __init__(self,d=5,n=5,sym=False):
@@ -653,8 +713,39 @@ def FindPathsForFixedLenght(N,n,i,j):
         mm=nm*mm
     print(mm)    
     return (tmp[0],mm[i,j])    
-    #print(nm)    
-#print(FindPathsForFixedLenght(4,3,1,2))    
+    #print(nm)
+
+
+a=MakeGraphTM(nv=4,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=1)
+print(a)
+b=graph_repr(a[5],1)
+for i in b[0]:
+    print(i)
+print(b[2])
+print(b[3])
+b=graph_repr(a[5],1,[2,3,4,5,1])
+for i in b[0]:
+    print(i)
+print(b[2])
+print(b[3])
+b=graph_repr(a[5],1,[3,4,5,1,2])
+for i in b[0]:
+    print(i)
+print(b[2])
+print(b[3])
+b=graph_repr(a[5],1,['A','B','C','D','E','F'])
+for i in b[0]:
+    print(i)
+print(b[2])
+print(b[3])
+vnms=['A','B','C','D','E','F']
+random.shuffle(vnms)
+b=graph_repr(a[5],1,vnms)
+for i in b[0]:
+    print(i)
+print(b[2])
+print(b[3])
+#print(FindPathsForFixedLenght(4,3,1,2))
 #LocStructCluben(8)
 #MakeGraphsMatr()  
 #MakeGraphs()  

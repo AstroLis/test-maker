@@ -51,6 +51,7 @@
                        "./tasks/z_algebra1.json",
                        "./tasks/z_algebra2.json",
                        "./tasks/z_graph_predst.json",
+                       "./tasks/z_graph_predst_izomor.json",
                        "./tasks/z_graph_locstr5.json",
                        "./tasks/z_graph_u_incin_2.json",
                        "./tasks/z_graph_u_incin.json",
