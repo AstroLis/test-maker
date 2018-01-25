@@ -15,6 +15,9 @@ def lts(lst,bb=['\\{','\\}']):
     rz+=bb[1]
     return rz
 
+def gr_tostr(gr):
+    return '('+lts(gr[0])+', '+lts([lts(i,'()') for i in gr[1]])+')'
+
 def graph_repr(path_to,directed=1,v_nams=[]):
     nv=len(path_to)
     weighted=0
@@ -39,10 +42,13 @@ def graph_repr(path_to,directed=1,v_nams=[]):
     smezh = [[0 for i in range(0, nv)] for j in range(0, nv)]
     edges=[]
     verts=[]
+    edges_s=[]
     if directed:
         for ii in vi:
             edges+=['('+str(ii)+', '+str(iv[j])+')' for j in path_to[vi[ii]]]
             verts.append(str(ii)+': '+lts(sorted([iv[jj] for jj in path_to[vi[ii]]])))
+            for j in path_to[vi[ii]]:
+                edges_s.append((ii,iv[j]))
     repr_cl = '('+lts(sorted(vis))+', '+lts(sorted(edges))+')'
     repr_vrt =lts(sorted(verts),'  ')
     for ii in vi:
@@ -61,7 +67,7 @@ def graph_repr(path_to,directed=1,v_nams=[]):
             smezh[iii[i]][iii[p]] = sml
             if not directed:
                 smezh[iii[i]][iii[i]] = sml
-    return (smezh,incin,repr_cl,repr_vrt)
+    return (smezh,incin,repr_cl,repr_vrt,(set(vis),set(edges_s)))
 
 
 
@@ -327,11 +333,46 @@ def PowerSmezh(m,n):
     for i in range (0,n):
         mm=MatrMult(mm,m)
     return mm
+def PlaceGraphVerts(nv):
+#generate random placed verticles for graph picture
+    sc=4
+    s1=2
+    do_work = 1
+    itry = 0
+    probs = []
+    while do_work:
+     print('try:',itry)
+     itry=itry+1
+     do_work=0
+     probs=[]
+     path_a=[]
+     tc=0
+     for jj in range(nv):
+      dd=0
+      d1=(random.random()*sc-s1,random.random()*sc-s1)
+      if len(probs):
+       while dd<sc/4:
+        d1=(random.random()*sc-s1,random.random()*sc-s1)
+        mind=sc
+        for d2 in probs:
+         if mind>dist_(d1,d2):
+          mind=dist_(d1,d2)
+        dd=mind
+        tc=tc+1
+        if tc>100:
+          do_work=1
+          break
+      if do_work:
+       break
+      probs.append(d1)
+     if do_work:
+      continue
+    return probs
+
+
 def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=1):
     random.seed()
     global id_count
-    global probs
-    global probs_all
     global all_path
     id_count = 1
     probs = []
@@ -723,28 +764,31 @@ for i in b[0]:
     print(i)
 print(b[2])
 print(b[3])
-b=graph_repr(a[5],1,[2,3,4,5,1])
-for i in b[0]:
-    print(i)
-print(b[2])
-print(b[3])
-b=graph_repr(a[5],1,[3,4,5,1,2])
-for i in b[0]:
-    print(i)
-print(b[2])
-print(b[3])
-b=graph_repr(a[5],1,['A','B','C','D','E','F'])
-for i in b[0]:
-    print(i)
-print(b[2])
-print(b[3])
-vnms=['A','B','C','D','E','F']
-random.shuffle(vnms)
-b=graph_repr(a[5],1,vnms)
-for i in b[0]:
-    print(i)
-print(b[2])
-print(b[3])
+print(b[4])
+print(gr_tostr(b[4]))
+
+#b=graph_repr(a[5],1,[2,3,4,5,1])
+#for i in b[0]:
+#    print(i)
+#print(b[2])
+#print(b[3])
+#b=graph_repr(a[5],1,[3,4,5,1,2])
+#for i in b[0]:
+#    print(i)
+#print(b[2])
+#print(b[3])
+#b=graph_repr(a[5],1,['A','B','C','D','E','F'])
+#for i in b[0]:
+#    print(i)
+#print(b[2])
+#print(b[3])
+#vnms=['A','B','C','D','E','F']
+#random.shuffle(vnms)
+#b=graph_repr(a[5],1,vnms)
+#for i in b[0]:
+#    print(i)
+#print(b[2])
+#print(b[3])
 #print(FindPathsForFixedLenght(4,3,1,2))
 #LocStructCluben(8)
 #MakeGraphsMatr()  

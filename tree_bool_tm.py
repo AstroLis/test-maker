@@ -984,7 +984,7 @@ def GenerateNonOverlapCircles(nv=3):
   vc.close()
   return (cname,'\\texttt{('+rstr+')}')
 
-def PaintSDNFGraph(isdnf,knf=False,number_of_vars=3,mark_vert=True):
+def PaintSDNFGraph(isdnf,knf=False,number_of_vars=3,mark_vert=True,doubl_gr=False):
     varc = open('var_count', 'r')
     v_cou = int(varc.readline())
     if number_of_vars==3:
@@ -1020,31 +1020,59 @@ def PaintSDNFGraph(isdnf,knf=False,number_of_vars=3,mark_vert=True):
         ort=orts[i]
         ccc.stroke(path.line(*zc, zc[0]+od[i][0],zc[1]+od[i][1]), [deco.earrow([deco.filled()]),style.linestyle.dashed,style.linewidth(0.01)])
         ccc.text(zc[0]+op[i][0],zc[1]+op[i][1], varNames[i], [text.size(1), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
-    if knf:
-        ff0=NtoList(DoNeg(isdnf))
-    else:    
-        ff0=NtoList(isdnf)
-    ff=[]    
-    for f in ff0:
-        if number_of_vars==3 and f%2: continue
-        ff.append(f)
-    xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
-    for f in ff:
-        if number_of_vars==3 and f%2: continue
-        x=zc[0]+sum([xxi[k][f]*orts[k][0] for k in range(0,number_of_vars)])
-        y=zc[1]+sum([xxi[k][f]*orts[k][1] for k in range(0,number_of_vars)])
-        if knf:
-#            ccc.fill(path.circle(x, y, 0.1),[color.gray.white])
-            ccc.stroke(path.circle(x, y, 0.1),[style.linewidth(0.03)])
-        else:
-            ccc.fill(path.circle(x, y, 0.1))
-        if number_of_vars==3 :
-            vnum=int(f/2)
-        else:
-            vnum=int(f)        
-        if mark_vert:    
-            ccc.text(x-0.15,y+0.2, str(vnum), [text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
-        
+    doubl_grc=[0]
+    if doubl_gr: doubl_grc=[0,1]
+    for ddd in doubl_grc:
+            if knf:
+                ff0=NtoList(DoNeg(isdnf))
+            else:    
+                ff0=NtoList(isdnf)
+            ff=[]    
+            for f in ff0:
+                if number_of_vars==3 and f%2: continue
+                ff.append(f)
+            xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
+            for f in ff:
+                if number_of_vars==3 and f%2: continue
+                x=zc[0]+sum([xxi[k][f]*orts[k][0] for k in range(0,number_of_vars)])
+                y=zc[1]+sum([xxi[k][f]*orts[k][1] for k in range(0,number_of_vars)])
+                if knf:
+        #            ccc.fill(path.circle(x, y, 0.1),[color.gray.white])
+                    ccc.stroke(path.circle(x, y, 0.1),[style.linewidth(0.03)])
+                else:
+                    ccc.fill(path.circle(x, y, 0.1))
+                if number_of_vars==3 :
+                    vnum=int(f/2)
+                else:
+                    vnum=int(f)        
+                if mark_vert:    
+                    ccc.text(x-0.15,y+0.2, str(vnum), [text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+                
+            lff=len(ff)
+            smezh=[[0 for i in range(0,lff)] for j in range(0,lff)]
+            for i1 in range(lff):
+                for i2 in range(i1,lff):
+                    f1=ff[i1]
+                    f2=ff[i2]
+                    if CalcBits(f1^f2)==1:
+                        x1 = zc[0] + sum([xxi[k][f1] * orts[k][0] for k in range(0, number_of_vars)])
+                        y1 = zc[1] + sum([xxi[k][f1] * orts[k][1] for k in range(0, number_of_vars)])
+                        x2 = zc[0] + sum([xxi[k][f2] * orts[k][0] for k in range(0, number_of_vars)])
+                        y2 = zc[1] + sum([xxi[k][f2] * orts[k][1] for k in range(0, number_of_vars)])
+                        dx=x2-x1
+                        dy=y2-y1
+                        r=math.sqrt(dx*dx+dy*dy)
+                        x1=x1+dx*0.1/r
+                        x2=x2-dx*0.1/r
+                        y1=y1+dy*0.1/r
+                        y2=y2-dy*0.1/r
+                        ccc.stroke(path.line(x1, y1, x2, y2),
+                                   [style.linewidth(0.03)])
+                        smezh[i1][i2]+=1
+                        smezh[i2][i1]+=1                           
+            knf=not knf            
+                
+                
     if number_of_vars==3:
         ffall=NtoList((pow(2,8)-1))  
     else:
@@ -1062,29 +1090,8 @@ def PaintSDNFGraph(isdnf,knf=False,number_of_vars=3,mark_vert=True):
                 y2 = zc[1] + sum([ii2[k] * orts[k][1] for k in range(0, number_of_vars)])
                 ccc.stroke(path.line(x1, y1, x2, y2),
                            [style.linestyle.dashed,style.linewidth(0.01)])
-    lff=len(ff)
-    smezh=[[0 for i in range(0,lff)] for j in range(0,lff)]
-    for i1 in range(lff):
-        for i2 in range(i1,lff):
-            f1=ff[i1]
-            f2=ff[i2]
-            if CalcBits(f1^f2)==1:
-                x1 = zc[0] + sum([xxi[k][f1] * orts[k][0] for k in range(0, number_of_vars)])
-                y1 = zc[1] + sum([xxi[k][f1] * orts[k][1] for k in range(0, number_of_vars)])
-                x2 = zc[0] + sum([xxi[k][f2] * orts[k][0] for k in range(0, number_of_vars)])
-                y2 = zc[1] + sum([xxi[k][f2] * orts[k][1] for k in range(0, number_of_vars)])
-                dx=x2-x1
-                dy=y2-y1
-                r=math.sqrt(dx*dx+dy*dy)
-                x1=x1+dx*0.1/r
-                x2=x2-dx*0.1/r
-                y1=y1+dy*0.1/r
-                y2=y2-dy*0.1/r
-                ccc.stroke(path.line(x1, y1, x2, y2),
-                           [style.linewidth(0.03)])
-                smezh[i1][i2]+=1
-                smezh[i2][i1]+=1                           
     ccc.writeEPSfile(cname)
+#    ccc.writePDFfile(cname)
     v_cou = v_cou + 1
     vc = open('var_count', 'w')
     vc.write(str(v_cou))
@@ -1226,6 +1233,10 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
 
+#PaintSDNFGraph(random.randint(1,35000),knf=False,number_of_vars=4,mark_vert=False,doubl_gr=True)
+#0101011001010011  #VS
+#0101010001001011  #TK
+PaintSDNFGraph(int('0101010001001011', 2),knf=False,number_of_vars=4,mark_vert=False,doubl_gr=True)
 #print(PaintSDNFGraph(random.randint(1,255)))
 #GenerateNonOverlapCircles(nv=3)
 #PrintEllipsePerf(52344,4)
