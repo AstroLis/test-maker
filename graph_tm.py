@@ -18,6 +18,29 @@ def lts(lst,bb=['\\{','\\}']):
 def gr_tostr(gr):
     return '('+lts(gr[0])+', '+lts([lts(i,'()') for i in gr[1]])+')'
 
+def gr_to_graph_tm(gr):
+    print('gr_to_graph_tm: ',gr)
+    nv = len(gr[0])
+    vv=list(gr[0])
+    vi={}
+    iv={}
+    path_to=[]
+    path_all=[]
+    for i in range(nv):
+        path_all.append([])
+        vi[i]=vv[i]
+        iv[vv[i]]=i
+    for i in range(nv):
+        path_to.append([])
+        for j in gr[1]:
+            if j[0]==vi[i]:
+                path_to[i].append(iv[j[1]])
+                path_all[i].append(iv[j[1]])
+            if j[1]==vi[i]:
+                path_all[i].append(iv[j[0]])
+    return (path_to,path_all)            
+                
+        
 def graph_repr(path_to,directed=1,v_nams=[]):
     nv=len(path_to)
     weighted=0
@@ -312,7 +335,7 @@ def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1,v
         for i in range(nv):
             if i==jj: 
                 continue
-            ph=probs[phi]
+            ph=probs[i]
             d1=diff_(pp,ph)
             dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
             text_d0+=d1[0]/dd
@@ -369,7 +392,22 @@ def PlaceGraphVerts(nv):
       continue
     return probs
 
-
+def PaintGraphSet(gr):
+    nv=len(gr[0])
+    varc=open('var_count','r')
+    v_cou=int(varc.readline())
+    varc.close()
+    vc = open('var_count', 'w')
+    vc.write(str(v_cou))
+    vc.close()
+    (path_to,path_a)=gr_to_graph_tm(gr)
+    probs=PlaceGraphVerts(nv)
+    fnam="graph"+str(v_cou)
+    print(probs)
+    print((path_to,path_a))
+    PaintGraphTM(fnam,probs,path_to,path_a,nv,directed=1,calc_random_path=0,v_nams=list(gr[0]))
+    return fnam
+    
 def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=1):
     random.seed()
     global id_count
@@ -766,6 +804,7 @@ print(b[2])
 print(b[3])
 print(b[4])
 print(gr_tostr(b[4]))
+print(PaintGraphSet(b[4]))
 
 #b=graph_repr(a[5],1,[2,3,4,5,1])
 #for i in b[0]:

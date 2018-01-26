@@ -65,6 +65,7 @@
                        "./tasks/z_graph_incin-smezh.json",
                        "./tasks/z_graph_oper_un.json",
                        "./tasks/z_graph_oper_bin_mn.json",
+                       "./tasks/z_graph_oper_bin_mn_pict.json",
                        "./tasks/z_graph_oper_bin2.json",
                        "./tasks/z_graph_marsh.json",
                        "./tasks/z_graph_cluben.json",
