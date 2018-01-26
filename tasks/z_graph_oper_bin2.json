@@ -1,7 +1,7 @@
 {
 "title":"Бинарные операции над орграфами 2",
 "chapter":"Теория графов. Операции над графами",
-"titleb":"Бинарные операции для графов, заданных в матричной форме",
+"titleb":"Бинарные операции для графов, заданных с помощью матриц#Бинарные операции для графов, заданных матрицами",
 "zadacha":"'Орграфы $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ заданы матрицами смежности\\n\\n {\\\\footnotesize $S_1='+MakeMatrix(A2,baks=0)+'$} и { \\\\footnotesize $S_2='+MakeMatrix(A4,baks=0)+'$}\\n\\n'",
 "z0":"'Орграфы $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ заданы матрицами смежности $S_1$ и $S_2$ \\n\\n \\\\begin{minipage}[c]{0.3\\\\linewidth} \\\\footnotesize $$S_1='+MakeMatrix(A2,baks=0)+' $$\\\\end{minipage} \\\\begin{minipage}[c]{0.3\\\\linewidth} \\\\footnotesize $$S_2='+MakeMatrix(A4,baks=0)+' $$\\\\end{minipage}\\n\\n'",
 "vopros":{
