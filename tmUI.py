@@ -597,9 +597,9 @@ def make_book(*args):
     with open('book_count', 'w') as f:
      f.write(str(bc+1))
  
-    f = open(test_name+'.tex', 'w')
+    f = open("./tex/"+test_name+'.tex', 'w')
     f.writelines(make_book_head(test_name))
-    fsolv = open(test_name+'_solv.txt', 'w')
+    fsolv = open("./tex/"+test_name+'_solv.txt', 'w')
     j={tkey_name:0 for tkey_name in l2.get(0, END)}
     ch_name0=''
     p_name0=''
@@ -637,7 +637,7 @@ def make_book(*args):
     f.write("\\end{document}\n")
     f.close()
     fsolv.close()
-    tex_cmp = open('cmp_tex.bat', 'w')
+    tex_cmp = open('./tex/cmp_tex.bat', 'w')
     tex_cmp.write('latex "' + test_name + '.tex"\n')
     tex_cmp.write('dvips  "' + test_name + '.dvi"\n')
     tex_cmp.write('ps2pdf "' + test_name + '.ps"\n')
@@ -645,16 +645,18 @@ def make_book(*args):
     #tex_cmp.write('dvips  ' + str(v_cou) + '_solv.dvi\n')
     #tex_cmp.write('ps2pdf ' + str(v_cou) + '_solv.ps\n')
     tex_cmp.close()
+    os.chdir('tex')
     os.system('cmp_tex.bat')
+    os.chdir('..')    
     return
 
     
 def make_test(*args):
     ntests = int(number_of_tests.get())
     test_name=result_file_name.get()
-    f = open(test_name+'.tex', 'w')
+    f = open("./tex/"+test_name+'.tex', 'w')
     f.writelines(make_test_head(test_name,l2.size()))
-    fsolv = open(test_name+'_solv.txt', 'w')
+    fsolv = open("./tex/"+test_name+'_solv.txt', 'w')
     for iii in range(1, ntests):
         f.writelines(make_page_head(test_name,l2.size(),iii))
         f.write("\\begin{enumerate}\n")
@@ -676,7 +678,7 @@ def make_test(*args):
     f.write("\\end{document}\n")
     f.close()
     fsolv.close()
-    tex_cmp = open('cmp_tex.bat', 'w')
+    tex_cmp = open('./tex/cmp_tex.bat', 'w')
     tex_cmp.write('latex "' + test_name + '.tex"\n')
     tex_cmp.write('dvips  "' + test_name + '.dvi"\n')
     tex_cmp.write('ps2pdf "' + test_name + '.ps"\n')
@@ -684,7 +686,9 @@ def make_test(*args):
     #tex_cmp.write('dvips  ' + str(v_cou) + '_solv.dvi\n')
     #tex_cmp.write('ps2pdf ' + str(v_cou) + '_solv.ps\n')
     tex_cmp.close()
+    os.chdir('tex')
     os.system('cmp_tex.bat')
+    os.chdir('..')
     return
     
 def lyview(*args):

@@ -747,7 +747,7 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4,basis=0):
  text.set(text.LatexRunner)
  lvl=4
  paintTree(myTree1, lvl, 0, 5)
- BinaryTree.ccc.writeEPSfile("tree"+str(v_cou))
+ BinaryTree.ccc.writeEPSfile("./tex/tree"+str(v_cou))
  vc=open('var_count','w')
  v_cou=v_cou+1
  vc.write(str(v_cou))
@@ -837,7 +837,7 @@ def PrintCirqPerf(iPerf,imax):
   ccc.text(AA[i][0]*4,AA[i][1]*4, varNamesSet0[i], [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
  ccc.text(-1.65,1.6, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
  cname="venn"+str(v_cou)
- ccc.writeEPSfile(cname)
+ ccc.writeEPSfile('./tex/'+cname)
  v_cou=v_cou+1
  vc=open('var_count','w')
  vc.write(str(v_cou))
@@ -875,7 +875,7 @@ def PrintEllipsePerf(iPerf,imax):
   ccc.text(AA[i][6]*8*sc,AA[i][7]*2*sc+1.3, varNamesSet0[i], [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
  ccc.text(-1.65,1.6, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
  cname="venn"+str(v_cou)
- ccc.writeEPSfile(cname)
+ ccc.writeEPSfile("./tex/"+cname)
 # ccc.writePDFfile(cname)
  v_cou=v_cou+1
  vc=open('var_count','w')
@@ -976,7 +976,7 @@ def GenerateNonOverlapCircles(nv=3):
   ccc.text(-1.65, 1.6, "U", [text.size(2), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
 
   cname = "venn" + str(v_cou)
-  ccc.writeEPSfile(cname)
+  ccc.writeEPSfile("./tex/"+cname)
   #ccc.writePDFfile(cname)
   v_cou = v_cou + 1
   vc = open('var_count', 'w')
@@ -1090,7 +1090,7 @@ def PaintSDNFGraph(isdnf,knf=False,number_of_vars=3,mark_vert=True,doubl_gr=Fals
                 y2 = zc[1] + sum([ii2[k] * orts[k][1] for k in range(0, number_of_vars)])
                 ccc.stroke(path.line(x1, y1, x2, y2),
                            [style.linestyle.dashed,style.linewidth(0.01)])
-    ccc.writeEPSfile(cname)
+    ccc.writeEPSfile("./tex/"+cname)
 #    ccc.writePDFfile(cname)
     v_cou = v_cou + 1
     vc = open('var_count', 'w')

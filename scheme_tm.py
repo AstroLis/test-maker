@@ -149,7 +149,7 @@ def MakeSchemeTM(number_of_element=4):
  BinaryTree.probs_all=[]
  myTree1.calcDim()
  paintTree(myTree1, -xx, -yy, xx, yy)
- BinaryTree.ccc.writeEPSfile("schem"+str(v_cou))
+ BinaryTree.ccc.writeEPSfile("./tex/schem"+str(v_cou))
  print(sorted(BinaryTree.probs_all))
  print(BinaryTree.probs)
  vc=open('var_count','w')

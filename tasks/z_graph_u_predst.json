@@ -1,0 +1,29 @@
+{
+"title":"Способы задания, Эйлер, граф",
+"chapter":"Теория графов. Способы задания графов",
+"titleb":"Задание графа с помощью множеств",
+"zadacha":"'Выберите граф по рисунку:'+NL",
+"answer_style":"'qa_line_item'",
+"vopros":{
+          "v1":"'\\\\includegraphics[]{'+A3[0]+'}'",
+          "v2":"''"
+         }, 
+"const_param":{
+         "A1":"[('1','2','3','4','5','6','7','8','9'),('a','b','c','d','e','f','g','h','i','j','k',),('A','B','C','D','E','F','G','H','I','J','K'),('000','001','010','011','100','101','110','111')]",
+         "A2":"random.randint(0,1)",
+         "A22":"A1[A2]",
+         "A3":"graph_tm.MakeGraphTM(nv=4,directed=0,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=A22,paint_fl=1)",
+         "A4":"graph_tm.graph_repr(A3[5],0,A22)",
+         "A5":"random.randint(0,0)"         
+         },
+"param":{
+         "A6":"0",
+         "A7":"graph_tm.MakeGraphTM(nv=4,directed=0,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=0)",
+         "A8":"graph_tm.graph_repr(A7[5],0,A22)",
+         "A9":"0"         
+        },
+"otvet":{
+         "o1":"'{\\\\small $G='+A4[2+A5].replace('\\},','\\}, \\\\allowbreak ')+'$}'",        
+         "o2":"'{\\\\small $G='+A8[2+A5].replace('\\},','\\}, \\\\allowbreak ')+'$}'"        
+        }
+}

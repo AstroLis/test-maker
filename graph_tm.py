@@ -67,11 +67,14 @@ def graph_repr(path_to,directed=1,v_nams=[]):
     verts=[]
     edges_s=[]
     if directed:
-        for ii in vi:
-            edges+=['('+str(ii)+', '+str(iv[j])+')' for j in path_to[vi[ii]]]
-            verts.append(str(ii)+': '+lts(sorted([iv[jj] for jj in path_to[vi[ii]]])))
-            for j in path_to[vi[ii]]:
-                edges_s.append((ii,iv[j]))
+        bb=['(',')']
+    else:
+        bb=['\\{','\\}']
+    for ii in vi:
+        edges+=[bb[0]+str(ii)+',~'+str(iv[j])+bb[1] for j in path_to[vi[ii]]]
+        verts.append(str(ii)+': '+lts(sorted([iv[jj] for jj in path_to[vi[ii]]])))
+        for j in path_to[vi[ii]]:
+            edges_s.append((ii,iv[j]))
     repr_cl = '('+lts(sorted(vis))+', '+lts(sorted(edges))+')'
     repr_vrt =lts(sorted(verts),'  ')
     for ii in vi:
@@ -345,7 +348,7 @@ def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1,v
     #ccc.stroke(path.rect(minx-1, miny-1, maxx-minx+2,maxy-miny+2))
     ccc.stroke(path.rect(-3*sc, -3*sc, 6*sc,6*sc))
     #ccc.stroke(path.circle(0,0,3))
-    ccc.writeEPSfile(gr_name)
+    ccc.writeEPSfile('./tex/'+gr_name)
 #    ccc.writePDFfile(gr_name)
 
 def MatrMult(a,b):
@@ -795,16 +798,16 @@ def FindPathsForFixedLenght(N,n,i,j):
     #print(nm)
 
 
-a=MakeGraphTM(nv=4,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=1)
-print(a)
-b=graph_repr(a[5],1)
-for i in b[0]:
-    print(i)
-print(b[2])
-print(b[3])
-print(b[4])
-print(gr_tostr(b[4]))
-print(PaintGraphSet(b[4]))
+#a=MakeGraphTM(nv=4,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=1)
+#print(a)
+#b=graph_repr(a[5],1)
+#for i in b[0]:
+#    print(i)
+#print(b[2])
+#print(b[3])
+#print(b[4])
+#print(gr_tostr(b[4]))
+#print(PaintGraphSet(b[4]))
 
 #b=graph_repr(a[5],1,[2,3,4,5,1])
 #for i in b[0]:

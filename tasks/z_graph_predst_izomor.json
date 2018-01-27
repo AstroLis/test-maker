@@ -15,7 +15,7 @@
          "A23":"A1[2][A2]",
          "A3":"graph_tm.MakeGraphTM(nv=4,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=A22,paint_fl=1)",
          "A4":"graph_tm.graph_repr(A3[5],1,A22)",
-         "A5":"random.randint(0,1)",
+         "A5":"random.randint(1,1)",
          "A6":"graph_tm.graph_repr(A3[5],1,A23)"
          },
 "param":{

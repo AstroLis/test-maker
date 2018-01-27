@@ -101,7 +101,7 @@ def MakeTreeTM(number_of_element=10):
  lvl=4
  paintTree(myTree1, lvl, 0, 5)
 # print(BinaryTree.probs)
- BinaryTree.ccc.writeEPSfile("tree"+str(v_cou))
+ BinaryTree.ccc.writeEPSfile("./tex/tree"+str(v_cou))
 # BinaryTree.ccc.writePDFfile("tree"+str(v_cou))
  vc=open('var_count','w')
  vc.write(str(v_cou))
