@@ -17,6 +17,6 @@
          "A7":"0"                  
         },
 "otvet":{
-         "o1":"'$({:016b})$'.format(Ninv(A1))"         
+         "o1":"'\\\\texttt{{({:016b})}}'.format(Ninv(A1))"         
         }
 }

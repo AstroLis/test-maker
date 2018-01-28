@@ -18,6 +18,33 @@ def lts(lst,bb=['\\{','\\}']):
 def gr_tostr(gr):
     return '('+lts(gr[0])+', '+lts([lts(i,'()') for i in gr[1]])+')'
 
+def wrong_graph(path_to):
+    resp=copy.deepcopy(path_to)
+    nv=len(resp)
+    to_add=[]
+    to_del=[]
+    for i in range(nv):
+        if len(resp[i]): to_del.append(i)
+        if len(resp[i])<nv-1: to_add.append(i)
+    ii_add=[i for i in to_add]
+    ii_del=[i for i in to_del]
+    random.shuffle(ii_add)
+    random.shuffle(ii_del)
+    ia=0
+    if len(to_add):
+        ia=ii_add[0]
+        for i in range(nv):
+            if i==ia: continue
+            if i in resp[ia]: continue
+            resp[ia].append(i)
+            break
+    for i in ii_del:
+        if i==ia: continue
+        resp[i].pop()
+        break
+    return resp
+    
+
 def gr_to_graph_tm(gr):
     print('gr_to_graph_tm: ',gr)
     nv = len(gr[0])

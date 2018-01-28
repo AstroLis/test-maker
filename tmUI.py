@@ -441,6 +441,7 @@ def make_book_head(TName):
  th.append("\\usepackage{titlesec}\n")
  th.append("\\usepackage{titletoc}\n")
  th.append("\\usepackage{tocloft}\n")
+# th.append("\\usepackage{esvect}\n")
 
  th.append("\\setlength{\\parindent}{0ex}\n")
  
