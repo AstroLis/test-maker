@@ -1,26 +1,29 @@
 {
 "title":"Изоморфизм",
-"chapter":"Теория графов. Способы задания графов",
+"chapter":"Теория графов. Операции над графами",
 "titleb":"Изоморфизм графов",
-"zadacha":"'Выберите граф, изоморфный данному: '+NL",
+"zadacha":"'Выберите '+A01[A0]+', изоморфный данному: '+NL",
 "answer_style":"'line'",
 "vopros":{
-          "v1":"A6[2+A5].replace('),','), \\\\allowbreak ')",
+          "v1":"'$'+A02[A0]+A6[2+A5].replace('),','), \\\\allowbreak ')+'$'",
           "v2":"''"
          }, 
 "const_param":{
+         "A0":"random.randint(0,1)",
+         "A01":"['граф','орграф']",         
+         "A02":"['G','\\\\overrightarrow{G}']",         
          "A1":"[[('1','2','3','4','5'),('A','B','C','D','E'),('a','b','c','d','e')],[('5','1','2','3','4'),('E','A','B','C','D'),('e','a','b','c','d')],[('4','5','1','2','3'),('D','E','A','B','C'),('d','e','a','b','c')],[('3','4','5','1','2'),('C','D','E','A','B'),('c','d','e','a','b')]]",
          "A2":"random.randint(0,2)",
          "A22":"A1[0][A2]",
          "A23":"A1[2][A2]",
-         "A3":"graph_tm.MakeGraphTM(nv=4,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=A22,paint_fl=1)",
-         "A4":"graph_tm.graph_repr(A3[5],1,A22)",
-         "A5":"random.randint(1,1)",
-         "A6":"graph_tm.graph_repr(A3[5],1,A23)"
+         "A3":"graph_tm.MakeGraphTM(nv=4,directed=A0,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=A22,paint_fl=1)",
+         "A4":"graph_tm.graph_repr(A3[5],A0,A22)",
+         "A5":"random.randint(0,0)",
+         "A6":"graph_tm.graph_repr(A3[5],A0,A23)"
          },
 "param":{
-         "A7":"graph_tm.MakeGraphTM(nv=4,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=0)",
-         "A8":"graph_tm.graph_repr(A7[5],1,A22)",
+         "A7":"graph_tm.MakeGraphTM(nv=4,directed=A0,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=0)",
+         "A8":"graph_tm.graph_repr(A7[5],A0,A22)",
          "A9":"0"         
         },
 "otvet":{

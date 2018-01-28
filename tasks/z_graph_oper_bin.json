@@ -1,7 +1,7 @@
 {
 "title":"Бинарные операции над орграфами",
 "chapter":"Теория графов. Операции над графами",
-"titleb":"Бинарные операции над графами",
+"titleb":"Бинарные операции над графами, заданными с помощью матриц#Бинарные операции над графами",
 "zadacha":"'Орграфы $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$ заданы матрицами смежности $S_1$ и $S_2$ \\n\\n \\\\begin{minipage}[c]{0.3\\\\linewidth} \\\\footnotesize $$S_1='+MakeMatrix(A2,baks=0)+' $$\\\\end{minipage} \\\\begin{minipage}[c]{0.3\\\\linewidth} \\\\footnotesize $$S_2='+MakeMatrix(A4,baks=0)+' $$\\\\end{minipage}\\n\\n'",
 "vopros":{
           "v1":"'Выберите матрицу смежности графа, полученную в результате объединения графов $\\\\overrightarrow{G}_1$ и $\\\\overrightarrow{G}_2$\\n\\n'",

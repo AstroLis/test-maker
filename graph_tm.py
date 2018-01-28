@@ -288,11 +288,14 @@ def calc_cos(p0,p1,p2):
   return  sc_p_(diff_(p0,p1),diff_(p0,p2))/(dist_(p0,p1)*dist_(p0,p2))
 # test tree
 
-def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1,v_nams=[]):
+def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1,v_nm=[]):
     global ccc
-    if v_nams==[]:
+    v_nams=[]
+    if v_nm==[]:
         for i in range(nv):
             v_nams.append(i+1)
+    else:        
+        v_nams=copy.copy(v_nm)
     sc=0.7
     scs=1
 #    sc=2./3
