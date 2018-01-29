@@ -1,7 +1,7 @@
 {
 "title":"Операции над графами(множествами)->картинки",
 "chapter":"Теория графов. Операции над графами",
-"titleb":"Бинарные операции над графами, заданными графически#Бинарные операции над орграфами",
+"titleb":"Бинарные операции над графами, заданными графически",
 "zadacha":"'\\\\flushleft Найти '+B1[A0]+' орграфов'+NL",
 "vopros":{
 "v1":"'\\\\includegraphics[]{'+A3[0]+'} \\\\includegraphics[]{'+B11[0]+'}'"
@@ -9,8 +9,8 @@
 "answer_style":"'line_item'",         
 "const_param":{
          "A0":"random.randint(0,1)",
-         "A1":"[('1','2','3','4','5','6','7','8','9'),('a','b','c','d','e','f','g','h','i','j','k',),('\\\\alpha','\\\\beta','\\\\gamma','\\\\delta','\\\\varepsilon','\\\\zeta','\\\\eta','\\\\theta','\\\\iota','\\\\kappa','\\\\lambda'),('A','B','C','D','E','F','G'),('p','q','r','s','t','u','w')]",
-         "A2":"random.randint(0,4)",
+         "A1":"[('1','2','3','4','5','6','7','8','9'),('a','b','c','d','e','f','g','h','i','j','k',),('\\\\alpha','\\\\beta','\\\\gamma','\\\\delta','\\\\varepsilon','\\\\zeta','\\\\eta','\\\\theta','\\\\iota','\\\\kappa','\\\\lambda'),('p','q','r','s','t','u','w'),('A','B','C','D','E','F','G')]",
+         "A2":"random.randint(0,3)",
          "A22":"A1[A2]",
          "A3":"graph_tm.MakeGraphTM(nv=4+A0,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=A22[0:5+A0],paint_fl=1)",
          "A4":"graph_tm.graph_repr(A3[5],1,A22[0:4+A0])",
