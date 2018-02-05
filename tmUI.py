@@ -232,10 +232,10 @@ def MakeQAStyle(quest,ans,style):
     if(style=="'block'"):
         qa.append(quest[0] + '\\vskip 2pt\n\n')
         for i in range(0,4):
-          qa.append('\\begin{minipage}[c]{0.05\\linewidth}\n')
+          qa.append('\\begin{minipage}[c]{0.04\\linewidth}\n')
           qa.append(AnsLabel[i])
           qa.append('\\end{minipage}\n')      
-          qa.append('\\begin{minipage}[c]{0.4\\linewidth}\n')
+          qa.append('\\begin{minipage}[c]{0.44\\linewidth}\n')
           qa.append(ans[i])
           qa.append('\\end{minipage}\n')
           if(i==1):

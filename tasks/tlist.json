@@ -43,6 +43,7 @@
             "./tasks/z_algebra.json"
             ],
 "—борник с ответами":[
+                       "./tasks/z_mnozh_incl.json",
                        "./tasks/z_mnozh_boolean.json",
                        "./tasks/z_oper_mnozh_o2.json",
                        "./tasks/z_mnozh_decart_otv.json",
