@@ -330,9 +330,9 @@ def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1,v
     fi=1
     ccc = canvas.canvas()
     if(calc_random_path):
-     ccc.fill(path.circle(probs[0][0],probs[0][1], 0.2))
-     ccc.stroke(path.circle(probs[0][0],probs[0][1], 0.15))
-     ccc.stroke(path.circle(probs[fi][0],probs[fi][1], 0.2))
+     ccc.fill(path.circle(probs[0][0]*sc,probs[0][1]*sc, 0.2))
+     ccc.stroke(path.circle(probs[0][0]*sc,probs[0][1]*sc, 0.15))
+     ccc.stroke(path.circle(probs[fi][0]*sc,probs[fi][1]*sc, 0.2))
     xx=[x[0] for x in probs]
     yy=[y[1] for y in probs]
     #print('xx:',xx)

@@ -388,7 +388,8 @@ def make_page_head(TName,Nz,ii):
  th.append("\\flushright{"+str(TName)+"}\n\n")
  #th.append("\\centering{ТЕСТ\n\n Теория Вероятностей и Математическая Статистика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
  #th.append("\\centering{ТЕСТ\n\n Дискретная Математика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
- th.append("\\centering{ТЕСТ по ТВ и МС. Вариант \\textnumero "+str(ii)+"("+str(TName)+")}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
+# th.append("\\centering{ТЕСТ по ТВ и МС. Вариант \\textnumero "+str(ii)+"("+str(TName)+")}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
+ th.append("\\centering Вариант \\textnumero "+str(ii)+".~~Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
  th.append("\\begin{tabular}{|c|");
  for tt in range(0,Nz):
    th.append("c|");
@@ -419,6 +420,12 @@ def make_test_head(TName,Nz):
  th.append("\\usepackage{enumitem}\n")
  th.append("\\usepackage[left=0.5cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
+ th.append("\\usepackage{rotating}\n")
+ th.append("\\usepackage{supertabular}\n") 
+ th.append("\\usepackage{multirow}\n")
+ th.append("\\usepackage{chngcntr}\n")
+ th.append("\\setlength{\\parindent}{0ex}\n") 
+ th.append("\\setenumerate{label=\\textbf{\\arabic*.}}\n")
  th.append("\\begin{document}\n")
  #th.append("Тест по теории вероятности "+str(datetime.datetime.now()))
  return th
@@ -660,19 +667,19 @@ def make_test(*args):
     fsolv = open("./tex/"+test_name+'_solv.txt', 'w')
     for iii in range(1, ntests):
         f.writelines(make_page_head(test_name,l2.size(),iii))
-        f.write("\\begin{enumerate}\n")
+        f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
         #fsolv.write("Вариант: "+str(iii)+"\n")
         fsolv.write("Вариант: "+str(iii)+":  ")
         i=0
         for tkey_name in l2.get(0, END):
             i=i+1
             tname=task_data[tkey_name]
-            f.write("\\item ")
+            f.write("\n\\vspace{8pt plus 0pt minus 8pt}\n\n\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")            
             bAnswer=int(answer_type.get())
             task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
             fsolv.write(str(i)+":"+str(task[1])+" ")
-            f.write("\n\n")
+            f.write("\n\\end{minipage}\n")
         fsolv.write("\n")
         f.write("\\end{enumerate}\n")
         f.write("\\newpage\n")
