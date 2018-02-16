@@ -128,5 +128,28 @@
                      "./tasks/z_b_vekt_po_cube.json",
                      "./tasks/z_b_shef_po_dnf.json",
                      "./tasks/z_b_zazhig_po_opt.json"
-                     ]                       
+                     ],
+"Сборник по ТВ":[
+                    "./tasks/z_opera_sobit_sozhn.json",
+                    "./tasks/z_bern1.json",
+                    "./tasks/z_bern_pua.json",
+                    "./tasks/z_clas-ver.json",
+                    "./tasks/z_poln_ver3.json",
+                    "./tasks/z_poln_ver_byes.json",
+                    "./tasks/z_graph.json",
+                    "./tasks/z_shcem.json",
+                    "./tasks/z_slozh_umnozh2.json",
+                    "./tasks/z_pl_raspr_exp.json",
+                    "./tasks/z_pl_raspr_ravn.json",
+                    "./tasks/z_norm_raspr.json",
+                    "./tasks/z_norm_raspr2.json",
+                    "./tasks/z_matozh_gr.json",
+                    "./tasks/z_fraspr_nepr.json",
+                    "./tasks/z_matozh.json",
+                    "./tasks/z_matozh_table.json",
+                    "./tasks/z_matozh_table_2d.json",
+                    "./tasks/z_ispr_skvo2.json",
+                    "./tasks/z_viborka.json",
+                    "./tasks/z_chis_har_sl_pr.json"
+                ]                       
 }
