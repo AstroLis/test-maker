@@ -843,6 +843,32 @@ def PrintCirqPerf(iPerf,imax):
  vc.write(str(v_cou))
  vc.close()
  return cname
+ 
+def FullProbabilityStr(iP,number_of_vars=3):
+    voc=['три промаха',
+         'только первый выстрел попадание',
+         'только второй выстрел попадание',
+         'только третий выстрел промах',
+         'только третий выстрел попадание',
+         'только второй выстрел промах',
+         'только первый выстрел промах',
+         'три попадания'
+        ]    
+    strf=''
+    first=1
+    ff=NtoList(iP)
+    for f in ff:
+     if number_of_vars==3 and f%2:
+      continue
+     if not first:
+       strf+=' или '
+     else:
+      first=0
+     strf+=voc[int(f/2)]
+    if strf=='':
+      strf='\\emptyset'
+    return strf
+
 
 #show Lotos-like Venn diagram for iPerf bool vector
 def PrintEllipsePerf(iPerf,imax):
@@ -1236,7 +1262,8 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 #PaintSDNFGraph(random.randint(1,35000),knf=False,number_of_vars=4,mark_vert=False,doubl_gr=True)
 #0101011001010011  #VS
 #0101010001001011  #TK
-PaintSDNFGraph(int('0101010001001011', 2),knf=False,number_of_vars=4,mark_vert=False,doubl_gr=True)
+#PaintSDNFGraph(int('0101010001001011', 2),knf=False,number_of_vars=4,mark_vert=False,doubl_gr=True)
+print(FullProbabilityStr(random.randint(1,35000)))
 #print(PaintSDNFGraph(random.randint(1,255)))
 #GenerateNonOverlapCircles(nv=3)
 #PrintEllipsePerf(52344,4)

@@ -1,0 +1,28 @@
+{
+"title":"полная группа событий",
+"chapter":"Теория вероятностей. События",
+"titleb":"Определение полной группы событий",
+"zadacha":"'Производится три выстрела, выберите полную группу событий'.format(A2)",
+"answer_style":"'line'",
+"vopros":{
+          "v1":"''",
+          "v2":"''"
+         }, 
+"const_param":{
+         "A1":"bool_num_term(2,3,nv=3)",
+         "A11":"bool_num_term(4,5,nv=3)",
+         "A2":"tree_bool_tm.DoOper('\\\\wedge',A11,tree_bool_tm.DoNeg(A1))",
+         "A3":"tree_bool_tm.DoOper('\\\\downarrow',A1,A2)",
+         "A33":"[tree_bool_tm.FullProbabilityStr(A1),tree_bool_tm.FullProbabilityStr(A2),tree_bool_tm.FullProbabilityStr(A3)]"
+        },
+"param":{
+         "A4":"bool_num_term(2,3,nv=3)",
+         "A5":"bool_num_term(2,3,nv=3)",
+         "A6":"bool_num_term(2,3,nv=3)",
+         "A77":"[tree_bool_tm.FullProbabilityStr(A4),tree_bool_tm.FullProbabilityStr(A5),tree_bool_tm.FullProbabilityStr(A6)]"   
+        },
+"otvet":{
+         "o1":"str(A33)",         
+         "o2":"str(A77)"         
+        }
+}

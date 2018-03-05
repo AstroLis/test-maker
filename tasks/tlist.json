@@ -130,6 +130,7 @@
                      "./tasks/z_b_zazhig_po_opt.json"
                      ],
 "Сборник по ТВ":[
+                    "./tasks/z_ver_poln.json",
                     "./tasks/z_opera_sobit_sozhn.json",
                     "./tasks/z_bern1.json",
                     "./tasks/z_bern_pua.json",
