@@ -276,11 +276,22 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     rt=[]
     NL='\n\n'
     SL='\\'
+    qast=''       
+    na=False
+    if("answer_style" in data):
+     qast=data["answer_style"]
+    if not bAnswer and 'qa' in qast:
+        na=True
+    
+    if na:
+        rt.append('\\begin{minipage}[]{0.55\\linewidth}\n')
     print(data['zadacha'])
     if not bAnswer and 'task_no_answer' in data:
         rt.append(str(eval(parser.expr( data['task_no_answer'] ).compile()))+'\n')
     else:
         rt.append(str(eval(parser.expr( data['zadacha'] ).compile()))+'\n')
+    if na:
+        rt.append('\\end{minipage}\n')      
     otvs = []
     vv = sorted(list(data['vopros'].keys()))
     oo = sorted(list(data['otvet'].keys()))
@@ -323,16 +334,17 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     ncu=rrr.index(ncu0)
     
     if not bAnswer:
-     rt.append(quest[0]+'\n\n')
-     return (rt,otvs[rrr[ncu]])
+        if na:
+            rt.append('\\begin{minipage}[]{0.32\\linewidth}\n')
+        rt.append(quest[0]+'\n\n')
+        if na:
+            rt.append('\\end{minipage}\n')      
+        return (rt,otvs[rrr[ncu]])
 
     
     
     for i in range(0,4):
        answ.append(otvs[rrr[i]])
-    qast=''       
-    if("answer_style" in data):
-     qast=data["answer_style"]
     rt.extend(MakeQAStyle(quest,answ,qast))  
     #rt.append('\nCorrect answer: '+str(ncu+1))
     return (rt,str(ncu+1))
