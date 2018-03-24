@@ -277,7 +277,10 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     NL='\n\n'
     SL='\\'
     print(data['zadacha'])
-    rt.append(str(eval(parser.expr( data['zadacha'] ).compile()))+'\n')
+    if not bAnswer and 'task_no_answer' in data:
+        rt.append(str(eval(parser.expr( data['task_no_answer'] ).compile()))+'\n')
+    else:
+        rt.append(str(eval(parser.expr( data['zadacha'] ).compile()))+'\n')
     otvs = []
     vv = sorted(list(data['vopros'].keys()))
     oo = sorted(list(data['otvet'].keys()))
