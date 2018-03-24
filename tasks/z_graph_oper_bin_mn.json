@@ -2,7 +2,7 @@
 "title":"Операции над графами(множествами)",
 "chapter":"Теория графов. Операции над графами",
 "titleb":"Бинарные операции над орграфами, заданными с помощью множеств#Бинарные операции над орграфами, заданными множествами",
-"zadacha":"'\\\\flushleft Найти '+B1[A0]+' орграфов \\n\\n$\\\\overrightarrow{G}_1='+A4[2].replace('),','), \\\\allowbreak ')+'$ и \\n\\n $\\\\overrightarrow{G}_2='+B2[2].replace('),','), \\\\allowbreak ')+'$'",
+"zadacha":"'\\\\flushleft Найдите '+B1[A0]+' орграфов \\n\\n$\\\\overrightarrow{G}_1='+A4[2].replace('),','), \\\\allowbreak ')+'$ и \\n\\n $\\\\overrightarrow{G}_2='+B2[2].replace('),','), \\\\allowbreak ')+'$'",
 "answer_style":"'line_item'",
 "vopros":{
 "v1":"''"
