@@ -5,11 +5,19 @@
 "zadacha":"'Для множеств A='+RB(str(D))+', B='+RB(str(E))+' выберите выражение, соответствующее декартову произведению вида:'",
 "task_no_answer":"'Для множеств A='+RB(str(D))+', B='+RB(str(E))+' найдите декартово произведение '",
 "answer_style":"'line_item'",
+"task_no_answer":"Найдите декартово произведение",
+"task_style":"na4",
 "vopros":{
 "v1":"'$A \\\\times B$'",
 "v2":"'$B \\\\times A$'",
 "v3":"'$A^2$'",
 "v4":"'$B^2$'"
+         }, 
+"vopros_no_answer":{
+"v1":"'$A \\\\times B$,~$A^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))",
+"v2":"'$B \\\\times A$,~$A^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))",
+"v3":"'$A \\\\times B$,~$B^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))",
+"v4":"'$B \\\\times A$,~$B^2$ \\\\\\\\ B='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))"
          }, 
 "param":{
          "A0":"random.randint(1,10)",

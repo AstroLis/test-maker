@@ -43,7 +43,8 @@ def MakeAlgebraTM(aFl=[1,1,1,1],i_mon=1):
 
      
 def MakeSetTask():
-    nn=[i+1 for i in range(8)]
+    nn=[i+1 for i in range(7)]
+    nn=nn+['$\\emptyset$']
     aa=[string.ascii_uppercase[i] for i in range(10)]
     random.shuffle(aa)    
     random.shuffle(nn)
@@ -64,14 +65,14 @@ def MakeSetTask():
     bb[6]=graph_tm.lts([bb[3],bb[5]])
     aa[0]=aa[0].lower()
     sets=['\\mbox{'+aa[i]+' = '+bb[i]+'}' for i in range(7)]
-    str_sets=graph_tm.lts(sorted(sets),['',''])
+    str_sets=graph_tm.lts(sorted(sets,key=len)[::-1],['',''])
     ri1=random.randint(1,6)
     ri2=random.randint(1,6)
 #    cr=[aa[0]+' \\in '+aa[1], aa[0]+' \\notin '+aa[2],aa[1]+' \\in '+aa[2], aa[0]+' \\notin '+aa[3], aa[1]+' \\subseteq '+aa[4], aa[5]+' \\subset '+aa[3], aa[5]+' \\in '+aa[6]]
-    cr=[aa[0]+' $\\in$ '+aa[1], aa[0]+' $\\notin$ '+aa[2],aa[1]+' $\\in$ '+aa[2], aa[0]+' $\\notin$ '+aa[3], aa[1]+' $\\subseteq$ '+aa[4], aa[5]+' $\\subset$ '+aa[3], aa[5]+' $\\in$ '+aa[6],'$\\emptyset$ $\\subseteq$ '+aa[ri1],'$\\emptyset$ $\\notin$ '+aa[ri2]]
+    cr=[aa[0]+' $\\in$ '+aa[1], aa[0]+' $\\notin$ '+aa[2],aa[1]+' $\\in$ '+aa[2], aa[0]+' $\\notin$ '+aa[3], aa[1]+' $\\subseteq$ '+aa[4], aa[5]+' $\\subset$ '+aa[3], aa[5]+' $\\in$ '+aa[6],'$\\emptyset$ $\\subseteq$ '+aa[ri1],'$\\emptyset$ $\\notin$ '+aa[6]]
 #              A \in B,             A \notin C,              B \in C,             A \notin D,               B \subsetin E,             F \subset D,               F \in G,                       \emptyset \subseteq aa[ri1]
 #    ncr=[aa[0]+' \\subseteq '+aa[1], aa[0]+' \\in '+aa[2],aa[1]+' \\subset '+aa[2], aa[0]+' \\in '+aa[3], aa[1]+' \\subset '+aa[4], aa[5]+' \\in '+aa[3], aa[5]+' \\subseteq '+aa[6]]
-    ncr=[aa[0]+' $\\subseteq$ '+aa[1], aa[0]+' $\\in$ '+aa[2],aa[1]+' $\\subset$ '+aa[2], aa[0]+' $\\in$ '+aa[3], aa[1]+' $\\subset$ '+aa[4], aa[5]+' $\\in$ '+aa[3], aa[5]+' $\\subseteq$ '+aa[6],'$\\emptyset$ $\\in$ '+aa[ri1],'\{$\\emptyset$\} $\\subseteq$ '+aa[ri2]]
+    ncr=[aa[0]+' $\\subseteq$ '+aa[1], aa[0]+' $\\in$ '+aa[2],aa[1]+' $\\subset$ '+aa[2], aa[0]+' $\\in$ '+aa[3], aa[1]+' $\\subset$ '+aa[4], aa[5]+' $\\in$ '+aa[3], aa[5]+' $\\subseteq$ '+aa[6],'$\\emptyset$ $\\subset$ '+aa[ri1],'\{$\\emptyset$\} $\\subseteq$ '+aa[6]]
 #              A \subsetin B,               A \in C,           B \subset C,                A \in D,               B \subset E,             F \in D,            F \subsetin G                        \emptyset \in aa[ri1]
     print(len(cr))
     wr=[i for i in range(len(cr))]

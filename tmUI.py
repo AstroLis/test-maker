@@ -287,13 +287,17 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
         rt.append('\\begin{minipage}[]{0.55\\linewidth}\n')
     print(data['zadacha'])
     if not bAnswer and 'task_no_answer' in data:
-        rt.append(str(eval(parser.expr( data['task_no_answer'] ).compile()))+'\n')
+        #rt.append(str(eval(parser.expr( data['task_no_answer'] ).compile()))+'\n')
+        pass
     else:
         rt.append(str(eval(parser.expr( data['zadacha'] ).compile()))+'\n')
     if na:
         rt.append('\\end{minipage}\n')      
     otvs = []
-    vv = sorted(list(data['vopros'].keys()))
+    vopros='vopros'
+    if not bAnswer and 'vopros_no_answer' in data:
+        vopros='vopros_no_answer'
+    vv = sorted(list(data[vopros].keys()))
     oo = sorted(list(data['otvet'].keys()))
     qnum=0
     if randAns:
@@ -305,22 +309,22 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     answ=[]
     if(len(vv)>4):
      random.shuffle(vv)
-     rt.append(str(eval(parser.expr(data['vopros'][vv[qnum]]).compile())) + '\n\n')
+     rt.append(str(eval(parser.expr(data[vopros][vv[qnum]]).compile())) + '\n\n')
      return (rt, '')
     elif(len(vv)==4):
      #vv=['v1','v2','v3','v4']
      if not randAns:
       random.shuffle(vo)
-     quest.append(str(eval(parser.expr(data['vopros'][vo[qnum][0]]).compile())))
+     quest.append(str(eval(parser.expr(data[vopros][vo[qnum][0]]).compile())))
      for o in oo:
       otvs.append(str(eval(parser.expr( data['otvet'][o] ).compile())))
-    elif (len(data['vopros'])==1):
-     quest.append(str(eval(parser.expr(data['vopros']['v1']).compile()))+'\n\n')
+    elif (len(data[vopros])==1):
+     quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
      otvs.append(str(eval(parser.expr( data['otvet']['o1'] ).compile())))
      for i in range(2,5):
           otvs.append(EvalAnswer(data['param'],data['otvet']['o1']))
-    elif (len(data['vopros'])==2):
-     quest.append(str(eval(parser.expr(data['vopros']['v1']).compile()))+'\n\n')
+    elif (len(data[vopros])==2):
+     quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
      otvs.append(str(eval(parser.expr( data['otvet']['o1'] ).compile())))
      for i in range(2,5):
           otvs.append(EvalAnswer(data['param'],data['otvet']['o2']))
@@ -459,6 +463,8 @@ def make_book_head(TName):
  th.append("\\usepackage{rotating}")
  th.append("\\usepackage{supertabular}") 
  th.append("\\usepackage{multirow}")
+ th.append("\\usepackage{multicol}\n")
+ th.append("\\setlength{\\columnseprule}{0.4pt}\n")
  th.append("\\usepackage{chngcntr}\n")
  th.append("\\usepackage{titlesec}\n")
  th.append("\\usepackage{titletoc}\n")
@@ -639,15 +645,35 @@ def make_book(*args):
         f.writelines(make_book_theme_head(test_name,th_name,ch_name,part_name,ch_name!=ch_name0,part_name!=p_name0))
         ch_name0=ch_name
         p_name0=part_name
-        f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
+        bAnswer=int(answer_type.get())
+        print(task_data[tkey_name])
+        print(not bAnswer)
+        print("task_style" in task_data[tkey_name])
+        print(task_data[tkey_name]["task_style"])
+        print(task_data[tkey_name]["task_no_answer"])
+        print(task_data[tkey_name]["task_style"]=="na1")
+        lindent=10
+        if not bAnswer and "task_style" in task_data[tkey_name]:
+            print(task_data[tkey_name]["task_no_answer"])
+            f.write('\n'+task_data[tkey_name]["task_no_answer"])
+#            if task_data[tkey_name]["task_style"]=="na1":
+#                f.write("\\begin{multicols}{1}\n")
+            if task_data[tkey_name]["task_style"]=="na2":
+                f.write("\\begin{multicols}{2}\n")
+            if task_data[tkey_name]["task_style"]=="na3":
+                f.write("\\begin{multicols}{3}\n")
+            if task_data[tkey_name]["task_style"]=="na4":
+                f.write("\\begin{multicols}{4}\n")
+            lindent=0
+        f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent="+str(lindent)+"pt,nosep]\n")
         fsolv.write("Вариант: "+str(tkey_name)+":  ")
         j[tkey_name]+=1
         i=0
         for iii in range(1, ntests):
             i=i+1
             tname=task_data[tkey_name]       
-            f.write("\n\\vspace{8pt plus 0pt minus 8pt}\n\n\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")
-            bAnswer=int(answer_type.get())
+            f.write("\n\\vspace{4pt}\n\n\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")
+            #f.write("\n\\vspace{8pt plus 0pt minus 8pt}\n\n\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")
             #task = ParseTask(tname,bAnswer,randAns=j[tkey_name],compl=0) #disable random in 4type task
             task = ParseTask(tname,bAnswer)
             filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.55]') for x in task[0]]
@@ -656,6 +682,9 @@ def make_book(*args):
             f.write("\n\\end{minipage}\n")
         fsolv.write("\n")
         f.write("\\end{enumerate}\n")
+        if not bAnswer and "task_style" in task_data[tkey_name]:
+            if task_data[tkey_name]["task_style"]!="na1":
+                f.write("\\end{multicols}\n")
         f.write("\\newpage\n")
     f.write("\\end{document}\n")
     f.close()
