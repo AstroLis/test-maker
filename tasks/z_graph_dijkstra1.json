@@ -3,9 +3,14 @@
 "chapter":"Теория графов. Задачи на графах",
 "titleb":"Нахождение кратчайшего пути",
 "zadacha":"'Орграф $\\\\overrightarrow{{G}}$ задан матрицей весов. Используя алгоритм Дейкстры, найдите кратчайшие пути из вершины {} во все остальные вершины'.format(A2+1)",
+"task_no_answer":"Орграф $\\overrightarrow{{G}}$ задан матрицей весов. Используя алгоритм Дейкстры, найдите кратчайшие пути из вершины N во все остальные вершины",
+"task_style":"na4",
 "answer_style":"'qa_line_item'",
 "vopros":{
           "v1":"'\\\\footnotesize'+ MakeMatrix(A1.smezh,baks=2)+''"
+         }, 
+"vopros_no_answer":{
+          "v1":"'N='+str(A2+1)+' \\\\footnotesize'+ MakeMatrix(A1.smezh,baks=2)+''"
          }, 
  
 "param":{

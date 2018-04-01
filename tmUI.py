@@ -280,8 +280,8 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     na=False
     if("answer_style" in data):
      qast=data["answer_style"]
-    if not bAnswer and 'qa' in qast:
-        na=True
+#    if not bAnswer and 'qa' in qast:
+#        na=True
     
     if na:
         rt.append('\\begin{minipage}[]{0.55\\linewidth}\n')
