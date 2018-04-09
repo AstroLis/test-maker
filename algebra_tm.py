@@ -91,11 +91,11 @@ def MakeSetTask():
 
 def ZorichMnozh(n):
     if n==0:
-        return set([])
+        return frozenset([])
     res=[]
     for i in range(n):
         res.append(ZorichMnozh(i))
-    return set(res)
+    return frozenset(res)
 
 def ZorichMnozhList(n):
     if n==0:
@@ -105,6 +105,13 @@ def ZorichMnozhList(n):
         res.append(ZorichMnozhList(i))
     return res
 
+def FrozenSetsToLists(a):
+    if a==frozenset([]): return []
+    res=[]
+    for i in a:
+        res.append(FrozenSetsToLists(i))
+    return res
+    
 print(ZorichMnozhList(4))
 #a=MakeSetTask()
 #print(a)

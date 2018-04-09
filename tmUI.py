@@ -295,8 +295,11 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
         rt.append('\\end{minipage}\n')      
     otvs = []
     vopros='vopros'
+    otvet='otvet'
     if not bAnswer and 'vopros_no_answer' in data:
         vopros='vopros_no_answer'
+    if not bAnswer and 'otvet_no_answer' in data:
+        otvet='otvet_no_answer'
     vv = sorted(list(data[vopros].keys()))
     oo = sorted(list(data['otvet'].keys()))
     qnum=0
@@ -324,27 +327,29 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
      for i in range(2,5):
           otvs.append(EvalAnswer(data['param'],data['otvet']['o1']))
     elif (len(data[vopros])==2):
-     quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
-     otvs.append(str(eval(parser.expr( data['otvet']['o1'] ).compile())))
-     for i in range(2,5):
+     if not bAnswer and 'vopros_no_answer' in data:
+      random.shuffle(vo)
+      quest.append(str(eval(parser.expr(data[vopros][vo[0][0]]).compile()))+'\n\n')
+      otvs.append(str(eval(parser.expr( data[otvet][vo[0][1]] ).compile())))
+      otvs.append(str(eval(parser.expr( data[otvet][vo[1][1]] ).compile())))
+     else: 
+      quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
+      otvs.append(str(eval(parser.expr( data['otvet']['o1'] ).compile())))
+      for i in range(2,5):
           otvs.append(EvalAnswer(data['param'],data['otvet']['o2']))
+
+    ncu0=oo.index(vo[qnum][1])    #number of correct answer    
+    
+    if not bAnswer:
+        rt.append(quest[0]+'\n\n')
+        return (rt,otvs[0])
      
     if len(otvs) > len(set(otvs)):
         return ([],"")
     fl=0
-    ncu0=oo.index(vo[qnum][1])    #number of correct answer
     rrr=[0,1,2,3]
     random.shuffle(rrr)
     ncu=rrr.index(ncu0)
-    
-    if not bAnswer:
-        if na:
-            rt.append('\\begin{minipage}[]{0.32\\linewidth}\n')
-        rt.append(quest[0]+'\n\n')
-        if na:
-            rt.append('\\end{minipage}\n')      
-        return (rt,otvs[rrr[ncu]])
-
     
     
     for i in range(0,4):
@@ -628,7 +633,8 @@ def make_book(*args):
  
     f = open("./tex/"+test_name+'.tex', 'w')
     f.writelines(make_book_head(test_name))
-    fsolv = open("./tex/"+test_name+'_solv.txt', 'w')
+    fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
+    fsolv.writelines(make_book_head(test_name))
     j={tkey_name:0 for tkey_name in l2.get(0, END)}
     ch_name0=''
     p_name0=''
@@ -643,6 +649,7 @@ def make_book(*args):
         else:
             th_name=tkey_name
         f.writelines(make_book_theme_head(test_name,th_name,ch_name,part_name,ch_name!=ch_name0,part_name!=p_name0))
+        fsolv.write('\n\n')
         ch_name0=ch_name
         p_name0=part_name
         bAnswer=int(answer_type.get())
@@ -678,7 +685,7 @@ def make_book(*args):
             task = ParseTask(tname,bAnswer)
             filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.55]') for x in task[0]]
             f.writelines(filt_sc)
-            fsolv.write(str(i)+":"+str(task[1])+" ")
+            fsolv.write(str(i)+":"+str(task[1])+"\\\\\n ")
             f.write("\n\\end{minipage}\n")
         fsolv.write("\n")
         f.write("\\end{enumerate}\n")
@@ -687,15 +694,16 @@ def make_book(*args):
                 f.write("\\end{multicols}\n")
         f.write("\\newpage\n")
     f.write("\\end{document}\n")
+    fsolv.write("\\end{document}\n")
     f.close()
     fsolv.close()
     tex_cmp = open('./tex/cmp_tex.bat', 'w')
     tex_cmp.write('latex "' + test_name + '.tex"\n')
     tex_cmp.write('dvips  "' + test_name + '.dvi"\n')
     tex_cmp.write('ps2pdf "' + test_name + '.ps"\n')
-    #tex_cmp.write('latex ' + str(v_cou) + '_solv.tex\n')
-    #tex_cmp.write('dvips  ' + str(v_cou) + '_solv.dvi\n')
-    #tex_cmp.write('ps2pdf ' + str(v_cou) + '_solv.ps\n')
+    tex_cmp.write('latex ' + test_name + '_solv.tex\n')
+    tex_cmp.write('dvips  ' + test_name + '_solv.dvi\n')
+    tex_cmp.write('ps2pdf ' + test_name + '_solv.ps\n')
     tex_cmp.close()
     os.chdir('tex')
     os.system('cmp_tex.bat')
