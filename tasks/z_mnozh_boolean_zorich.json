@@ -1,0 +1,27 @@
+{
+"title":"Булеан_zorich",
+"chapter":"Теория множеств. Операции над множествами",
+"titleb":"Булеан",
+"zadacha":"'Выберите множество, являющееся булеаном некоторого множества:'",
+"task_no_answer":"'Пусть A='+Ot[D1]+'. Проверьте, является ли множество A булеаном некоторого множества'",
+"answer_style":"'line_item'",
+"vopros":{
+"v1":"''",
+"v2":"''"
+         }, 
+"param":{
+         "A0":"[algebra_tm.ZorichMnozh(i) for i in range(4)]",
+         "A1":"Shuf(A0)",
+         "B1":"A1[0:3]",
+         "C1":"powerset(B1)",
+         "D1":"random.randint(0,1)",
+         "O1":"[[i for i in j] for j in C1]",
+         "O2":"random.randint(1,len(O1)-1)",
+         "O3":"O1[:O2-1]+O1[O2+1:]",
+         "Ot":"[('$'+RB(str(O1)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak '),('$'+RB(str(O3)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')]"
+        },
+"otvet":{
+         "o1":"Ot[0]",
+         "o2":"Ot[1]"
+        }
+}
