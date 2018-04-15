@@ -409,7 +409,7 @@ def make_book_theme_head(TName,them_name,chap_name,part_name,ch=0,pa=0):
  return th
 def make_page_head(TName,Nz,ii):
  th=[]
- th.append("\\flushright{"+str(TName)+"}\n\n")
+ th.append("\\flushright{"+str(TName.replace('_','\\_'))+"}\n\n")
  #th.append("\\centering{ТЕСТ\n\n Теория Вероятностей и Математическая Статистика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
  #th.append("\\centering{ТЕСТ\n\n Дискретная Математика \n\n Вариант \\textnumero "+str(ii)+"}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
 # th.append("\\centering{ТЕСТ по ТВ и МС. Вариант \\textnumero "+str(ii)+"("+str(TName)+")}\n\n \\bigskip\n Уч.взв. \\underline{\\hspace{2cm}} ФИО \\underline{\\hspace{6cm}}\n\n")
@@ -713,10 +713,14 @@ def make_book(*args):
     
 def make_test(*args):
     ntests = int(number_of_tests.get())
-    test_name=result_file_name.get()
+    bc=int(open('book_count').read().split()[0])
+    with open('book_count', 'w') as f:
+     f.write(str(bc+1))
+    test_name=result_file_name.get()+'_'+str(bc)
     f = open("./tex/"+test_name+'.tex', 'w')
     f.writelines(make_test_head(test_name,l2.size()))
-    fsolv = open("./tex/"+test_name+'_solv.txt', 'w')
+    fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
+    fsolv.writelines(make_book_head(test_name))
     for iii in range(1, ntests):
         f.writelines(make_page_head(test_name,l2.size(),iii))
         f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
@@ -728,6 +732,8 @@ def make_test(*args):
             tname=task_data[tkey_name]
             f.write("\n\\vspace{8pt plus 0pt minus 8pt}\n\n\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")            
             bAnswer=int(answer_type.get())
+            if not bAnswer and "task_style" in task_data[tkey_name]:
+                f.write('\n'+task_data[tkey_name]["task_no_answer"]+'\n\n')
             task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
             fsolv.write(str(i)+":"+str(task[1])+" ")
@@ -737,14 +743,15 @@ def make_test(*args):
         f.write("\\newpage\n")
     f.write("\\end{document}\n")
     f.close()
+    fsolv.write("\\end{document}\n")
     fsolv.close()
     tex_cmp = open('./tex/cmp_tex.bat', 'w')
     tex_cmp.write('latex "' + test_name + '.tex"\n')
     tex_cmp.write('dvips  "' + test_name + '.dvi"\n')
     tex_cmp.write('ps2pdf "' + test_name + '.ps"\n')
-    #tex_cmp.write('latex ' + str(v_cou) + '_solv.tex\n')
-    #tex_cmp.write('dvips  ' + str(v_cou) + '_solv.dvi\n')
-    #tex_cmp.write('ps2pdf ' + str(v_cou) + '_solv.ps\n')
+    tex_cmp.write('latex ' + test_name + '_solv.tex\n')
+    tex_cmp.write('dvips  ' + test_name + '_solv.dvi\n')
+    tex_cmp.write('ps2pdf ' + test_name + '_solv.ps\n')
     tex_cmp.close()
     os.chdir('tex')
     os.system('cmp_tex.bat')
