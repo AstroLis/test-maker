@@ -685,7 +685,7 @@ def make_book(*args):
             task = ParseTask(tname,bAnswer)
             filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.55]') for x in task[0]]
             f.writelines(filt_sc)
-            fsolv.write(str(i)+":"+str(task[1])+"\\\\\n ")
+            fsolv.write(str(i)+":"+str(task[1])+"\n ")
             f.write("\n\\end{minipage}\n")
         fsolv.write("\n")
         f.write("\\end{enumerate}\n")
