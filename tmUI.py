@@ -660,11 +660,9 @@ def make_book(*args):
 #        print(task_data[tkey_name]["task_no_answer"])
 #        print(task_data[tkey_name]["task_style"]=="na1")
         lindent=10
-        if not bAnswer and "task_style" in task_data[tkey_name]:
-            print(task_data[tkey_name]["task_no_answer"])
+        if not bAnswer and "task_no_answer" in task_data[tkey_name]:
             f.write('\n'+task_data[tkey_name]["task_no_answer"])
-#            if task_data[tkey_name]["task_style"]=="na1":
-#                f.write("\\begin{multicols}{1}\n")
+        if not bAnswer and "task_style" in task_data[tkey_name]:
             if task_data[tkey_name]["task_style"]=="na2":
                 f.write("\\begin{multicols}{2}\n")
             if task_data[tkey_name]["task_style"]=="na3":
@@ -673,7 +671,7 @@ def make_book(*args):
                 f.write("\\begin{multicols}{4}\n")
             lindent=0
         f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent="+str(lindent)+"pt,nosep]\n")
-        fsolv.write("Вариант: "+str(tkey_name)+":  ")
+        fsolv.write("\nВариант: "+str(tkey_name)+":  ")
         j[tkey_name]+=1
         i=0
         for iii in range(1, ntests):
@@ -725,14 +723,14 @@ def make_test(*args):
         f.writelines(make_page_head(test_name,l2.size(),iii))
         f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
         #fsolv.write("Вариант: "+str(iii)+"\n")
-        fsolv.write("Вариант: "+str(iii)+":  ")
+        fsolv.write("\n\nВариант: "+str(iii)+":  ")
         i=0
         for tkey_name in l2.get(0, END):
             i=i+1
             tname=task_data[tkey_name]
             f.write("\n\\vspace{8pt plus 0pt minus 8pt}\n\n\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")            
             bAnswer=int(answer_type.get())
-            if not bAnswer and "task_style" in task_data[tkey_name]:
+            if not bAnswer and "task_no_answer" in task_data[tkey_name]:
                 f.write('\n'+task_data[tkey_name]["task_no_answer"]+'\n\n')
             task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
