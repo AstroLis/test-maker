@@ -17,7 +17,7 @@
 "v1":"'$A \\\\times B$,~$A^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))",
 "v2":"'$B \\\\times A$,~$A^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))",
 "v3":"'$A \\\\times B$,~$B^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))",
-"v4":"'$B \\\\times A$,~$B^2$ \\\\\\\\ B='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))"
+"v4":"'$B \\\\times A$,~$B^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))"
          }, 
 "param":{
          "A0":"random.randint(1,10)",

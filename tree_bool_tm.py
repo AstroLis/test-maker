@@ -719,6 +719,26 @@ def OptimalNew(n,knf=False):
  if ss=='':
   return ('0','\\emptyset')
  return (ss,ss2)
+
+def MakeTruthTable(bf,number_of_vars):
+ trtab=[]
+ xHead=['$'+a+'$' for a in varNames]
+ if number_of_vars==3:
+  xHead.pop()
+ yHead=[]
+ Nl=NtoList(bf)                                  #(form1,nform2,w)
+ xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
+ for jj in range(0,16):
+  if number_of_vars==3 and jj%2:
+   continue
+  if jj in Nl:
+   yHead.append(1)
+  else:
+   yHead.append(0)
+  for kk in range(0,number_of_vars):
+   trtab+=[xxi[kk][jj]]
+ return MakeTable('$f$',xHead,yHead,trtab,yAlign=0)
+ 
  
 def MakeFormulaTM(number_of_element=10,number_of_vars=4,basis=0):
  number_of_chemes=10
