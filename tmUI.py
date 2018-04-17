@@ -725,7 +725,7 @@ def make_test(*args):
         f.writelines(make_page_head(test_name,l2.size(),iii))
         f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
         #fsolv.write("Вариант: "+str(iii)+"\n")
-        fsolv.write("Вариант: "+str(iii)+":  ")
+        fsolv.write("\n\nВариант: "+str(iii)+":  ")
         i=0
         for tkey_name in l2.get(0, END):
             i=i+1
