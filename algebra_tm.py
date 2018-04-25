@@ -111,8 +111,65 @@ def FrozenSetsToLists(a):
     for i in a:
         res.append(FrozenSetsToLists(i))
     return res
+
+def CheckPath(p):
+# zamk,simpl chain,chain,cycle,simpl cycle,nothing
+    #print('p=',p)
+    res=[0,0,0,0,0,0]
+    n=len(p)
+    if p[0]==p[-1]:
+        res[0]=1
+    vcount={}
+    edgcount={}
+    for i in p:
+        if i in vcount:
+            vcount[i]+=1
+        else:
+            vcount[i]=1
+    for j in range(n-1):
+        e=(p[j],p[j+1])
+        if e in edgcount:
+            edgcount[e]+=1
+        else:
+            edgcount[e]=1
+    #print('max(vcount)=',vcount,' ',max(vcount.values()))
+    if max(vcount.values())==1:
+        res[1]=1
+    if max(edgcount.values())==1:
+        res[2]=1
+        if res[0]:
+            res[3]=1
+            if max(vcount.values())==2:
+                sc=[i==2 for i in vcount.values()]
+                if sum(sc)==1:
+                    res[4]=1
+    if max(res)==0:
+        res[5]=1
+    #print('res=',res)
+    return tuple(res)
     
-print(ZorichMnozhList(4))
+    
+def GenPath(n,nv):
+    return [random.randint(1,nv) for i in range(n)]
+    
+def PathStatistic():
+    nt=10000
+    n=6
+    nv=7
+    rr=[0,0,0,0,0,0]
+    vars={}
+    for i in range(nt):
+        r=CheckPath(GenPath(n,nv))
+        for j in range(6):
+            rr[j]+=r[j]
+        if r in vars:
+            vars[r]+=1
+        else:
+            vars[r]=1
+    print(rr)
+    print(vars)
+PathStatistic()
+#print(ZorichMnozhList(4))
 #a=MakeSetTask()
 #print(a)
 #print(a[1])
