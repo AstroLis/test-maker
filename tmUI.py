@@ -646,12 +646,12 @@ def make_book(*args):
         ch_name0=ch_name
         p_name0=part_name
         bAnswer=int(answer_type.get())
-        print(task_data[tkey_name])
-        print(not bAnswer)
-        print("task_style" in task_data[tkey_name])
-        print(task_data[tkey_name]["task_style"])
-        print(task_data[tkey_name]["task_no_answer"])
-        print(task_data[tkey_name]["task_style"]=="na1")
+#        print(task_data[tkey_name])
+#        print(not bAnswer)
+#        print("task_style" in task_data[tkey_name])
+#        print(task_data[tkey_name]["task_style"])
+#        print(task_data[tkey_name]["task_no_answer"])
+#        print(task_data[tkey_name]["task_style"]=="na1")
         lindent=10
         if not bAnswer and "task_style" in task_data[tkey_name]:
             print(task_data[tkey_name]["task_no_answer"])

@@ -5,6 +5,7 @@
 "4. Случайные процессы":["./tasks/z_chis_har_sl_pr.json"],
 "5. Теоретические вопросы":["./tasks/Teor_tv1.json","./tasks/Teor_tv2.json","./tasks/Teor_tv4.json","./tasks/Teor_tv5.json"],
 "6. Теория множеств":[ 
+                       "./tasks/z_mnozh_boolean_zorich.json",
                        "./tasks/z_mnozh_boolean.json",
                        "./tasks/z_oper_mnozh_o2.json",
                        "./tasks/z_mnozh_venn1.json",

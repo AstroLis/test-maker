@@ -89,6 +89,23 @@ def MakeSetTask():
     random.shuffle(cr)
     return (str_sets,graph_tm.lts(cr[0:4],[' ',' ']),wra)
 
+def ZorichMnozh(n):
+    if n==0:
+        return set([])
+    res=[]
+    for i in range(n):
+        res.append(ZorichMnozh(i))
+    return set(res)
+
+def ZorichMnozhList(n):
+    if n==0:
+        return []
+    res=[]
+    for i in range(n):
+        res.append(ZorichMnozhList(i))
+    return res
+
+print(ZorichMnozhList(4))
 #a=MakeSetTask()
 #print(a)
 #print(a[1])
