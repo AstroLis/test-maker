@@ -1211,13 +1211,13 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
  v_cou=0
  fname="BF"+str(nOfTasks)+"_"+str(nQuest)
  print(fname)
- tex_file=open(fname+'.tex','w')
- tex_cmp=open('cmp_tex.bat','w')
+ tex_file=open('tex/'+fname+'.tex','w')
+ tex_cmp=open('tex/cmp_tex.bat','w')
  tex_cmp.write('latex '+fname+'.tex\n')
  tex_cmp.write('dvips  '+fname+'.dvi\n')
  tex_cmp.write('ps2pdf '+fname+'.ps\n')
 
- tex_file_sol=open(fname+'_sol.tex','w')
+ tex_file_sol=open('tex/'+fname+'_sol.tex','w')
  tex_cmp.write('latex '+fname+'_sol.tex\n')
  tex_cmp.write('dvips  '+fname+'_sol.dvi\n')
  tex_cmp.write('ps2pdf '+fname+'_sol.ps\n')
@@ -1230,7 +1230,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 #  if(i and not i%3):
 #   tex_file.write("\\newpage\n")
   tex_file.write("\\begin{minipage}{\\textwidth}\n")  
-  tex_file.write("Вариант "+str(i)+":\n\n")
+  #tex_file.write("Вариант "+str(i)+":\n\n")
   tex_file_sol.write("Вариант "+str(i)+':\n')
   for j in range(0,nQuest):
     iNewPage+=1
@@ -1251,7 +1251,8 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
     if(qtt[j]==1):
      tex_file.write("Задача "+str(i)+"."+str(j+1)+":\n$f("+arg+")="+form1+"$\n\n")
     if(qtt[j]==3):
-     tex_file.write("Задача "+str(i)+"."+str(j+1)+":\nКарта Карно: \n\n"+carno+"\n\n")
+     tex_file.write("Задача "+str(i)+"."+str(j+1)+":"+carno+"\n\n")
+#     tex_file.write("Задача "+str(i)+"."+str(j+1)+":\nКарта Карно: \n\n"+carno+"\n\n")
      
     #tex_file.write('\\bigskip\n\\noindent\\rule{\\textwidth}{0.4pt}\n\n\\bigskip\n')
     tex_file_sol.write("Задача "+str(i)+"."+str(j+1)+":\n$$\n"+form1+'\n$$\n\\bigskip\n')
@@ -1283,7 +1284,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 #0101011001010011  #VS
 #0101010001001011  #TK
 #PaintSDNFGraph(int('0101010001001011', 2),knf=False,number_of_vars=4,mark_vert=False,doubl_gr=True)
-print(FullProbabilityStr(random.randint(1,35000)))
+#print(FullProbabilityStr(random.randint(1,35000)))
 #print(PaintSDNFGraph(random.randint(1,255)))
 #GenerateNonOverlapCircles(nv=3)
 #PrintEllipsePerf(52344,4)
@@ -1296,7 +1297,7 @@ print(FullProbabilityStr(random.randint(1,35000)))
 #random.seed(9)
 #OptimalNewK()
 #MakeControlTaskFormulas(1,1,[1],[10],[4])
-#MakeControlTaskFormulas(nOfTasks=2,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,3,3])
+#MakeControlTaskFormulas(nOfTasks=121,nQuest=6,qtt=[1,1,2,2,3,3],qcompl=[8,8,5,5,5,5],qvar=[3,4,3,4,3,4])
 #((form1,nform2,w),cn,strtab,carno,optf,optfk)=MakeFormulaTM(number_of_element=7,number_of_vars=4)
 #print(nform2)
 #print(form1)
