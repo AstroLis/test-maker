@@ -135,6 +135,11 @@ def MakeQAStyle(quest,ans,style):
         for i in range(0,4):
             qa.append(AnsLabel[i]+ans[i]+'\n\n')
         return qa
+    if(style=="'q_line'"):
+        qa.append(quest[0] + '\\vskip 2pt\n\\flushleft\n')
+        for i in range(0,4):
+            qa.append(AnsLabel[i]+ans[i]+'\n\n')
+        return qa
     if(style=="'line_item'"):
         qa.append(quest[0] + '\\vskip 2pt\n'+enumstyle)
         for i in range(0,4):
@@ -301,7 +306,7 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     if not bAnswer and 'otvet_no_answer' in data:
         otvet='otvet_no_answer'
     vv = sorted(list(data[vopros].keys()))
-    oo = sorted(list(data['otvet'].keys()))
+    oo = sorted(list(data[otvet].keys()))
     qnum=0
     if randAns:
      qnum=randAns-1
@@ -320,12 +325,12 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
       random.shuffle(vo)
      quest.append(str(eval(parser.expr(data[vopros][vo[qnum][0]]).compile())))
      for o in oo:
-      otvs.append(str(eval(parser.expr( data['otvet'][o] ).compile())))
+      otvs.append(str(eval(parser.expr( data[otvet][o] ).compile())))
     elif (len(data[vopros])==1):
      quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
-     otvs.append(str(eval(parser.expr( data['otvet']['o1'] ).compile())))
+     otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
      for i in range(2,5):
-          otvs.append(EvalAnswer(data['param'],data['otvet']['o1']))
+          otvs.append(EvalAnswer(data['param'],data[otvet]['o1']))
     elif (len(data[vopros])==2):
      if not bAnswer and 'vopros_no_answer' in data:
       random.shuffle(vo)
@@ -334,9 +339,9 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
       otvs.append(str(eval(parser.expr( data[otvet][vo[1][1]] ).compile())))
      else: 
       quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
-      otvs.append(str(eval(parser.expr( data['otvet']['o1'] ).compile())))
+      otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
       for i in range(2,5):
-          otvs.append(EvalAnswer(data['param'],data['otvet']['o2']))
+          otvs.append(EvalAnswer(data['param'],data[otvet]['o2']))
 
     ncu0=oo.index(vo[qnum][1])    #number of correct answer    
     

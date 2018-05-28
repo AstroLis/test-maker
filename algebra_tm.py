@@ -150,7 +150,13 @@ def CheckPath(p):
     
     
 def GenPath(n,nv):
-    return [random.randint(1,nv) for i in range(n)]
+    nt=10000
+    for i in range(nt):
+        p=[random.randint(1,nv) for i in range(n)]
+        t=[p[i]==p[i+1] for i in range(n-1)]
+        if sum(t)==0:
+            return p
+    return []
     
 def PathStatistic():
     nt=10000
@@ -168,6 +174,30 @@ def PathStatistic():
             vars[r]=1
     print(rr)
     print(vars)
+
+def GenPathParam(n,nv,style=-1):
+    styles=[(1, 0, 1, 1, 0, 0), 
+            (0, 1, 1, 0, 0, 0),
+            (0, 0, 1, 0, 0, 0),
+            (1, 0, 0, 0, 0, 0), 
+            (0, 0, 0, 0, 0, 1), 
+            (1, 0, 1, 1, 1, 0)]
+    snames=['цикл, не являющийся простым',
+            'простую цепь',
+            'цепь, не являющуюся простой',
+            'замкнутый маршрут, не являющийся циклом',
+            'незамкнутый маршрут, не являющийся цепью',
+            'простой цикл']
+    if style<0:
+        style=random.randint(0,len(styles))
+    nt=10000
+    for i in range(nt):
+        p=GenPath(n,nv)
+        r=CheckPath(p)
+        if r==styles[style]:
+            return (p,snames[style])
+    return []
+    
 PathStatistic()
 #print(ZorichMnozhList(4))
 #a=MakeSetTask()
