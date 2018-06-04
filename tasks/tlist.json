@@ -133,6 +133,14 @@
                      "./tasks/z_b_shef_po_dnf.json",
                      "./tasks/z_b_zazhig_po_opt.json"
                      ],
+"Теория по ДМ":[
+                    "./tasks/DM1.json",
+                    "./tasks/DM2.json",
+                    "./tasks/DM3.json",
+                    "./tasks/DM4.json",
+                    "./tasks/DM5.json",
+                    "./tasks/DM6.json"
+                ],                       
 "Сборник по ТВ":[
                     "./tasks/z_ver_poln.json",
                     "./tasks/z_opera_sobit_sozhn.json",

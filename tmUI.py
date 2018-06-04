@@ -440,6 +440,34 @@ def make_page_head(TName,Nz,ii):
  th.append("\\end{tabular}\n") 
  return th
  
+def make_exam_page_head(TName,Nz,ii):
+ th=[]
+ th.append("\\begin{tabular}{|l|c|c|}");
+ th.append("\\hline\n");
+ th.append("\\begin{minipage}{0.3\\textwidth} ")
+ th.append("\\centering")
+ th.append("Военная академия связи")
+ th.append("\\end{minipage}&")
+ th.append("\\begin{minipage}{0.3\\textwidth} ")
+ th.append("\\vspace{8pt} \\centering")
+ th.append("{\\bf Билет \\textnumero "+str(ii)+"}\\\\")
+ th.append("3 кафедра \\\\")
+ th.append("Дисциплина Д-0301-1")
+ th.append("\\end{minipage}&")
+ th.append("\\begin{minipage}{0.3\\textwidth} ")
+ th.append("\\vspace{8pt}  \\centering")
+ th.append("Утверждаю\\\\ ")
+ th.append("Заведующий кафедрой\\\\ ")
+ th.append("\\underline{\\hskip 3cm}~~Е.~Рябоконь\\\\ ")
+ th.append("<<~~~~~>>~~мая~~2018~г.\\\\ ")
+ th.append("\\vspace{8pt}  ")
+ th.append("\\end{minipage}\\\\ ")
+ th.append("\\hline\n") 
+ th.append("\multicolumn{3}{|l|}{\\begin{minipage}{\\linewidth} ")
+ return th
+ 
+ 
+ 
 def make_test_head(TName,Nz):
  th=[]
  th.append("\\documentclass[12pt]{article}\n")
@@ -447,7 +475,7 @@ def make_test_head(TName,Nz):
  th.append("\\usepackage[fleqn]{amsmath}\n")
  th.append("\\usepackage{mathtools}\n")
  th.append("\\usepackage{enumitem}\n")
- th.append("\\usepackage[left=0.5cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ th.append("\\usepackage[left=0.5cm,right=1cm,top=1cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
  th.append("\\usepackage{rotating}\n")
  th.append("\\usepackage{supertabular}\n") 
@@ -713,6 +741,57 @@ def make_book(*args):
     os.chdir('..')    
     return
 
+def make_exam(*args):
+    ntests = int(number_of_tests.get())
+    bc=int(open('book_count').read().split()[0])
+    with open('book_count', 'w') as f:
+     f.write(str(bc+1))
+    test_name=result_file_name.get()+'_'+str(bc)
+    f = open("./tex/"+test_name+'.tex', 'w')
+    f.writelines(make_test_head(test_name,l2.size()))
+    fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
+    fsolv.writelines(make_book_head(test_name))
+    for iii in range(1, ntests):
+        f.writelines(make_exam_page_head(test_name,l2.size(),iii))
+        f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
+        #fsolv.write("Вариант: "+str(iii)+"\n")
+        fsolv.write("\n\nВариант: "+str(iii)+":  ")
+        i=0
+        for tkey_name in l2.get(0, END):
+            i=i+1
+            tname=task_data[tkey_name]
+            f.write("\n\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")            
+            bAnswer=int(answer_type.get())
+            if not bAnswer and "task_no_answer" in task_data[tkey_name]:
+                f.write('\n'+task_data[tkey_name]["task_no_answer"]+'\n\n')
+            task = ParseTask(tname,bAnswer)
+            f.writelines(task[0])
+            fsolv.write(str(i)+":"+str(task[1])+" ")
+            f.write("\n\\end{minipage}\n")
+        fsolv.write("\n")
+        f.write("\\end{enumerate}\n")
+        f.write("\\end{minipage}} \\\\ \n")
+        f.write("\\hline\n")
+        f.write("\\end{tabular}\n")
+        f.write("\\newpage\n")
+    f.write("\\end{document}\n")
+    f.close()
+    fsolv.write("\\end{document}\n")
+    fsolv.close()
+    tex_cmp = open('./tex/cmp_tex.bat', 'w')
+    tex_cmp.write('latex "' + test_name + '.tex"\n')
+    tex_cmp.write('dvips  "' + test_name + '.dvi"\n')
+    tex_cmp.write('ps2pdf "' + test_name + '.ps"\n')
+    tex_cmp.write('latex ' + test_name + '_solv.tex\n')
+    tex_cmp.write('dvips  ' + test_name + '_solv.dvi\n')
+    tex_cmp.write('ps2pdf ' + test_name + '_solv.ps\n')
+    tex_cmp.close()
+    os.chdir('tex')
+    os.system('cmp_tex.bat')
+    os.chdir('..')
+    return
+
+
     
 def make_test(*args):
     ntests = int(number_of_tests.get())
@@ -829,6 +908,8 @@ ttk.Label(mainframe, text="Наличие ответов:").grid(column=2+col0, 
 ttk.Entry(mainframe,textvariable=answer_type,  width=6).grid(column=2+col0, row=11+row0,  sticky=(W, E), columnspan = 1)
 
 ttk.Button(mainframe, text="MakeBook", command=make_book, width = 13).grid(column=2+col0, row=12+row0, sticky=(W,N),columnspan = 1)
+
+ttk.Button(mainframe, text="MakeExam", command=make_exam, width = 13).grid(column=2+col0, row=13+row0, sticky=(W,N),columnspan = 1)
 
 
 ttk.Label(mainframe, text="Тема:").grid(column=-2+col0, row=-1+row0, sticky=W)
