@@ -11,7 +11,7 @@
 "param":{
          "A1":"bool_num_term(3,4,nv=4)",
          "A2":"tree_bool_tm.DStrFromNbool(A1,4,knf=False)",
-         "A3":"tree_bool_tm.MakeCarnoMap(tree_bool_tm.NtoListB(Ninv(A1),16))",
+         "A3":"tree_bool_tm.MakeCarnoMap(tree_bool_tm.NtoListB(A1,16))",
          "A4":"0",
          "A5":"0",
          "A6":"0",

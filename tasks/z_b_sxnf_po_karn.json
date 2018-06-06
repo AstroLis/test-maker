@@ -1,0 +1,28 @@
+{
+"title":"(СДНФ/СКНФ) по Карно",
+"chapter":"Булевы функции. Карта Карно",
+"titleb":"Построение совершенной НФ по карте Карно",
+"zadacha":"'Выберите '+A2[A0]+' по заданной для булевой функции $f(x_1,x_2,x_3,x_4)$ карте Карно'+NL+NL",
+"task_no_answer":"'Запишите '+A2[A0]+' по заданной для булевой функции $f(x_1,x_2,x_3,x_4)$ карте Карно'+NL+NL",
+"answer_style":"'qa_line_item'",
+"vopros":{
+          "v1":"'\\\\small {}'.format(A3)",
+          "v2":"''"
+         }, 
+"const_param":{
+         "A0":"random.randint(0,1)",
+         "A01":"random.randint(3,4) if not A0 else random.randint(12,13)",
+         "A1":"bool_num_term(A01,A01,nv=4)",
+         "A2":"['СДНФ','СКНФ']",
+         "A3":"tree_bool_tm.MakeCarnoMap(tree_bool_tm.NtoListB(A1,16))",
+         "A33":"tree_bool_tm.DStrFromNbool(A1,4,knf=A0)"
+        },
+"param":{
+         "A4":"bool_num_term(A01,A01,nv=4)",
+         "A55":"tree_bool_tm.DStrFromNbool(A4,4,knf=A0)"
+        },
+"otvet":{
+         "o1":"'${}$'.format(A33)",
+         "o2":"'${}$'.format(A55)" 
+        }
+}
