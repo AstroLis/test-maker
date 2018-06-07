@@ -4,7 +4,7 @@
 "titleb":"Основные операции над множествами",
 "zadacha":"'Для множеств $A='+RB(str(D))+'$, $B='+RB(str(E))+'$ и универсального множества $U='+RB(str(C1))+'$ запишите результаты операций: '",
 "task_no_answer":"Для множеств $A$, $B$ и универсального множества $U=\\{1,2,3,4,5,6,7,8,9\\}$ записать результаты операций: ",
-"task_style":"na3",
+"task_style":"na1",
 "answer_style":"'line'",
 "vopros":{
 "v1":"'$\\\\bar{A} \\\\cup B$, $A \\\\cap \\\\bar{B}$'",
@@ -13,6 +13,12 @@
 "v4":"'$A \\\\cup \\\\bar{B}$, $\\\\bar{A} \\\\setminus B$'"
          }, 
 "vopros_no_answer":{
+"v1":"'$\\\\bar{A} \\\\cup B$, $A \\\\cap \\\\bar{B}$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$'",
+"v2":"'$A \\\\setminus \\\\bar{B}$, $\\\\bar{B} \\\\setminus A$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$'",
+"v3":"'$\\\\bar{A} \\\\Delta B$,  $B \\\\setminus \\\\bar{A}$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$'",
+"v4":"'$A \\\\cup \\\\bar{B}$, $\\\\bar{A} \\\\setminus B$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$'"
+         }, 
+"vopros_no_answer1":{
 "v1":"'$\\\\bar{A} \\\\cup B$, $A \\\\cap \\\\bar{B}$,\\\\\\\\ $A='+RB(str(D))+'$,\\\\\\\\ $B='+RB(str(E))+'$'",
 "v2":"'$A \\\\setminus \\\\bar{B}$, $\\\\bar{B} \\\\setminus A$,\\\\\\\\ $A='+RB(str(D))+'$,\\\\\\\\ $B='+RB(str(E))+'$'",
 "v3":"'$\\\\bar{A} \\\\Delta B$,  $B \\\\setminus \\\\bar{A}$,\\\\\\\\ $A='+RB(str(D))+'$,\\\\\\\\ $B='+RB(str(E))+'$'",

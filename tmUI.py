@@ -463,7 +463,7 @@ def make_exam_page_head(TName,Nz,ii):
  th.append("\\vspace{8pt}  ")
  th.append("\\end{minipage}\\\\ ")
  th.append("\\hline\n") 
- th.append("\multicolumn{3}{|l|}{\\begin{minipage}{\\linewidth} ")
+ th.append("\multicolumn{3}{|l|}{\\begin{minipage}[t][.9\\textheight]{\\linewidth} ")
  return th
  
  
@@ -482,6 +482,7 @@ def make_test_head(TName,Nz):
  th.append("\\usepackage{multirow}\n")
  th.append("\\usepackage{chngcntr}\n")
  th.append("\\setlength{\\parindent}{0ex}\n") 
+ th.append("\\pagenumbering{gobble}\n") 
  th.append("\\setenumerate{label=\\textbf{\\arabic*.}}\n")
  th.append("\\begin{document}\n")
  #th.append("Тест по теории вероятности "+str(datetime.datetime.now()))
@@ -629,20 +630,31 @@ def make_book_head0(TName):
  
 def add_task(*args):
  l2.insert('end',l1.get(l1.curselection()))
- l3.insert('end',str(len(task_data[l1.get(l1.curselection())]['vopros'])))
+ l3.insert('end',str(curr_task_num.get()))
+ curr_task_num.set(int(curr_task_num.get())+1)
  return
 
+def add_task_nopp(*args):
+ l2.insert('end',l1.get(l1.curselection()))
+ l3.insert('end',str(curr_task_num.get()))
+ return
+ 
+ 
 def add_all_task(*args):
  for tkey in l1.get(0, END):
   l2.insert('end',tkey)
+  l3.insert('end',str(curr_task_num.get()))
+  curr_task_num.set(int(curr_task_num.get())+1)
  return
  
 def remove_task(*args):
+ l3.delete(l2.curselection())
  l2.delete(l2.curselection())
  return
 
 def remove_all_task(*args):
  l2.delete(0, END)
+ l3.delete(0, END)
  return
  
 def select_theme(*args):
@@ -751,13 +763,26 @@ def make_exam(*args):
     f.writelines(make_test_head(test_name,l2.size()))
     fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
     fsolv.writelines(make_book_head(test_name))
+    quests=list(l2.get(0, END))
+    numbers=list(l3.get(0, END))
+    stacked_quests={}
+    for i in range(len(quests)):
+        if numbers[i] in stacked_quests:
+            stacked_quests[numbers[i]].append(quests[i])
+        else:
+            stacked_quests[numbers[i]]=[quests[i]]
     for iii in range(1, ntests):
         f.writelines(make_exam_page_head(test_name,l2.size(),iii))
+        f.write("\n\\vspace{8pt plus 0pt minus 8pt}")
         f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
         #fsolv.write("Вариант: "+str(iii)+"\n")
         fsolv.write("\n\nВариант: "+str(iii)+":  ")
         i=0
-        for tkey_name in l2.get(0, END):
+        qlist=[int(a) for a in list(stacked_quests.keys())]
+        print(qlist)
+        for iqi in sorted(qlist):
+            qi=str(iqi)
+            tkey_name=stacked_quests[qi][random.randint(0,len(stacked_quests[qi]))-1]
             i=i+1
             tname=task_data[tkey_name]
             f.write("\n\\begin{minipage}{\\linewidth}\n\\vskip 4pt\n\\item ")            
@@ -765,11 +790,13 @@ def make_exam(*args):
             if not bAnswer and "task_no_answer" in task_data[tkey_name]:
                 f.write('\n'+task_data[tkey_name]["task_no_answer"]+'\n\n')
             task = ParseTask(tname,bAnswer)
-            f.writelines(task[0])
+            filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.6]') for x in task[0]]
+            f.writelines(filt_sc)
             fsolv.write(str(i)+":"+str(task[1])+" ")
             f.write("\n\\end{minipage}\n")
         fsolv.write("\n")
         f.write("\\end{enumerate}\n")
+        f.write("\n\\vfill\n ")            
         f.write("\\end{minipage}} \\\\ \n")
         f.write("\\hline\n")
         f.write("\\end{tabular}\n")
@@ -855,7 +882,7 @@ mainframe.grid(column=0+col0, row=0+row0, sticky=(N, W, E, S))
 #mainframe.columnconfigure(0, weight=1)
 #mainframe.rowconfigure(0, weight=1)
 
-l0 = Listbox(mainframe, height=15,width=60)
+l0 = Listbox(mainframe, height=50,width=60)
 l0.grid(column=-2+col0, row=0+row0, sticky=(N,W,E,S),rowspan = 15)
 s0 = ttk.Scrollbar(mainframe, orient=VERTICAL, command=l0.yview)
 s0.grid(column=-1+col0, row=0+row0, sticky=(N,S),rowspan = 15)
@@ -863,16 +890,16 @@ l0['yscrollcommand'] = s0.set
 l0.bind('<<ListboxSelect>>', select_theme)
 l0.activate(2)
 
-l1 = Listbox(mainframe, height=15,width=60)
+l1 = Listbox(mainframe, height=50,width=60)
 l1.grid(column=0+col0, row=0+row0, sticky=(N,W,E,S),rowspan = 15)
 s1 = ttk.Scrollbar(mainframe, orient=VERTICAL, command=l1.yview)
 s1.grid(column=1+col0, row=0+row0, sticky=(N,S),rowspan = 15)
 l1['yscrollcommand'] = s1.set
 l1.activate(2)
 
-l2 = Listbox(mainframe, height=10,width=60)
+l2 = Listbox(mainframe, height=50,width=60)
 l2.grid(column=3+col0, row=0+row0, sticky=(N,W,E,S),rowspan = 15)
-l3 = Listbox(mainframe, height=10,width=5)
+l3 = Listbox(mainframe, height=50,width=5)
 l3.grid(column=5+col0, row=0+row0, sticky=(N,W,E,S),rowspan = 15)
 s2 = ttk.Scrollbar(mainframe, orient=VERTICAL)
 s2.grid(column=4+col0, row=0+row0, sticky=(N,S),rowspan = 15)
@@ -889,10 +916,12 @@ ttk.Button(mainframe, text="MakeTest", command=make_test, width = 13).grid(colum
 number_of_tests=StringVar()
 result_file_name=StringVar()
 answer_type=StringVar()
+curr_task_num=StringVar()
 #tester_style=StringVar()
 
 number_of_tests.set(10)
 answer_type.set(1)
+curr_task_num.set(1)
 #tester_style.set('test')
 
 result_file_name.set('test1')
@@ -910,6 +939,11 @@ ttk.Entry(mainframe,textvariable=answer_type,  width=6).grid(column=2+col0, row=
 ttk.Button(mainframe, text="MakeBook", command=make_book, width = 13).grid(column=2+col0, row=12+row0, sticky=(W,N),columnspan = 1)
 
 ttk.Button(mainframe, text="MakeExam", command=make_exam, width = 13).grid(column=2+col0, row=13+row0, sticky=(W,N),columnspan = 1)
+
+ttk.Label(mainframe, text="Номер задачи:").grid(column=2+col0, row=14+row0, sticky=W)
+ttk.Entry(mainframe,textvariable=curr_task_num,  width=6).grid(column=2+col0, row=15+row0,  sticky=(W, E), columnspan = 1)
+
+ttk.Button(mainframe, text="==>>", command=add_task_nopp, width = 13).grid(column=2+col0, row=16+row0, sticky=(W,N),columnspan = 1)
 
 
 ttk.Label(mainframe, text="Тема:").grid(column=-2+col0, row=-1+row0, sticky=W)
