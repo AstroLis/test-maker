@@ -882,7 +882,7 @@ mainframe.grid(column=0+col0, row=0+row0, sticky=(N, W, E, S))
 #mainframe.columnconfigure(0, weight=1)
 #mainframe.rowconfigure(0, weight=1)
 
-l0 = Listbox(mainframe, height=50,width=60)
+l0 = Listbox(mainframe, height=30,width=60)
 l0.grid(column=-2+col0, row=0+row0, sticky=(N,W,E,S),rowspan = 15)
 s0 = ttk.Scrollbar(mainframe, orient=VERTICAL, command=l0.yview)
 s0.grid(column=-1+col0, row=0+row0, sticky=(N,S),rowspan = 15)
@@ -890,16 +890,16 @@ l0['yscrollcommand'] = s0.set
 l0.bind('<<ListboxSelect>>', select_theme)
 l0.activate(2)
 
-l1 = Listbox(mainframe, height=50,width=60)
+l1 = Listbox(mainframe, height=30,width=60)
 l1.grid(column=0+col0, row=0+row0, sticky=(N,W,E,S),rowspan = 15)
 s1 = ttk.Scrollbar(mainframe, orient=VERTICAL, command=l1.yview)
 s1.grid(column=1+col0, row=0+row0, sticky=(N,S),rowspan = 15)
 l1['yscrollcommand'] = s1.set
 l1.activate(2)
 
-l2 = Listbox(mainframe, height=50,width=60)
+l2 = Listbox(mainframe, height=30,width=60)
 l2.grid(column=3+col0, row=0+row0, sticky=(N,W,E,S),rowspan = 15)
-l3 = Listbox(mainframe, height=50,width=5)
+l3 = Listbox(mainframe, height=30,width=5)
 l3.grid(column=5+col0, row=0+row0, sticky=(N,W,E,S),rowspan = 15)
 s2 = ttk.Scrollbar(mainframe, orient=VERTICAL)
 s2.grid(column=4+col0, row=0+row0, sticky=(N,S),rowspan = 15)
