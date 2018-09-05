@@ -142,6 +142,7 @@
                     "./tasks/DM6.json"
                 ],                       
 "Сборник по ТВ":[
+                    "./tasks/teor_ver/z_meeting.json",
                     "./tasks/z_ver_poln.json",
                     "./tasks/z_opera_sobit_sozhn.json",
                     "./tasks/z_bern1.json",
