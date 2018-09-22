@@ -22,7 +22,7 @@
          "A77":"[tree_bool_tm.FullProbabilityStr(A4),tree_bool_tm.FullProbabilityStr(A5),tree_bool_tm.FullProbabilityStr(A6)]"   
         },
 "otvet":{
-         "o1":"str(A33)",         
-         "o2":"str(A77)"         
+         "o1":"'[{}], [{}], [{}]'.format(*A33)",         
+         "o2":"'[{}], [{}], [{}]'.format(*A77)"         
         }
 }
