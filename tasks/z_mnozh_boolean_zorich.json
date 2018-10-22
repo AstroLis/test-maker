@@ -1,0 +1,37 @@
+{
+"title":"Булеан zorich",
+"chapter":"Теория множеств. Операции над множествами",
+"titleb":"Булеан",
+"zadacha":"'Выберите множество, являющееся булеаном некоторого множества:'",
+"task_no_answer":"Проверьте, является ли множество A булеаном некоторого множества, если не является~--- выпишите недостающие подмножества.",
+"answer_style":"'line_item'",
+"task_style":"na1",
+"vopros":{
+"v1":"''",
+"v2":"''"
+         }, 
+"vopros_no_answer":{
+         "v2":"'\\\\flushleft A='+Ot[1]",
+         "v1":"'\\\\flushleft A='+Ot[0]"
+         }, 
+
+"param":{
+         "A0":"[algebra_tm.ZorichMnozh(i) for i in range(4)]",
+         "A1":"Shuf(A0)",
+         "B1":"A1[0:3]",
+         "C1":"powerset(B1)",
+         "D1":"random.randint(0,1)",
+         "O1":"algebra_tm.FrozenSetsToLists(C1)",
+         "O2":"random.randint(1,len(O1)-1)",
+         "O3":"O1[:O2-1]+O1[O2+1:]",
+         "Ot":"[('$'+RB(str(O1)).replace('\\{\\}','\\\\emptyset')+'$').replace('},','},\\\\allowbreak '),('$'+RB(str(O3)).replace('\\{\\}','\\\\emptyset')+'$').replace('},','},\\\\allowbreak ')]"
+        },
+"otvet":{
+         "o1":"Ot[0]",
+         "o2":"Ot[1]"
+        },
+"otvet_no_answer":{
+         "o1":"'это булеан'",
+         "o2":"('$'+RB(str(O1[O2-1:O2+1])).replace('\\{\\}','\\\\emptyset')+'$').replace('},','},\\\\allowbreak ')"
+        }
+}

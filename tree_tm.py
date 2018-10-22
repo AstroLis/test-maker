@@ -1,4 +1,6 @@
 import random
+import numpy as np
+import networkx as nx
 from shutil import copyfile
 from pyx import *
 
@@ -6,7 +8,7 @@ from pyx import *
 # in this implementation, a node is inserted between an existing node and the root
 class BinaryTree():
     id_count=1
-    probs=[]
+    probs={}
     probs_all=[]
     ccc=canvas.canvas()
     bx = 0.8
@@ -15,6 +17,7 @@ class BinaryTree():
       self.left = None
       self.right = None
       self.rootid = BinaryTree.id_count
+      BinaryTree.probs[self.rootid]=[]
       BinaryTree.id_count+=1
       self.dimx=0
       self.dimy=0
@@ -49,9 +52,11 @@ class BinaryTree():
        if(not self.type):
         if(random.randint(0,1)):
           tt=random.randint(1,2)
-          self.type=tt
+          self.type=tt          
           self.left=BinaryTree(random.random())
+          BinaryTree.probs[self.rootid].append(self.left.rootid)
           self.right=BinaryTree(random.random())
+          BinaryTree.probs[self.rootid].append(self.right.rootid)
        else:
         self.left.randTree()
         self.right.randTree()
@@ -66,7 +71,7 @@ def paintTree(tree,lvl,x1,y1):
         if(not tree.type):
           return
         else:
-           y2=y1-0.5
+           y2=y1-0.3
            x0=x1-lvl
            x2=x1+lvl
            lvl=lvl*0.5
@@ -88,17 +93,43 @@ def MakeTreeTM(number_of_element=10):
  max_p=n_*2
  while (BinaryTree.id_count!=max_p):
    BinaryTree.id_count = 1
+   BinaryTree.probs = {}
    myTree1 = BinaryTree(0.5)
    for i in range(10):
      myTree1.randTree()
  print(BinaryTree.id_count)    
  lvl=4
  paintTree(myTree1, lvl, 0, 5)
- BinaryTree.ccc.writeEPSfile("tree"+str(v_cou))
+# print(BinaryTree.probs)
+ BinaryTree.ccc.writeEPSfile("./tex/tree"+str(v_cou))
+# BinaryTree.ccc.writePDFfile("tree"+str(v_cou))
  vc=open('var_count','w')
  vc.write(str(v_cou))
  vc.close()
- return ("tree"+str(v_cou)+".eps")
+ return ("tree"+str(v_cou)+".eps",BinaryTree.probs)
+def RadDiam(N=10):
+ (fn,gr)=MakeTreeTM(N)
+ print(gr)
+ grl=len(gr)
+ mm=np.zeros((grl,grl))
+ for i in gr:
+    for j in gr[i]:
+        mm[i-1][j-1]=1
+        mm[j-1][i-1]=1
+ #print(mm)       
+ G=nx.from_numpy_matrix(mm,create_using=nx.MultiDiGraph())
+ #for i in G:
+ #  print(i,G[i])
+ fw=nx.floyd_warshall(G)
+ exc=[max([fw[i][j] for j in range(0,grl)]) for i in range(0,grl)]
+ mn=min(exc)
+ mx=max(exc)
+ cluben=[i+1 for i in range(0,grl) if exc[i]==mn]
+ perif=[i+1 for i in range(0,grl) if exc[i]==mx]
+ print('exc:',exc)
+ print(mn,mx)
+ print(cluben,perif)
+ return (fn,(int(mn),int(mx),len(cluben),len(perif)))
 def MakeForrest(): 
  v_cou=0 
  tex_file=open('tree'+str(v_cou)+'.tex','w')
@@ -117,7 +148,7 @@ def MakeForrest():
  tex_file.write("\\begin{document}\n")
  tex_file.write("\\pagenumbering{gobble}\n")
  tex_file.write("\\captionsetup{labelformat=empty}\n")
- for i in range(0,100):
+ for i in range(0,10):
     tex_file.write("\\begin{figure}[]\n")
     cn=MakeTreeTM(10)
     rr=random.randint(0,3)
@@ -129,6 +160,8 @@ def MakeForrest():
     
  tex_file.write("\\end{document}\n")
  
+#RadDiam(11) 
 #MakeForrest() 
-#print(MakeTreeTM())
+#tr=MakeTreeTM(10)
+
 

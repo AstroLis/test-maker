@@ -5,7 +5,126 @@ import networkx as nx
 from shutil import copyfile
 from pyx import *
 
-# simple binary tree
+def lts(lst,bb=['\\{','\\}']):
+    rz=bb[0]
+    f=0
+    for i in lst:
+        if f: rz+=', '
+        f=1
+        rz+=str(i)
+    rz+=bb[1]
+    return rz
+
+def gr_tostr(gr):
+    return '('+lts(gr[0])+', '+lts([lts(i,'()') for i in gr[1]])+')'
+
+def wrong_graph(path_to):
+    resp=copy.deepcopy(path_to)
+    nv=len(resp)
+    to_add=[]
+    to_del=[]
+    for i in range(nv):
+        if len(resp[i]): to_del.append(i)
+        if len(resp[i])<nv-1: to_add.append(i)
+    ii_add=[i for i in to_add]
+    ii_del=[i for i in to_del]
+    random.shuffle(ii_add)
+    random.shuffle(ii_del)
+    ia=0
+    if len(to_add):
+        ia=ii_add[0]
+        for i in range(nv):
+            if i==ia: continue
+            if i in resp[ia]: continue
+            resp[ia].append(i)
+            break
+    for i in ii_del:
+        if i==ia: continue
+        resp[i].pop()
+        break
+    return resp
+    
+
+def gr_to_graph_tm(gr):
+    print('gr_to_graph_tm: ',gr)
+    nv = len(gr[0])
+    vv=list(gr[0])
+    vi={}
+    iv={}
+    path_to=[]
+    path_all=[]
+    for i in range(nv):
+        path_all.append([])
+        vi[i]=vv[i]
+        iv[vv[i]]=i
+    for i in range(nv):
+        path_to.append([])
+        for j in gr[1]:
+            if j[0]==vi[i]:
+                path_to[i].append(iv[j[1]])
+                path_all[i].append(iv[j[1]])
+            if j[1]==vi[i]:
+                path_all[i].append(iv[j[0]])
+    return (path_to,path_all)            
+                
+        
+def graph_repr(path_to,directed=1,v_nams=[]):
+    nv=len(path_to)
+    weighted=0
+    random_weights=0
+    if v_nams==[]:
+        for i in range(nv):
+            v_nams.append(i+1)
+    rv_nams=[]
+    vi={}
+    iv={}
+    mi={}
+    iii={}
+    for i in range(nv):
+        rv_nams.append(v_nams[i])
+        vi[v_nams[i]]=i
+        iv[i]=v_nams[i]
+    vis=sorted(vi.keys())
+    for i in range(len(vis)):
+        mi[vis[i]]=i
+        iii[vi[vis[i]]]=i
+    incin = []
+    smezh = [[0 for i in range(0, nv)] for j in range(0, nv)]
+    edges=[]
+    verts=[]
+    edges_s=[]
+    if directed:
+        bb=['(',')']
+    else:
+        bb=['\\{','\\}']
+    for ii in vi:
+        edges+=[bb[0]+str(ii)+',~'+str(iv[j])+bb[1] for j in path_to[vi[ii]]]
+        verts.append(str(ii)+': '+lts(sorted([iv[jj] for jj in path_to[vi[ii]]])))
+        for j in path_to[vi[ii]]:
+            edges_s.append((ii,iv[j]))
+    repr_cl = '('+lts(sorted(vis))+', '+lts(sorted(edges))+')'
+    repr_vrt =lts(sorted(verts),'  ')
+    for ii in vi:
+        i=vi[ii]
+        for p in path_to[i]:
+            if directed:
+                incin.append([0 if (not vi[j] == i and not vi[j] == p) else 1 if vi[j] == i else -1 for j in vi])
+            else:
+                incin.append([0 if (not vi[j] == i and not vi[j] == p) else 1 for j in vi])
+            if weighted:
+                #sml = int(10 * dist_(probs[i], probs[p]))
+                if random_weights:
+                    sml = random.randint(1, 5)
+            else:
+                sml = 1
+            smezh[iii[i]][iii[p]] = sml
+            if not directed:
+                smezh[iii[i]][iii[i]] = sml
+    return (smezh,incin,repr_cl,repr_vrt,(set(vis),set(edges_s)))
+
+
+
+        # simple binary tree
 # in this implementation, a node is inserted between an existing node and the root
 class NewGraph:
     def __init__(self,d=5,n=5,sym=False):
@@ -78,7 +197,7 @@ def grMult(m1,m2):
 
 def MakeMatrix(data,ff=2):
  tb=''
- tb+=(' {\\small $$ \\begin{pmatrix}')
+ tb+=(' {$$ \\begin{pmatrix}')
  for y in data:
   i=0
   for x in y:
@@ -135,7 +254,7 @@ def norm_(d1):
   dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
   if(dd==0.0):
       return (0.0,0.0)
-  print(d1,dd)
+  #print(d1,dd)
   return (d1[0]/dd,d1[1]/dd)
 def diff_(p1,p2):
   return (p2[0]-p1[0],p2[1]-p1[1])
@@ -196,50 +315,135 @@ def calc_cos(p0,p1,p2):
   return  sc_p_(diff_(p0,p1),diff_(p0,p2))/(dist_(p0,p1)*dist_(p0,p2))
 # test tree
 
-def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1):
+def PaintGraphTM(gr_name,probs,path_to,path_a,nv,directed=1,calc_random_path=1,v_nm=[]):
     global ccc
+    v_nams=[]
+    if v_nm==[]:
+        for i in range(nv):
+            v_nams.append(i+1)
+    else:        
+        v_nams=copy.copy(v_nm)
+    sc=0.7
+    scs=1
+#    sc=2./3
+#    scs=(sc)/0.7
     fi=1
     ccc = canvas.canvas()
     if(calc_random_path):
-     ccc.fill(path.circle(probs[0][0],probs[0][1], 0.2))
-     ccc.stroke(path.circle(probs[0][0],probs[0][1], 0.15))
-     ccc.stroke(path.circle(probs[fi][0],probs[fi][1], 0.2))
+     ccc.fill(path.circle(probs[0][0]*sc,probs[0][1]*sc, 0.2))
+     ccc.stroke(path.circle(probs[0][0]*sc,probs[0][1]*sc, 0.15))
+     ccc.stroke(path.circle(probs[fi][0]*sc,probs[fi][1]*sc, 0.2))
+    xx=[x[0] for x in probs]
+    yy=[y[1] for y in probs]
+    #print('xx:',xx)
+    #print('yy:',yy)
+    minx=min(xx)
+    maxx=max(xx)
+    miny=min(yy)
+    maxy=max(yy)
     for jj in range(nv):
      pp=probs[jj]
      #if(directed):
      # ccc.stroke(path.circle(pp[0],pp[1], 0.1))
      #else:
-     ccc.fill(path.circle(pp[0],pp[1], 0.1))
+     ccc.fill(path.circle(pp[0]*sc,pp[1]*sc, 0.1))
      
      for ph in path_to[jj]:
       dxx=pp[0]+(probs[ph][0]-pp[0])*2/3.
       dyy=pp[1]+(probs[ph][1]-pp[1])*2/3.
       if(directed):
-       ccc.stroke(path.line(pp[0], pp[1], dxx, dyy),[deco.earrow([deco.filled()])])
-      ccc.stroke(path.line(pp[0], pp[1], probs[ph][0],probs[ph][1]))
+       ccc.stroke(path.line(pp[0]*sc, pp[1]*sc, dxx*sc, dyy*sc),[deco.earrow([deco.filled()])])
+      ccc.stroke(path.line(pp[0]*sc, pp[1]*sc, probs[ph][0]*sc,probs[ph][1]*sc))
      text_d0=0.0
      text_d1=0.0
      for phi in path_a[jj]:
       if(not phi==jj):
        ph=probs[phi]
-       print(pp,ph)
+       #print(pp,ph)
        d1=diff_(pp,ph)
        dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
        text_d0+=d1[0]/dd
        text_d1+=d1[1]/dd
-     if( not(text_d0==0 and text_d1==0)):
-      ntd=norm_((text_d0,text_d1))
-     else:
-      ntd=norm_((random.randint(-10,10),random.randint(-10,10)))
-     ccc.text(pp[0]-0.5*ntd[0],pp[1]-0.5*ntd[1], str(jj+1), [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
-    ccc.writeEPSfile(gr_name)
+     if text_d0==0 and text_d1==0:
+        for i in range(nv):
+            if i==jj: 
+                continue
+            ph=probs[i]
+            d1=diff_(pp,ph)
+            dd=math.sqrt(d1[0]*d1[0]+d1[1]*d1[1])
+            text_d0+=d1[0]/dd
+            text_d1+=d1[1]/dd           
+     ntd=norm_((text_d0,text_d1))
+     ccc.text(pp[0]*sc-0.5*ntd[0]*scs,pp[1]*sc-0.5*ntd[1]*scs, str(v_nams[jj]), [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+    #ccc.stroke(path.rect(minx-1, miny-1, maxx-minx+2,maxy-miny+2))
+    ccc.stroke(path.rect(-3*sc, -3*sc, 6*sc,6*sc))
+    #ccc.stroke(path.circle(0,0,3))
+    ccc.writeEPSfile('./tex/'+gr_name)
+#    ccc.writePDFfile(gr_name)
 
+def MatrMult(a,b):
+    return [[sum([a[j][k]*b[k][i] for k in range(0,len(b))]) for i in range(0,len(a[0]))]for j in range(0,len(a))]
+    
+def PowerSmezh(m,n):
+    mm=[[int(i==j) for i in range(0,len(m))]for j in range(0,len(m))]
+    for i in range (0,n):
+        mm=MatrMult(mm,m)
+    return mm
+def PlaceGraphVerts(nv):
+#generate random placed verticles for graph picture
+    sc=4
+    s1=2
+    do_work = 1
+    itry = 0
+    probs = []
+    while do_work:
+     print('try:',itry)
+     itry=itry+1
+     do_work=0
+     probs=[]
+     path_a=[]
+     tc=0
+     for jj in range(nv):
+      dd=0
+      d1=(random.random()*sc-s1,random.random()*sc-s1)
+      if len(probs):
+       while dd<sc/4:
+        d1=(random.random()*sc-s1,random.random()*sc-s1)
+        mind=sc
+        for d2 in probs:
+         if mind>dist_(d1,d2):
+          mind=dist_(d1,d2)
+        dd=mind
+        tc=tc+1
+        if tc>100:
+          do_work=1
+          break
+      if do_work:
+       break
+      probs.append(d1)
+     if do_work:
+      continue
+    return probs
 
-def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,random_weights=0):
+def PaintGraphSet(gr):
+    nv=len(gr[0])
+    varc=open('var_count','r')
+    v_cou=int(varc.readline())
+    varc.close()
+    vc = open('var_count', 'w')
+    vc.write(str(v_cou))
+    vc.close()
+    (path_to,path_a)=gr_to_graph_tm(gr)
+    probs=PlaceGraphVerts(nv)
+    fnam="graph"+str(v_cou)
+    print(probs)
+    print((path_to,path_a))
+    PaintGraphTM(fnam,probs,path_to,path_a,nv,directed=1,calc_random_path=0,v_nams=list(gr[0]))
+    return fnam
+    
+def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=1):
     random.seed()
     global id_count
-    global probs
-    global probs_all
     global all_path
     id_count = 1
     probs = []
@@ -250,7 +454,7 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,rand
     varc.close()
     ii=1
     v_cou+=1
-    print('ii=',ii)
+    #print('ii=',ii)
     id_count = 1
     sc=4
     s1=2
@@ -360,7 +564,8 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,rand
       continue     
     
     probs_all=[]
-    PaintGraphTM("graph"+str(v_cou),probs,path_to,path_a,nv,directed,calc_random_path)
+    if paint_fl:
+        PaintGraphTM("graph"+str(v_cou),probs,path_to,path_a,nv,directed,calc_random_path,v_nams)
     grfile="graph"+str(v_cou)+".eps"
     n_try=100
     n_f=0
@@ -417,7 +622,7 @@ def MakeGraphTM(nv=5,directed=1,calc_random_path=1,weighted=0,filter_zero=0,rand
       if weighted: 
        sml=int(10*dist_(probs[i],probs[p]))
        if random_weights:
-        sml=random.randint(1,20)
+        sml=random.randint(1,5)
       else:
        sml=1      
       smezh[i][p]=sml
@@ -588,10 +793,84 @@ def MakeGraphsMatrPath():
 
  tex_file.write("\\end{document}\n")
 
+def LocStructCluben(N):
+    #N=8
+    tmp = MakeGraphTM(nv = N, directed = 0, calc_random_path = 0, weighted = 0, filter_zero = 1, random_weights = 1)
+    #print(tmp)
+    nm=np.matrix(tmp[3])
+    G=nx.from_numpy_matrix(nm,create_using=nx.MultiDiGraph())
+    #print('FW:')
+    fw=nx.floyd_warshall(G)
+    #for i in fw:
+    # print(i,fw[i])
+    #print('G:')
+    #for i in G:
+    # print(i,G[i])
+    #print(list(fw[0].keys()))
+    exc=[max([fw[i][j] for j in range(0,N)]) for i in range(0,N)]
+    #exc=[fw[i] for i in fw]
+    m=min(exc)
+    cluben=[i+1 for i in range(0,N) if exc[i]==m]
+    print('exc:',exc)
+    print('Cluben:',cluben)
+    return (tmp[0],cluben)
+
+def FindPathsForFixedLenght(N,n,i,j):
+    tmp = MakeGraphTM(nv = N, directed = 0, calc_random_path = 0, weighted = 0, filter_zero = 1, random_weights = 1)
+    nm=np.matrix(tmp[3])
+    mm=np.matrix(tmp[3])
+    print('Smezhn:')
+    print(mm)    
+    for k in range(0,n-1):
+        mm=nm*mm
+    print(mm)    
+    return (tmp[0],mm[i,j])    
+    #print(nm)
+
+
+#a=MakeGraphTM(nv=4,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=1)
+#print(a)
+#b=graph_repr(a[5],1)
+#for i in b[0]:
+#    print(i)
+#print(b[2])
+#print(b[3])
+#print(b[4])
+#print(gr_tostr(b[4]))
+#print(PaintGraphSet(b[4]))
+
+#b=graph_repr(a[5],1,[2,3,4,5,1])
+#for i in b[0]:
+#    print(i)
+#print(b[2])
+#print(b[3])
+#b=graph_repr(a[5],1,[3,4,5,1,2])
+#for i in b[0]:
+#    print(i)
+#print(b[2])
+#print(b[3])
+#b=graph_repr(a[5],1,['A','B','C','D','E','F'])
+#for i in b[0]:
+#    print(i)
+#print(b[2])
+#print(b[3])
+#vnms=['A','B','C','D','E','F']
+#random.shuffle(vnms)
+#b=graph_repr(a[5],1,vnms)
+#for i in b[0]:
+#    print(i)
+#print(b[2])
+#print(b[3])
+#print(FindPathsForFixedLenght(4,3,1,2))
+#LocStructCluben(8)
 #MakeGraphsMatr()  
 #MakeGraphs()  
-
-#tmp = MakeGraphTM(nv = 8, directed = 0, calc_random_path = 0, weighted = 1, filter_zero = 1, random_weights = 1)
+#mm=np.matrix(tmp[3])
+#for k in range(0,4):
+#    print(k)
+#    print(mm)
+#    mm=mm*nm    
+    
 #print (tmp[6])
 #grph=[list(set(x)) for x in tmp[6]]
 #print(grph)
@@ -612,7 +891,12 @@ def MakeGraphsMatrPath():
 #print(gr1)
 #print(gr1.kruskal())
 #print(MakeMatrix(gr1.smezh))
+
 #gr2=NewGraph(4,3)
+#G=nx.from_numpy_matrix(gr2.smezh,create_using=nx.MultiDiGraph())
+#for i in G:
+# print(i,G[i])
+ 
 #print(gr2.dijkstra1(1))
 #print(grAnd(gr1.smezh,gr2.smezh))
 #print(grMult(gr1.smezh,gr2.smezh))

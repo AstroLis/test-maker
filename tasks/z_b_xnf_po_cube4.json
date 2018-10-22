@@ -1,0 +1,30 @@
+{
+"title":"(ДНФ/КНФ) по Кубу 4",
+"chapter":"Булевы функции. Булев куб",
+"titleb":"Минимизация по булеву кубу",
+"zadacha":"'Выберите '+A3[A1]+' функции, изображенной на тессеракте'",
+"task_no_answer":"'Запишите '+A3[A1]+' функции, изображенной на тессеракте'",
+"answer_style":"'qa_line_1_4'",
+"vopros":{
+          "v1":"'\\\\includegraphics[]{'+A5[0]+'}'",
+          "v2":"''"
+         }, 
+"const_param":{
+         "A1":"random.randint(0,1)",
+         "A11":"random.randint(9,12) if not A1 else random.randint(4,6)",
+         "A2":"bool_num_term(A11,A11,4)",
+         "A3":"['ДНФ','КНФ']",
+         "A4":"tree_bool_tm.OptimalNew(A2,A1)",
+         "A5":"tree_bool_tm.PaintSDNFGraph(A2,knf=A1,number_of_vars=4,mark_vert=False)",
+         "A6":"tree_bool_tm.DStrFromNbool(A2,4,knf=A1)"
+        },
+"param":{
+         "A7":"bool_num_term(A11,A11,4)",
+         "A8":"tree_bool_tm.DStrFromNbool(A7,4,knf=A1)",
+         "A9":"tree_bool_tm.OptimalNew(A7,A1)"         
+        },
+"otvet":{
+         "o1":"'{{\\\\small ${}$}}'.format(A4[0])",
+         "o2":"'{{\\\\small ${}$}}'.format(A9[0])"      
+        }
+}

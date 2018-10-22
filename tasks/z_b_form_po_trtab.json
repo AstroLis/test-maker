@@ -1,0 +1,27 @@
+{
+"title":"Нормальные формы по ТИ",
+"chapter":"Булевы функции. Способы представления булевых функций",
+"titleb":"СДНФ и СКНФ по таблице истинности",
+"zadacha":"'Выберите СДНФ и СКНФ для булевой функции, заданной таблицей истинности \\n\\n {}'.format(A2)",
+"task_no_answer":"Запишите СДНФ и СКНФ для булевой функции, заданной таблицей истинности",
+"answer_style":"'line_item'",
+"task_style":"na4",
+"vopros":{
+          "v1":"''"
+         }, 
+"vopros_no_answer":{
+          "v1":"'~~\\n\\n{{\\\\footnotesize {}}}'.format(A2)"
+         },          
+"param":{
+         "A1":"bool_num_term(3,4,nv=3)",
+         "A2":"tree_bool_tm.MakeTruthTable(A1,number_of_vars=3)",
+         "A3":"tree_bool_tm.DStrFromNbool(A1,3,knf=False)",
+         "A4":"tree_bool_tm.DStrFromNbool(A1,3,knf=True)",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'${}$, \\\\\\\\ ${}$ \\n\\n'.format(A3,A4)"
+        }
+}

@@ -1,0 +1,21 @@
+{
+"title":"Графы, R->S или S->R",
+"chapter":"Теория графов. Матричное задание графов",
+"titleb":"Матрицы смежности и инцидентности графа",
+"zadacha":"A3[A1]+NL",
+"answer_style":"'qa_blockm'",
+"vopros":{
+          "v1":"'\\\\footnotesize'+MakeMatrix(A2[2+A1],baks=2)+''"
+         }, 
+"const_param":{
+         "A1":"random.randint(0,1)"
+        },
+"param":{
+         "A2":"graph_tm.MakeGraphTM(5,0,0)",
+         "A3":"['Найдите матрицу смежности по матрице инцидентности','Найдите матрицу инцидентности по матрице смежности']",
+         "A4":"0"
+        },
+"otvet":{
+         "o1":"'\\\\scriptsize '+MakeMatrix(A2[3-A1])+''"         
+        }
+}

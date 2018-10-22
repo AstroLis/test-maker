@@ -1,7 +1,9 @@
 ﻿import random,sys,math
+import numpy as np
 from shutil import copyfile
 from pyx import *
 from tex_structures_tm import MakeTable
+from graph_tm import dist_
 from tex_structures_tm import MakeMatrix
 #sys.path.append('./tmUI.py')
 #from tmUI import MakeMatrix
@@ -11,9 +13,12 @@ from tex_structures_tm import MakeMatrix
 BoolOperands=['\\wedge','\\vee','\\rightarrow','\\leftrightarrow','|','\\downarrow','\\oplus']
 BoolOrder=   [0       ,   1    ,       2      ,         3        , 0 ,     0       ,    3]
 varNames=    ['x_1','x_2','x_3','x_4']
+varNamesNeg=    ['\\bar{x}_1','\\bar{x}_2','\\bar{x}_3','\\bar{x}_4']
 varNamesSet0=['A','B','C','D']
-varNamesSet= ['(x \\in A)','(x \\in B)','(x \\in C)','(x \\in D)']
-varNamesSetNeg= ['(x \\notin A)','(x \\notin B)','(x \\notin C)','(x \\notin D)']
+varNamesSet=[' A ',' B ',' C ',' D ']
+varNamesSetNeg=['\\overline{A}','\\overline{B}','\\overline{C}','\\overline{D}']
+varNamesSet1= ['(x \\in A)','(x \\in B)','(x \\in C)','(x \\in D)']
+varNamesSetNeg1= ['(x \\notin A)','(x \\notin B)','(x \\notin C)','(x \\notin D)']
 BoolOperandsSet=['\\cap','\\cup','\\rightarrow','\\leftrightarrow','|','\\downarrow','\\Delta']
 #varNames=    ['A','B','C','D']
 #varVal  =    [170,204,240]
@@ -22,6 +27,8 @@ varVal  =    [65280,61680,52428,43690]
 #1100110011001100
 #1111000011110000
 #1111111100000000
+
+
 def NtoList(iPerf):
  ff=[]
  i=0
@@ -49,19 +56,14 @@ def DStrIbool(i,number_of_vars=4,knf=False):
    first=0
   if(xxi[ii][f]):
    if knf:
-    #strf+='\\neg '
-    strf+='\\overline{'
-   strf+=varNames[ii]
-   if knf:
-    strf+='}'
+    strf+=varNamesNeg[ii]
+   else:
+    strf+=varNames[ii]
   else:
    if not knf:
-    #strf+='\\neg '
-    strf+='\\overline{'
-   strf+=varNames[ii]
-   if not knf:
-    #strf+='\\neg '
-    strf+='}'
+    strf+=varNamesNeg[ii]
+   else:
+    strf+=varNames[ii]
  return strf
 
 def DStrIboolSet(i,number_of_vars=4,knf=False):
@@ -157,10 +159,11 @@ def DoOper(operand,x1,x2,nb=16):
  if operand=='\\oplus':
   return x1^x2
 
-def NtoListB(iPerf,l):
+def NtoListB(iPerf,l,nv=4):
  ff=[]
  for i in range(0,l):
-  ff.append(iPerf%2)
+  if not(nv==3 and i%2):
+    ff.append(iPerf%2)
   iPerf=iPerf>>1
  return ff
 
@@ -325,7 +328,7 @@ class BinaryTree():
     ccc=canvas.canvas()
     bx = 0.8
     by = 0.4
-    def __init__(self,vn):
+    def __init__(self,vn,basis=0):
       self.left = None
       self.right = None
       self.rootid = BinaryTree.id_count
@@ -333,8 +336,15 @@ class BinaryTree():
       self.dimx=0
       self.dimy=0
       self.type=0
-      self.prob=random.randint(0,6)
-      self.neg=random.randint(0,5)
+      if not basis:
+        self.prob=random.randint(0,6)
+        self.neg=random.randint(0,5)
+      elif basis==1: #Sheffer
+        self.prob = 4
+        self.neg = 1
+      elif basis==2: #Pirs
+        self.prob = 5
+        self.neg = 1
       self.var=vn
 
     def getLeftChild(self):
@@ -346,17 +356,17 @@ class BinaryTree():
     def getNodeValue(self):
         return self.rootid
 
-    def randTree(self,num_vars=4):
+    def randTree(self,num_vars=4,basis=0):
        if(not self.type):
         if(random.randint(0,1)):
           tt=random.randint(1,2)
           self.type=tt
           childvn=random.randint(0,num_vars-1)
-          self.left=BinaryTree(childvn)
-          self.right=BinaryTree((childvn+1)%num_vars)
+          self.left=BinaryTree(childvn, basis)
+          self.right=BinaryTree((childvn+1)%num_vars, basis)
        else:
-        self.left.randTree(num_vars)
-        self.right.randTree(num_vars)
+        self.left.randTree(num_vars, basis)
+        self.right.randTree(num_vars, basis)
 def MakeFormulaFromTree(tree,oper):
     if tree != None:
         if(not tree.type):
@@ -425,34 +435,37 @@ def paintTree(tree,lvl,x1,y1):
     #m=0.1
     m=0.7
     if tree != None:
-        #BinaryTree.ccc.fill(path.circle(x1,y1,m))
         xr=x1-m*2
         yr=y1-m
-        hvx=x1-m*3
+        hvx=x1-m*2.5
         hv1y=y1+m/2
         hv2y=y1-m/2
+#        hv1y=y1
+#        hv2y=y1
         if(not tree.type):
           #BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
-          BinaryTree.ccc.text(x1-0.5*m-0.1,y1, "$"+varNames[tree.var]+"$")
+          BinaryTree.ccc.text(x1-0.8*m-0.06,y1-0.2*m, "$"+varNames[tree.var]+"$",[text.size.LARGE])
           return
         else:
            if not tree.neg:
             BinaryTree.ccc.stroke(path.rect(xr,yr,m,m*2))
             plotBoolSchemElem(BinaryTree.ccc, '\\downarrow', xr, yr, m)
-            BinaryTree.ccc.stroke(path.line(xr,y1,xr-m,y1))
-            xr-=2*m
-            hvx-=2*m
+            BinaryTree.ccc.stroke(path.line(xr,y1,xr-0.5*m,y1))
+            xr-=1.5*m
+            hvx-=1.5*m
            BinaryTree.ccc.stroke(path.rect(xr,yr,m,m*2))
            plotBoolSchemElem(BinaryTree.ccc, BoolOperands[tree.prob], xr, yr, m)
            BinaryTree.ccc.stroke(path.line(x1,y1,x1-m,y1))
-           BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx+m,hv1y))
-           BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx+m,hv2y))
+           BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx+0.5*m,hv1y))
+           BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx+0.5*m,hv2y))
            multl=tree.left.width
            multr=tree.right.width
            ml2= 1 if multl else 0
            mr2= 1 if multr else 0
-           yn1=hv1y+multl*m+ml2*0.1*m
-           yn2=hv2y-multr*m-mr2*0.1*m
+           yn1=hv1y+ml2*(multr)*(1+mr2*0.1)*m-ml2*mr2*m/2
+           yn2=hv2y-mr2*(multl)*(1+ml2*0.1)*m+mr2*ml2*m/2
+#           yn1=hv1y+multl*m+ml2*0.1*m
+#           yn2=hv2y-multr*m-mr2*0.1*m
            lvl=lvl*0.5
            BinaryTree.ccc.stroke(path.line(hvx,hv1y,hvx,yn1))
            BinaryTree.ccc.stroke(path.line(hvx,hv2y,hvx,yn2))
@@ -470,6 +483,8 @@ def writeHead(tex_file):
  tex_file.write("\\usepackage[left=1cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
  tex_file.write("\\usepackage{amsmath}\n")
  tex_file.write("\\usepackage{caption}\n")
+ tex_file.write("\\usepackage{multirow}\n")
+ tex_file.write("\\usepackage{rotating}\n")
  tex_file.write("\\usepackage{subcaption}\n")
  tex_file.write("\\begin{document}\n")
  tex_file.write("\\pagenumbering{gobble}\n")
@@ -487,9 +502,27 @@ def MakeCarnoMap(tvect):
 #   return MakeTable('$x_1 \setminus x_2 x_3$',xv,yv3,val) 
    return MakeTable(' ',xv,yv3,val) 
   if len(tvect)==16:
-   val=[tvect[i] for i in ind4]
-#   return MakeTable('$x_1 x_2 \setminus x_3 x_4$',xv,yv4,val) 
-   return MakeTable(' ',xv,yv4,val) 
+     val=[tvect[i] for i in ind4]
+     tb='{'
+     tb+=('\\footnotesize\n')
+     tb+=('\\begin{tabular}{c|c|c|c|c|c|}\n') 
+     tb+=('\\multicolumn{2}{c}{}&\\multicolumn{4}{c}{$x_3x_4$}\\\\\n') 
+     tb+=('\\cline{3-6}\n') 
+     tb+=('\\multicolumn{2}{c|}{}&\\tiny \\bf 00&\\tiny \\bf 01&\\tiny \\bf 11&\\tiny \\bf 10\\\\\n')  
+     tb+=('\\cline{2-6}\n')  
+     tb+=('\\multirow{4}{*}{ \\rotatebox[origin=c]{90}{$x_1x_2$}}\n') 
+     id=0
+     for y in yv4:
+      tb+='&\\tiny \\bf '+(str(y))
+      for x in xv:
+       tb+=('&')
+       tb+=(str(val[id]))
+       id=id+1
+      tb+=('\\\\ \\cline{2-6}')
+     tb+=('\\end{tabular} }')
+     return tb
+
+
    
  
 def MakeForrestFormulas():
@@ -593,7 +626,7 @@ def StrMarkForm(mf,sets,knf):
     if not knf:
      s+=' {} '.format(BoolOperands[not knf])
     else:
-     s+=' '
+     s+='\\;'
   if knf: 
    if len(mf[f])>1:  
     s+='('   
@@ -606,7 +639,7 @@ def StrMarkForm(mf,sets,knf):
         s+=' {} '.format(BoolOperandsSet[knf])
        else:
         if not knf:
-         s+=' '
+         s+='\\;'
         else:
          s+=' {} '.format(BoolOperands[knf])
    f1=1 
@@ -623,7 +656,9 @@ def StrMarkForm(mf,sets,knf):
     if sets:
      s+=varNamesSetNeg[abs(ff)-1]
     else: 
-     s+=' \\neg '+varNames[abs(ff)-1]
+#     s+=' \\neg '+varNames[abs(ff)-1]
+#     s+=' \\overline{'+varNames[abs(ff)-1]+'}'
+      s+=varNamesNeg[abs(ff)-1]
     if knf:
      nw=nw|DoNeg(varVal[abs(ff)-1])
     else: 
@@ -684,8 +719,28 @@ def OptimalNew(n,knf=False):
  if ss=='':
   return ('0','\\emptyset')
  return (ss,ss2)
+
+def MakeTruthTable(bf,number_of_vars):
+ trtab=[]
+ xHead=['$'+a+'$' for a in varNames]
+ if number_of_vars==3:
+  xHead.pop()
+ yHead=[]
+ Nl=NtoList(bf)                                  #(form1,nform2,w)
+ xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
+ for jj in range(0,16):
+  if number_of_vars==3 and jj%2:
+   continue
+  if jj in Nl:
+   yHead.append(1)
+  else:
+   yHead.append(0)
+  for kk in range(0,number_of_vars):
+   trtab+=[xxi[kk][jj]]
+ return MakeTable('$f$',xHead,yHead,trtab,yAlign=0)
  
-def MakeFormulaTM(number_of_element=10,number_of_vars=4):
+ 
+def MakeFormulaTM(number_of_element=10,number_of_vars=4,basis=0):
  number_of_chemes=10
  BinaryTree.id_count=1
  #varc=open('var_count','r')
@@ -697,12 +752,12 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
  form=('',0,0)
  max_p=number_of_element*2
  while form[1]==0 or form[1]==(pow(2,16)-1):
-     myTree1 = BinaryTree(1)
+     myTree1 = BinaryTree(1,basis)
      while (BinaryTree.id_count!=max_p):
        BinaryTree.id_count = 1
-       myTree1 = BinaryTree(1)
+       myTree1 = BinaryTree(1,basis)
        for i in range(10):
-         myTree1.randTree(number_of_vars)
+         myTree1.randTree(number_of_vars,basis)
      form=MakeFormulaFromTree(myTree1,0)
  print(form)
  varc=open('var_count','r')
@@ -712,7 +767,7 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
  text.set(text.LatexRunner)
  lvl=4
  paintTree(myTree1, lvl, 0, 5)
- BinaryTree.ccc.writeEPSfile("tree"+str(v_cou))
+ BinaryTree.ccc.writeEPSfile("./tex/tree"+str(v_cou))
  vc=open('var_count','w')
  v_cou=v_cou+1
  vc.write(str(v_cou))
@@ -733,7 +788,7 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
    yHead.append(0)
   for kk in range(0,number_of_vars):
    trtab+=[xxi[kk][jj]]
- strtab=MakeTable('f',xHead,yHead,trtab,yAlign=0) 
+ strtab=MakeTable('$f$',xHead,yHead,trtab,yAlign=0)
  carno=MakeCarnoMap(yHead)
  optf=OptimalNew(form[1],False)
  optfk=OptimalNew(form[1],True)
@@ -741,18 +796,34 @@ def MakeFormulaTM(number_of_element=10,number_of_vars=4):
  knf=DStrFromNbool(form[1],number_of_vars,knf=True)
  return (form,"tree"+str(v_cou-1)+".eps",strtab,carno,optf[0],optfk[0],dnf,knf,optf[1],optfk[1])
 
-def TestA(x,A): #1
- xA=math.sqrt(pow(x[0]-A[0],2)+pow(x[1]-A[1],2))
- if(xA<A[2]):
-  return 1
- else:
-  return 0
+def TestA(x,A,number_of_vars=3): #1
+ if number_of_vars==3:
+     xA=math.sqrt(pow(x[0]-A[0],2)+pow(x[1]-A[1],2))
+     if(xA<A[2]):
+      return 1
+     else:
+      return 0
+ if number_of_vars==4:
+    cos_angle = np.cos(np.radians(180.-A[5]))
+    sin_angle = np.sin(np.radians(180.-A[5]))
+
+    xc = x[0] - A[6]
+    yc = x[1] - A[7]
+
+    xct = xc * cos_angle - yc * sin_angle
+    yct = xc * sin_angle + yc * cos_angle 
+
+    rad_cc = (xct**2/(A[3])**2) + (yct**2/(A[4])**2)
+    if rad_cc<1:
+        return 1
+    else:
+        return 0
   
 def CheckDForm(ff,x,y,AA,number_of_vars=3):
  xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
  for i in range(0,number_of_vars):
   bit=xxi[i][ff]     #f%2
-  if bit!=TestA((x,y),AA[i]):
+  if bit!=TestA((x,y),AA[i],number_of_vars):
    return False
  return True
 
@@ -784,15 +855,332 @@ def PrintCirqPerf(iPerf,imax):
  ccc.stroke(path.rect(-2, -2, 4, 4))
  for i in range(0,3):
   ccc.text(AA[i][0]*4,AA[i][1]*4, varNamesSet0[i], [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
- ccc.text(-1.75,1.7, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ ccc.text(-1.65,1.6, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
  cname="venn"+str(v_cou)
- ccc.writeEPSfile(cname)
+ ccc.writeEPSfile('./tex/'+cname)
+ v_cou=v_cou+1
+ vc=open('var_count','w')
+ vc.write(str(v_cou))
+ vc.close()
+ return cname
+ 
+def FullProbabilityStr(iP,number_of_vars=3):
+    voc=['три промаха',
+         'только первый выстрел попадание',
+         'только второй выстрел попадание',
+         'только третий выстрел промах',
+         'только третий выстрел попадание',
+         'только второй выстрел промах',
+         'только первый выстрел промах',
+         'три попадания'
+        ]    
+    strf=''
+    first=1
+    ff=NtoList(iP)
+    for f in ff:
+     if number_of_vars==3 and f%2:
+      continue
+     if not first:
+       strf+=' или '
+     else:
+      first=0
+     strf+=voc[int(f/2)]
+    if strf=='':
+      strf='\\emptyset'
+    return strf
+
+
+#show Lotos-like Venn diagram for iPerf bool vector
+def PrintEllipsePerf(iPerf,imax):
+ varc=open('var_count','r')
+ v_cou=int(varc.readline())
+ varc.close() 
+ ccc=canvas.canvas()
+ sc=0.65
+ AA=[(0,0,1,1*sc,2*sc,-50,  0.2*sc,1*sc-0.7),
+     (0,0,1,1*sc,2*sc,-60,    1*sc,0*sc-0.7),
+     (0,0,1,1*sc,2*sc,-120,  -1*sc,0*sc-0.7),
+     (0,0,1,1*sc,2*sc,-130,-0.2*sc,1*sc-0.7)]
+ ff=NtoList(iPerf)
+ print(ff)
+ ir=100
+ for ix in range(-ir,ir,3):
+  for iy in range(-ir,ir,3):
+   x=2.*ix/ir
+   y=2.*iy/ir
+   for f in ff:
+    if CheckDForm(f,x,y,AA,4):
+     ccc.stroke(path.circle(x,y,0.01),[color.gray(0.5)])
+ for A in AA:
+  circ=path.circle(A[0],A[1],A[2])
+  ccc.stroke(circ,[trafo.scale(sx=A[3],sy=A[4]),trafo.rotate(A[5]),trafo.translate(A[6],A[7])])
+ ccc.stroke(path.rect(-2, -2, 4, 4))
+ for i in range(1,3):
+  ccc.text(AA[i][6]*4*sc,AA[i][7]*2*sc+1.3, varNamesSet0[i], [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ for i in [0,3]:
+  ccc.text(AA[i][6]*8*sc,AA[i][7]*2*sc+1.3, varNamesSet0[i], [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ ccc.text(-1.65,1.6, "U", [text.size(2),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
+ cname="venn"+str(v_cou)
+ ccc.writeEPSfile("./tex/"+cname)
+# ccc.writePDFfile(cname)
  v_cou=v_cou+1
  vc=open('var_count','w')
  vc.write(str(v_cou))
  vc.close()
  return cname
 
+#generate free-SDNF-cell bool vector
+def GenerateNonOverlapCircles(nv=3):
+  xyb=[[-0.5,-0.5],[0.5,-0.5],[-0.25,0.25]]
+  sm=0.2
+  AA=[]
+  rb=0.2
+  chk0=1
+  fcf=[]
+  rstr=''
+  while chk0:
+    rstr = ''
+    fcf=[]
+    AA = [[random.random()/2 + xyb[0][0], random.random()/4 + xyb[0][1], random.random() + rb],[0,0,0],[0,0,0]]
+    chk=1
+    while chk:
+        AA[1][0] = random.random()/2 + xyb[1][0]  #xB = random.random() / 2 + 0.5
+        AA[1][1] = random.random()/4 + xyb[1][1]  #yB = random.random() / 4 - 0.25
+        AA[1][2] = random.random()*.7 + rb          #rB = random.random() + 0.3
+        chk=(abs(-abs(dist_(AA[1],AA[0])-AA[0][2])+AA[1][2])<sm)
+
+    chk=1
+    while chk:
+        AA[2][0] = random.random()/4 + xyb[2][0]
+        AA[2][1] = random.random()/2 + xyb[2][1]
+        AA[2][2] = random.random()*.7 + rb
+        chk  = (abs(-abs(dist_(AA[2],AA[0])-AA[0][2])+AA[2][2])<sm)
+        chk  = chk or (abs(-abs(dist_(AA[2], AA[1]) - AA[1][2]) + AA[2][2]) < sm)
+        r12=AA[0][2]+AA[1][2]
+        r1=AA[0][2]
+        r2=AA[1][2]
+        if not chk and dist_(AA[1],AA[0])<r12:
+            x=[0,0]
+            x[0] = AA[0][0] + (AA[1][0] - AA[0][0])*r1/r12
+            x[1] = AA[0][1] + (AA[1][1] - AA[0][1])*r1/r12
+            ax=dist_(AA[0],x)
+            xr=math.sqrt(ax*ax+r1*r1)
+            chk = (abs(-abs(dist_(AA[2], x) - xr) + AA[2][2]) < sm)
+    iPerf=pow(2,16)-1
+    ff = NtoList(iPerf)
+    cf=[0 for a in ff]
+    print(ff)
+    ir = 100
+    for ix in range(-ir, ir, 3):
+        for iy in range(-ir, ir, 3):
+            x = 2. * ix / ir
+            y = 2. * iy / ir
+            for f in range(0,len(ff)):
+                if CheckDForm(ff[f], x, y, AA):
+                    cf[f]=1
+#                    ccc.stroke(path.circle(x, y, 0.01), [color.gray(0.5)])
+    ccf=[]
+    for i in range(0,len(cf)):
+        if(i%2):
+            ccf.append(cf[i])
+            if cf[i]:
+                if random.randint(1,3)==1:
+                    fcf.append(ff[i])
+                    rstr+='1'
+                else:
+                    rstr+='0'
+            else:
+                rstr+='{}-{}'
+
+    print(cf)
+    print(ccf)
+    chk0=(sum(ccf)==8)
+  print('fcf:',fcf)
+  print('rstr:',rstr)
+  varc = open('var_count', 'r')
+  v_cou = int(varc.readline())
+  varc.close()
+  ccc = canvas.canvas()
+  ir = 100
+  for ix in range(-ir, ir, 3):
+        for iy in range(-ir, ir, 3):
+            x = 2. * ix / ir
+            y = 2. * iy / ir
+            for f in fcf:
+                if CheckDForm(f, x, y, AA):
+                     ccc.stroke(path.circle(x, y, 0.01), [color.gray(0.5)])
+  for A in AA:
+      ccc.stroke(path.circle(A[0], A[1], A[2]))
+  ccc.stroke(path.rect(-2, -2, 4, 4))
+  #for i in range(0, 3):
+  ccc.text(AA[0][0]-AA[0][2]-0.1, AA[0][1] - AA[0][2]-0.1, varNamesSet0[0],
+           [text.size(2), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+  ccc.text(AA[1][0]+AA[1][2]+0.1, AA[1][1] + AA[1][2]+0.1, varNamesSet0[1],
+           [text.size(2), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+  ccc.text(AA[2][0], AA[2][1] + AA[2][2]+0.2, varNamesSet0[2],
+           [text.size(2), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+  ccc.text(-1.65, 1.6, "U", [text.size(2), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+
+  cname = "venn" + str(v_cou)
+  ccc.writeEPSfile("./tex/"+cname)
+  #ccc.writePDFfile(cname)
+  v_cou = v_cou + 1
+  vc = open('var_count', 'w')
+  vc.write(str(v_cou))
+  vc.close()
+  return (cname,'\\texttt{('+rstr+')}')
+
+def PaintSDNFGraph(isdnf,knf=False,number_of_vars=3,mark_vert=True,doubl_gr=False):
+    varc = open('var_count', 'r')
+    v_cou = int(varc.readline())
+    if number_of_vars==3:
+        s=1
+        orts=((-math.sqrt(2)/2,-math.sqrt(2)/2),(1,0),(0,1))
+        zc=(-0.2,-0.2)
+        sc=1.8
+        op=[(ort[0]*sc+ort[1]*0.3,ort[1]*sc+ort[0]*0.3) for ort in orts]
+        od=[(ort[0]*sc,ort[1]*sc) for ort in orts]
+    else:
+        s=1.2
+        orts=((-math.sqrt(2)/2*s*1.1,-math.sqrt(2)/2*s*1.1),(1*s,0),(0,1*s),(math.cos(13/16*math.pi)*s,math.sin(13/16*math.pi)*s))
+        zc=(0.2,-0.5)
+        sc=1.8    
+        sc1=1.5
+        sc2=1.4
+        sc3=1.96
+        sc4=2.1
+        od=((orts[0][0]*sc1,orts[0][1]*sc1),
+            (orts[1][0]*sc2,orts[1][1]*sc2),
+            (orts[2][0]*sc3,orts[2][1]*sc3),
+            (orts[3][0]*sc4,orts[3][1]*sc4))
+        op=((od[0][0]-0.2,od[0][1]+0.2),
+            (od[1][0]-0.1,od[1][1]+0.3),
+            (od[2][0]+0.3,od[2][1]-0.05),
+            (od[3][0]+0.2,od[3][1]+0.2))
+    varc.close()
+    ccc = canvas.canvas()
+    cname = "sdnf_gr" + str(v_cou)
+    ccc.stroke(path.rect(-2, -2, 4, 4))
+    #ccc.writeEPSfile(cname)
+    for i in range(0,len(orts)):
+        ort=orts[i]
+        ccc.stroke(path.line(*zc, zc[0]+od[i][0],zc[1]+od[i][1]), [deco.earrow([deco.filled()]),style.linestyle.dashed,style.linewidth(0.01)])
+        ccc.text(zc[0]+op[i][0],zc[1]+op[i][1], varNames[i], [text.size(1), text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+    doubl_grc=[0]
+    if doubl_gr: doubl_grc=[0,1]
+    for ddd in doubl_grc:
+            if knf:
+                ff0=NtoList(DoNeg(isdnf))
+            else:    
+                ff0=NtoList(isdnf)
+            ff=[]    
+            for f in ff0:
+                if number_of_vars==3 and f%2: continue
+                ff.append(f)
+            xxi=[NtoListB(varVal[k],16) for k in range(0,number_of_vars)]
+            for f in ff:
+                if number_of_vars==3 and f%2: continue
+                x=zc[0]+sum([xxi[k][f]*orts[k][0] for k in range(0,number_of_vars)])
+                y=zc[1]+sum([xxi[k][f]*orts[k][1] for k in range(0,number_of_vars)])
+                if knf:
+        #            ccc.fill(path.circle(x, y, 0.1),[color.gray.white])
+                    ccc.stroke(path.circle(x, y, 0.1),[style.linewidth(0.03)])
+                else:
+                    ccc.fill(path.circle(x, y, 0.1))
+                if number_of_vars==3 :
+                    vnum=int(f/2)
+                else:
+                    vnum=int(f)        
+                if mark_vert:    
+                    ccc.text(x-0.15,y+0.2, str(vnum), [text.mathmode, text.vshift.mathaxis, text.halign.boxcenter])
+                
+            lff=len(ff)
+            smezh=[[0 for i in range(0,lff)] for j in range(0,lff)]
+            for i1 in range(lff):
+                for i2 in range(i1,lff):
+                    f1=ff[i1]
+                    f2=ff[i2]
+                    if CalcBits(f1^f2)==1:
+                        x1 = zc[0] + sum([xxi[k][f1] * orts[k][0] for k in range(0, number_of_vars)])
+                        y1 = zc[1] + sum([xxi[k][f1] * orts[k][1] for k in range(0, number_of_vars)])
+                        x2 = zc[0] + sum([xxi[k][f2] * orts[k][0] for k in range(0, number_of_vars)])
+                        y2 = zc[1] + sum([xxi[k][f2] * orts[k][1] for k in range(0, number_of_vars)])
+                        dx=x2-x1
+                        dy=y2-y1
+                        r=math.sqrt(dx*dx+dy*dy)
+                        x1=x1+dx*0.1/r
+                        x2=x2-dx*0.1/r
+                        y1=y1+dy*0.1/r
+                        y2=y2-dy*0.1/r
+                        ccc.stroke(path.line(x1, y1, x2, y2),
+                                   [style.linewidth(0.03)])
+                        smezh[i1][i2]+=1
+                        smezh[i2][i1]+=1                           
+            knf=not knf            
+                
+                
+    if number_of_vars==3:
+        ffall=NtoList((pow(2,8)-1))  
+    else:
+        ffall=NtoList((pow(2,16)-1))  
+    for if1 in range(0,len(ffall)):
+        for if2 in range(if1,len(ffall)):
+            f1=ffall[if1]
+            f2=ffall[if2]
+            if CalcBits(f1^f2)==1:
+                ii1 = NtoListB(f1, 16)
+                ii2 = NtoListB(f2, 16)
+                x1 = zc[0] + sum([ii1[k] * orts[k][0] for k in range(0, number_of_vars)])
+                y1 = zc[1] + sum([ii1[k] * orts[k][1] for k in range(0, number_of_vars)])
+                x2 = zc[0] + sum([ii2[k] * orts[k][0] for k in range(0, number_of_vars)])
+                y2 = zc[1] + sum([ii2[k] * orts[k][1] for k in range(0, number_of_vars)])
+                ccc.stroke(path.line(x1, y1, x2, y2),
+                           [style.linestyle.dashed,style.linewidth(0.01)])
+    ccc.writeEPSfile("./tex/"+cname)
+#    ccc.writePDFfile(cname)
+    v_cou = v_cou + 1
+    vc = open('var_count', 'w')
+    vc.write(str(v_cou))
+    vc.close()
+    return (cname,str(NtoListB(isdnf,16,number_of_vars)),smezh)
+
+
+def MakeZazhigalkin(nA=5,nV=4):
+ va=[i for i in range(0,16)]
+ random.shuffle(va)
+ rva=va[0:nA]
+ strZ=''
+ nZ=0
+ vGr=[[],
+      [0],[1],[2],[3],
+      [0,1],[0,2],[0,3],[1,2],[1,3],[2,3],
+      [0,1,2],[0,1,3],[0,2,3],[1,2,3],
+      [0,1,2,3]]
+ ffl=1     
+ for i in range(0,16):
+     if i in rva:
+        term=pow(2,16)-1
+        sterm=''
+        for j in vGr[i]:
+           sterm+=varNames[j]
+           term=DoOper('\\wedge',term,varVal[j])
+        if sterm=='': sterm='1'
+        nZ=DoOper('\\oplus',nZ,term)
+        if ffl :
+            strZ+=sterm
+            ffl=0
+        else:
+            strZ+='\\oplus '+sterm
+ return (nZ,strZ)        
+
+def MakeZazhigalkinTask(nA=5,number_of_vars=4,bOpt=True):
+ form=MakeZazhigalkin(nA,number_of_vars)
+ if bOpt:
+    optf=OptimalNew(form[0],False)
+    optfk=OptimalNew(form[0],True)
+ dnf=DStrFromNbool(form[0],number_of_vars,knf=False)
+ knf=DStrFromNbool(form[0],number_of_vars,knf=True)
+ return (form[0],form[1],dnf,knf,optf[0],optfk[0])
  
 def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,4,4]):
 #task type:
@@ -823,13 +1211,13 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
  v_cou=0
  fname="BF"+str(nOfTasks)+"_"+str(nQuest)
  print(fname)
- tex_file=open(fname+'.tex','w')
- tex_cmp=open('cmp_tex.bat','w')
+ tex_file=open('tex/'+fname+'.tex','w')
+ tex_cmp=open('tex/cmp_tex.bat','w')
  tex_cmp.write('latex '+fname+'.tex\n')
  tex_cmp.write('dvips  '+fname+'.dvi\n')
  tex_cmp.write('ps2pdf '+fname+'.ps\n')
 
- tex_file_sol=open(fname+'_sol.tex','w')
+ tex_file_sol=open('tex/'+fname+'_sol.tex','w')
  tex_cmp.write('latex '+fname+'_sol.tex\n')
  tex_cmp.write('dvips  '+fname+'_sol.dvi\n')
  tex_cmp.write('ps2pdf '+fname+'_sol.ps\n')
@@ -842,7 +1230,7 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
 #  if(i and not i%3):
 #   tex_file.write("\\newpage\n")
   tex_file.write("\\begin{minipage}{\\textwidth}\n")  
-  tex_file.write("Вариант "+str(i)+":\n\n")
+  #tex_file.write("Вариант "+str(i)+":\n\n")
   tex_file_sol.write("Вариант "+str(i)+':\n')
   for j in range(0,nQuest):
     iNewPage+=1
@@ -863,7 +1251,8 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
     if(qtt[j]==1):
      tex_file.write("Задача "+str(i)+"."+str(j+1)+":\n$f("+arg+")="+form1+"$\n\n")
     if(qtt[j]==3):
-     tex_file.write("Задача "+str(i)+"."+str(j+1)+":\nКарта Карно: \n\n"+carno+"\n\n")
+     tex_file.write("Задача "+str(i)+"."+str(j+1)+":"+carno+"\n\n")
+#     tex_file.write("Задача "+str(i)+"."+str(j+1)+":\nКарта Карно: \n\n"+carno+"\n\n")
      
     #tex_file.write('\\bigskip\n\\noindent\\rule{\\textwidth}{0.4pt}\n\n\\bigskip\n')
     tex_file_sol.write("Задача "+str(i)+"."+str(j+1)+":\n$$\n"+form1+'\n$$\n\\bigskip\n')
@@ -891,15 +1280,24 @@ def MakeControlTaskFormulas(nOfTasks=10,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar
  tex_file.write("\\end{document}\n")
  tex_file_sol.write("\\end{document}\n")
 
+#PaintSDNFGraph(random.randint(1,35000),knf=False,number_of_vars=4,mark_vert=False,doubl_gr=True)
+#0101011001010011  #VS
+#0101010001001011  #TK
+#PaintSDNFGraph(int('0101010001001011', 2),knf=False,number_of_vars=4,mark_vert=False,doubl_gr=True)
+#print(FullProbabilityStr(random.randint(1,35000)))
+#print(PaintSDNFGraph(random.randint(1,255)))
+#GenerateNonOverlapCircles(nv=3)
+#PrintEllipsePerf(52344,4)
+#print(MakeZazhigalkinTask()) 
 #MakeForrest()
 #print(MakeTreeTM())
 #OptimalNew()
 #print(MakeFormulaTM(number_of_element=7,number_of_vars=3))
 #MakeForrestFormulas()
-#random.seed(0)
+#random.seed(9)
 #OptimalNewK()
-#MakeControlTaskFormulas()
-#MakeControlTaskFormulas(nOfTasks=2,nQuest=3,qtt=[1,1,2],qcompl=[5,5,5],qvar=[3,3,3])
+#MakeControlTaskFormulas(1,1,[1],[10],[4])
+#MakeControlTaskFormulas(nOfTasks=121,nQuest=6,qtt=[1,1,2,2,3,3],qcompl=[8,8,5,5,5,5],qvar=[3,4,3,4,3,4])
 #((form1,nform2,w),cn,strtab,carno,optf,optfk)=MakeFormulaTM(number_of_element=7,number_of_vars=4)
 #print(nform2)
 #print(form1)

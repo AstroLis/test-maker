@@ -1,0 +1,26 @@
+{
+"title":"Поиск маршрута",
+"chapter":"Теория графов. Маршруты в графах, деревья",
+"titleb":"Вычисление количества маршрутов заданной длины",
+"zadacha":"'Найдите число маршрутов длины {} между вершинами {} и {}\\n'.format(A1,A2+1,A3+1)",
+"task_no_answer":"Найдите число маршрутов длины k между вершинами n и m",
+"task_style":"na4",
+"answer_style":"'qa_line'",
+"vopros":{
+          "v1":"'\\\\includegraphics[]{'+A4[0]+'}'"
+         }, 
+"vopros_no_answer":{
+          "v1":"'k={}, n={}, m={} '.format(A1,A2+1,A3+1)+'\\\\includegraphics[]{'+A4[0]+'}'"
+         }, 
+"param":{
+         "A0":"4",
+         "A1":"3",
+         "A2":"random.randint(0,A1-1)",
+         "A3":"random.randint(0,A1-1)",
+         "A4":"graph_tm.FindPathsForFixedLenght(A0,A1,A2,A3)",
+         "A7":"0"
+        },
+"otvet":{
+         "o1":"str(A4[1])"
+        }
+}

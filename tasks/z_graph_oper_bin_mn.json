@@ -1,0 +1,29 @@
+{
+"title":"Операции над графами(множествами)",
+"chapter":"Теория графов. Операции над графами",
+"titleb":"Бинарные операции над орграфами, заданными с помощью множеств#Бинарные операции над орграфами, заданными множествами",
+"zadacha":"'\\\\flushleft Найдите '+B1[A0]+' орграфов \\n\\n$\\\\overrightarrow{G}_1='+A4[2].replace('),','), \\\\allowbreak ')+'$ и \\n\\n $\\\\overrightarrow{G}_2='+B2[2].replace('),','), \\\\allowbreak ')+'$'",
+"answer_style":"'line_item'",
+"vopros":{
+"v1":"''"
+         }, 
+"const_param":{
+         "A0":"random.randint(0,1)",
+         "A1":"[('1','2','3','4','5','6','7','8','9'),('a','b','c','d','e','f','g','h','i','j','k',),('\\\\alpha','\\\\beta','\\\\gamma','\\\\delta','\\\\varepsilon','\\\\zeta','\\\\eta','\\\\theta','\\\\iota','\\\\kappa','\\\\lambda'),('p','q','r','s','t','u','w'),('A','B','C','D','E','F','G')]",
+         "A2":"random.randint(0,3)",
+         "A22":"A1[A2]",
+         "A3":"graph_tm.MakeGraphTM(nv=4+A0,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=A22[0:5],paint_fl=0)",
+         "A4":"graph_tm.graph_repr(A3[5],1,A22[0:5])",
+         "A5":"graph_tm.graph_repr(A3[5],1,A22[2:7])"
+         },
+         
+"param":{
+         "B1":"['объединение','пересечение','симметрическую разность']",
+         "B11":"graph_tm.MakeGraphTM(nv=4+A0,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=A22[2:6],paint_fl=0)",
+         "B2":"graph_tm.graph_repr(B11[5],1,A22[2:7])",
+         "B3":"[(A4[4][0]|B2[4][0], A4[4][1]|B2[4][1]),(A4[4][0]&B2[4][0], A4[4][1]&B2[4][1]),(A4[4][0]^B2[4][0],A4[4][1]^B2[4][1])]"
+        },
+"otvet":{
+         "o1":"'{\\\\small $'+graph_tm.gr_tostr(B3[A0]).replace('),','), \\\\allowbreak ')+'$}'"
+        }
+}

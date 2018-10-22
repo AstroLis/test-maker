@@ -1,0 +1,37 @@
+{
+"title":"(СДНФ/СКНФ) по Кубу",
+"chapter":"Булевы функции. Булев куб",
+"titleb":"Анализ булева куба",
+"zadacha":"'Выберите '+A3[A1]+' функции, изображенной на булевом кубе'",
+"task_no_answer":"Функция изображена на булевом кубе. Запишите ее ",
+"answer_style":"'qa_line_item'",
+"vopros":{
+          "v1":"'\\\\includegraphics[]{'+A5[0]+'}'",
+          "v2":"''"
+         }, 
+"vopros_no_answer":{
+          "v1":"A3[A1]+'\\\\includegraphics[]{'+A5[0]+'}'",
+          "v2":"A3[A1]+'\\\\includegraphics[]{'+A5[0]+'}'"
+         }, 
+"const_param":{
+         "A1":"random.randint(0,1)",
+         "A11":"random.randint(3,6)",
+         "A2":"bool_num_term(A11,A11)",
+         "A3":"['СДНФ','СКНФ']",
+         "A4":"0",
+         "A5":"tree_bool_tm.PaintSDNFGraph(A2,knf=A1)",
+         "A6":"tree_bool_tm.DStrFromNbool(A2,3,knf=A1)"
+        },
+"param":{
+         "A7":"bool_num_term(A11,A11)",
+         "A8":"tree_bool_tm.DStrFromNbool(A7,3,knf=A1)"                  
+        },
+"otvet":{
+         "o1":"'{{\\\\small ${}$}}'.format(A6)",
+         "o2":"'{{\\\\small ${}$}}'.format(A8)"      
+        },
+"otvet_no_answer":{
+         "o1":"'{{\\\\small ${}$}}'.format(A6)",
+         "o2":"'{{\\\\small ${}$}}'.format(A6)"      
+        }
+}

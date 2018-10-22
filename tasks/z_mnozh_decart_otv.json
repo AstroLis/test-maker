@@ -1,0 +1,46 @@
+{
+"title":"ƒекартово произведение множеств",
+"chapter":"“еори€ множеств. ќперации над множествами",
+"titleb":"ƒекартово произведение множеств",
+"zadacha":"'ƒл€ множеств A='+RB(str(D))+', B='+RB(str(E))+' выберите выражение, соответствующее декартову произведению вида:'",
+"task_no_answer":"'ƒл€ множеств A='+RB(str(D))+', B='+RB(str(E))+' найдите декартово произведение '",
+"answer_style":"'line_item'",
+"task_no_answer":"Ќайдите декартовы произведени€",
+"task_style":"na4",
+"vopros":{
+"v1":"'$A \\\\times B$'",
+"v2":"'$B \\\\times A$'",
+"v3":"'$A^2$'",
+"v4":"'$B^2$'"
+         }, 
+"vopros_no_answer":{
+"v1":"'$A \\\\times B$,~$A^2$, A='+RB(str(D))+', B='+RB(str(E))",
+"v2":"'$B \\\\times A$,~$A^2$, A='+RB(str(D))+', B='+RB(str(E))",
+"v3":"'$A \\\\times B$,~$B^2$, A='+RB(str(D))+', B='+RB(str(E))",
+"v4":"'$B \\\\times A$,~$B^2$, A='+RB(str(D))+', B='+RB(str(E))"
+         }, 
+"vopros_no_answer0":{
+"v1":"'$A \\\\times B$,~$A^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))",
+"v2":"'$B \\\\times A$,~$A^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))",
+"v3":"'$A \\\\times B$,~$B^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))",
+"v4":"'$B \\\\times A$,~$B^2$ \\\\\\\\ A='+RB(str(D))+', \\\\\\\\ B='+RB(str(E))"
+         }, 
+"param":{
+         "A0":"random.randint(1,10)",
+         "A1":"[i for i in range(A0,A0+3)]",
+         "B1":"[i for i in range(A0+3,A0+5)]",
+         "C1":"[i for i in range(A0+1,A0+6)]",
+         "D":"Shuf(A1)",
+         "E":"Shuf(B1)",
+         "O1":"[(i,j) for i in D for j in E]",
+         "O2":"[(i,j) for i in E for j in D]",
+         "O3":"[(i,j) for i in D for j in D]",
+         "O4":"[(i,j) for i in E for j in E]"         
+        },
+"otvet":{
+         "o1":"('$'+RB(str(O1)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')",
+         "o2":"('$'+RB(str(O2)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')",
+         "o3":"('$'+RB(str(O3)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')",
+         "o4":"('$'+RB(str(O4)).replace('\\{\\}','\\\\emptyset')+'$').replace('),','),\\\\allowbreak ')"         
+        }
+}

@@ -1,0 +1,18 @@
+{
+"title":"Графы - Клубни",
+"chapter":"Теория графов. Маршруты в графах, деревья",
+"titleb":"Корневые вершины графов",
+"zadacha":"'Найдите все корневые вершины графа:'+NL",
+"answer_style":"'qa_line'",
+"vopros":{
+          "v1":"'\\\\includegraphics[]{'+A1[0]+'}'"
+         }, 
+"param":{
+         "A0":"random.randint(5,8)",
+         "A1":"graph_tm.LocStructCluben(A0)",
+         "A7":"0"
+        },
+"otvet":{
+         "o1":"RB(str(A1[1]))"
+        }
+}

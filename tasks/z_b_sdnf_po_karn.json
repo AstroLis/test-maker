@@ -1,0 +1,23 @@
+{
+"title":"СДНФ по Карно",
+"chapter":"Булевы функции. Карта Карно",
+"titleb":"Построение СДНФ по карте Карно",
+"zadacha":"'Выберите СДНФ по заданной для булевой функции $f(x_1,x_2,x_3,x_4)$ карте Карно'+NL+NL",
+"task_no_answer":"'Запишите СДНФ по заданной для булевой функции $f(x_1,x_2,x_3,x_4)$ карте Карно'+NL+NL",
+"answer_style":"'qa_line_item'",
+"vopros":{
+          "v1":"'\\\\small {}'.format(A3)" 
+         }, 
+"param":{
+         "A1":"bool_num_term(3,4,nv=4)",
+         "A2":"tree_bool_tm.DStrFromNbool(A1,4,knf=False)",
+         "A3":"tree_bool_tm.MakeCarnoMap(tree_bool_tm.NtoListB(A1,16))",
+         "A4":"0",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'${}$'.format(A2)" 
+        }
+}

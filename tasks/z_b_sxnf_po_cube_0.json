@@ -1,0 +1,24 @@
+{
+"title":"(СДНФ/СКНФ) по Кубу",
+"chapter":"Булевы функции. Булев куб",
+"titleb":"Анализ булева куба",
+"zadacha":"'Выберите '+A3[A1]+' функции, изображенной на булевом кубе'",
+"answer_style":"'qa_line_1_4'",
+"vopros":{
+          "v1":"'\\\\includegraphics[]{'+A5[0]+'}'"
+         }, 
+"const_param":{
+         "A1":"random.randint(0,1)"
+        },
+"param":{
+         "A2":"bool_num_term(2,4) if A1 else bool_num_term(4,6)",
+         "A3":"['СДНФ','СКНФ']",
+         "A4":"A2",
+         "A5":"tree_bool_tm.PaintSDNFGraph(A4,knf=A1)",
+         "A6":"tree_bool_tm.DStrFromNbool(A4,3,knf=A1)",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'{{\\\\small ${}$}}'.format(A6)"      
+        }
+}

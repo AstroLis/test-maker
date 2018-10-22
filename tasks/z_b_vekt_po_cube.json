@@ -1,0 +1,24 @@
+{
+"title":"Вектор знач (СДНФ/СКНФ) по Кубу",
+"chapter":"Булевы функции. Булев куб",
+"titleb":"Анализ булева куба",
+"zadacha":"'Выберите вектор значений булевой функции, '+A3[A1]+' которой изображена на булевом кубе'",
+"answer_style":"'qa_line'",
+"vopros":{
+          "v1":"'\\\\includegraphics[]{'+A5[0]+'}'"
+         }, 
+"const_param":{
+         "A1":"random.randint(0,1)"
+        },
+"param":{
+         "A2":"random.randint(1,254)",
+         "A3":"['СДНФ','СКНФ']",
+         "A4":"A2 if not A1 else A2^255",
+         "A5":"tree_bool_tm.PaintSDNFGraph(A4,A1)",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'\\\\texttt{{({:08b})}}'.format(Ninv(A2,l=8))"         
+        }
+}

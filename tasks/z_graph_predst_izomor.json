@@ -1,0 +1,41 @@
+{
+"title":"Изоморфизм",
+"chapter":"Теория графов. Операции над графами",
+"titleb":"Изоморфизм графов",
+"zadacha":"'Выберите '+A01[A0]+', изоморфный данному: '+NL",
+"task_no_answer":"'Найдите,изобразите '+A01[A0]+', изоморфный данному: '+NL",
+"answer_style":"'line'",
+"vopros":{
+          "v1":"'$'+A02[A0]+A6[2+A5].replace('),','), \\\\allowbreak ')+'$'",
+          "v2":"''"
+         }, 
+"const_param":{
+         "A0":"random.randint(0,1)",
+         "A01":"['граф','орграф']",         
+         "A02":"['G=','\\\\overrightarrow{G}=']",        
+         "A03":"5-A0",
+         "A1":"[('1','2','3','4','5','6','7','8','9'),('a','b','c','d','e','f','g','h','i','j','k',),('\\\\alpha','\\\\beta','\\\\gamma','\\\\delta','\\\\varepsilon','\\\\zeta','\\\\eta','\\\\theta','\\\\iota','\\\\kappa','\\\\lambda'),('A','B','C','D','E','F','G'),('p','q','r','s','t','u','w')]",
+         "A11":"Shuf([0,1,2,3,4])",
+         "A12":"Shuf(A1[A11[0]])[0:A03]",
+         "A13":"Shuf(A1[A11[1]])[0:A03]",
+         "A2":"random.randint(0,2)",
+         "A22":"0",
+         "A23":"0",
+         "A3":"graph_tm.MakeGraphTM(nv=A03,directed=A0,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=A12,paint_fl=0)",
+         "A4":"graph_tm.graph_repr(A3[5],A0,A12)",
+         "A5":"random.randint(0,0)",
+         "A6":"graph_tm.graph_repr(A3[5],A0,A13)",
+         "A61":"graph_tm.wrong_graph(A3[5])",
+         "A7":"0"
+         },
+"param":{
+         "A7":"A7+1",
+         "A73":"Shuf(A1[A11[A7]])[0:A03]",        
+         "A8":"graph_tm.graph_repr(A61,A0,A73)",
+         "A9":"0"         
+        },
+"otvet":{
+         "o1":"'{\\\\small $'+A4[2+A5].replace('),','), \\\\allowbreak ')+'$}'",        
+         "o2":"'{\\\\small $'+A8[2+A5].replace('),','), \\\\allowbreak ')+'$}'"        
+        }
+}

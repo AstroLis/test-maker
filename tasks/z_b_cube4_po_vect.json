@@ -1,0 +1,29 @@
+{
+"title":"Кубу 4 по (СДНФ/СКНФ)",
+"chapter":"Булевы функции. Булев куб",
+"titleb":"Синтез булева тессеракта",
+"zadacha":"'Выберите тессеракт, на котором отмечена '+A3[A1]+' булевой функции \\\\mbox{{$f(x_1,x_2,x_3,x_4)=({})$}} '.format(str(A5[1]).strip('[]').replace(', ',''))",
+"task_no_answer":"Изобразите тессеракт, на котором отмечена ",
+"vopros":{
+          "v1":"''"
+         }, 
+"vopros_no_answer":{
+          "v1":"A3[A1]+' функции \\\\mbox{{$f(x_1,x_2,x_3,x_4)=({})$}} '.format(str(A5[1]).strip('[]').replace(', ',''))"
+         }, 
+"const_param":{
+         "A1":"random.randint(0,1)",
+         "A11":"random.randint(3,6) if not A1 else random.randint(10,12)"
+        },
+"param":{
+         "A2":"bool_num_term(A11,A11,4)",
+         "A3":"['СДНФ','СКНФ']",
+         "A4":"0",
+         "A5":"tree_bool_tm.PaintSDNFGraph(A2,knf=A1,number_of_vars=4,mark_vert=False)"
+        },
+"otvet":{
+         "o1":"'\\\\includegraphics[]{'+A5[0]+'}'"
+        },
+"otvet_no_answer":{
+         "o1":"'\\\\includegraphics[]{'+A5[0]+'}'"
+        }
+}

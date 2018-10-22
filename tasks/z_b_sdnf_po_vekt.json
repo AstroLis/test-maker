@@ -1,0 +1,29 @@
+{
+"title":"СДНФ по вектору знач",
+"chapter":"Булевы функции. Нормальные формы",
+"titleb":"Нахождение СДНФ по вектору значений",
+"zadacha":"'Выберите СДНФ для булевой функции \\\\mbox{{$f(x_1,x_2,x_3,x_4)=({:016b})$}} '.format(Ninv(A1))",
+"task_no_answer":"Запишите СДНФ для булевой функции ",
+"answer_style":"'line'",
+"vopros":{
+          "v1":"''"
+         }, 
+"vopros_no_answer":{
+          "v1":"'\\\\mbox{{$f(x_1,x_2,x_3,x_4)=({:016b})$}} '.format(Ninv(A1))"
+         }, 
+"param":{
+         "A1":"bool_num_term(3,4,nv=4)",
+         "A2":"tree_bool_tm.DStrFromNbool(A1,4,knf=False)",
+         "A3":"0",
+         "A4":"0",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'{{\\\\small ${}$}}'.format(A2)"         
+        },
+"otvet_no_answer":{
+         "o1":"'{{\\\\small ${}$}}'.format(A2)"         
+        }
+}

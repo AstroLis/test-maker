@@ -1,0 +1,28 @@
+{
+"title":"јлгебра моноид 4 варианта",
+"chapter":"“еори€ множеств. јлгебраические структуры",
+"titleb":"јлгебра множеств, моноиды",
+"zadacha":"'¬ыберите носитель $A$ такой, что'",
+"answer_style":"'line_item'",
+"vopros":{
+          "v1":"'\\\\mbox{{$<A,\\cup>$}} €вл€етс€ моноидом, а \\\\mbox{{$<A,\\cap>$}} не €вл€етс€ моноидом'",
+          "v2":"'\\\\mbox{{$<A,\\cap>$}}~--- алгебра, но не моноид'",
+          "v3":"'\\\\mbox{{$<A,\\\\triangle>$}} €вл€етс€ моноидом, а \\\\mbox{{$<A,\\cap>$}} не €вл€етс€ моноидом'",
+          "v4":"'\\\\mbox{{$<A,\\cap>$}} €вл€етс€ моноидом, а \\\\mbox{{$<A,\\cup>$}} не €вл€етс€ моноидом'"
+         }, 
+"param":{
+         "A1":"algebra_tm.MakeAlgebraTM([1,0,0,0])",
+         "A2":"algebra_tm.MakeAlgebraTM([0,1,0,0],0)",
+         "A3":"algebra_tm.MakeAlgebraTM([0,0,1,0])",
+         "A4":"algebra_tm.MakeAlgebraTM([0,1,0,0],1)",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"
+        },
+"otvet":{
+         "o1":"('$A='+RB(str(A1)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')",
+         "o2":"('$A='+RB(str(A2)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')",
+         "o3":"('$A='+RB(str(A3)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')",
+         "o4":"('$A='+RB(str(A4)).replace('\\{\\}','\\\\emptyset')+'$').replace('\\},','\\\\},\\\\allowbreak ')"     
+        }
+}

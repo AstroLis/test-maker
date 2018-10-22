@@ -34,7 +34,7 @@ def MakeGraphFrasprTM(x,ppx):
  #ccc.text(-0.4,sc*5/4-0.15, "X",[text.size.small])
  ccc.text(sc,-sc/15, "$x$") 
  grfile="fraspr"+str(v_cou)+".eps"
- ccc.writeEPSfile("fraspr"+str(v_cou))
+ ccc.writeEPSfile("./tex/fraspr"+str(v_cou))
  vc = open('fraspr_gr_count', 'w')
  vc.write(str(v_cou))
  vc.close()  

@@ -1,0 +1,26 @@
+{
+"title":"Матрица смежности по Булеву Кубу",
+"chapter":"Булевы функции. Булев куб",
+"titleb":"Граф для булевой функции",
+"zadacha":"'Выберите матрицу смежности графа '+A3[A1]+' функции, изображенной на булевом кубе'",
+"task_no_answer":"'Найдите матрицу смежности графа '+A3[A1]+' функции, изображенной на булевом кубе'",
+"answer_style":"'qa_blockm'",
+"vopros":{
+          "v1":"'\\\\includegraphics[]{'+A5[0]+'}'"
+         }, 
+"const_param":{
+         "A1":"random.randint(0,1)",
+         "A11":"random.randint(3,6)"         
+        },
+"param":{
+         "A2":"bool_num_term(A11,A11)",
+         "A3":"['СДНФ','СКНФ']",
+         "A4":"A2",
+         "A5":"tree_bool_tm.PaintSDNFGraph(A4,knf=A1)",
+         "A6":"tree_bool_tm.DStrFromNbool(A4,3,knf=A1)",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'\\\\scriptsize '+MakeMatrix(A5[2])+''"         
+        }
+}

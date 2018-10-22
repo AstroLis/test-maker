@@ -1,0 +1,24 @@
+{
+"title":"Шеффер или Пирс по ДНФ",
+"chapter":"Булевы функции. Базисы Жегалкина, Пирса, Шеффера",
+"titleb":"Базисы Пирса и Шеффера",
+"zadacha":"'Запишите в базисе {} булеву функцию \\n\\n \\\\mbox{{$f(x_1,x_2,x_3,x_4)={}$}}'.format(A3[A1-1],A2[4])",
+"answer_style":"'block'",
+"vopros":{
+          "v1":"''"
+         }, 
+"const_param":{
+         "A1":"random.randint(1,2)"
+        },
+"param":{
+         "A2":"tree_bool_tm.MakeFormulaTM(number_of_element=4,number_of_vars=3,basis=A1)",
+         "A3":"['Шеффера','Пирса']",
+         "A4":"0",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'${}$'.format(A2[0][0])"         
+        }
+}

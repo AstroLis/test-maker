@@ -1,0 +1,32 @@
+{
+"title":"Куб по вектору знач (СДНФ/СКНФ)",
+"chapter":"Булевы функции. Булев куб",
+"titleb":"Синтез булева куба",
+"zadacha":"'Выберите булев куб, на котором отмечена '+A3[A1]+' булевой функции \\\\mbox{{$f(x_1,x_2,x_3)=({})$}} '.format(str(A5[1]).strip('[]').replace(', ',''))",
+"task_no_answer":"Изобразите булев куб, на котором отмечена ",
+"task_style":"na1",
+"vopros":{
+          "v1":"''"
+         }, 
+"vopros_no_answer":{
+         "v1":"A3[A1]+' булевой функции \\\\mbox{{$f(x_1,x_2,x_3)=({})$}} '.format(str(A5[1]).strip('[]').replace(', ',''))"
+         },          
+        
+"const_param":{
+         "A1":"random.randint(0,1)"
+        },
+"param":{
+         "A2":"bool_num_term(1,7)",
+         "A3":"['СДНФ','СКНФ']",
+         "A4":"0",
+         "A5":"tree_bool_tm.PaintSDNFGraph(A2,A1)",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'\\\\includegraphics[]{'+A5[0]+'}'"         
+        },
+"otvet_no_answer":{
+         "o1":"'\\\\includegraphics[]{'+A5[0]+'}'"         
+        }
+}

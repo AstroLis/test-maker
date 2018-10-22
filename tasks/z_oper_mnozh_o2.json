@@ -1,0 +1,52 @@
+{
+"title":"Операции над множествами ответы унив",
+"chapter":"Теория множеств. Операции над множествами",
+"titleb":"Основные операции над множествами",
+"zadacha":"'Для множеств $A='+RB(str(D))+'$, $B='+RB(str(E))+'$ и универсального множества $U='+RB(str(C1))+'$ запишите результаты операций: '",
+"task_no_answer":"Для множеств $A$, $B$ и универсального множества $U=\\{1,2,3,4,5,6,7,8,9\\}$ записать результаты операций: ",
+"task_style":"na1",
+"answer_style":"'line'",
+"vopros":{
+"v1":"'$\\\\bar{A} \\\\cup B$, $A \\\\cap \\\\bar{B}$'",
+"v2":"'$A \\\\setminus \\\\bar{B}$, $\\\\bar{B} \\\\setminus A$'",
+"v3":"'$\\\\bar{A} \\\\Delta B$,  $B \\\\setminus \\\\bar{A}$'",
+"v4":"'$A \\\\cup \\\\bar{B}$, $\\\\bar{A} \\\\setminus B$'"
+         }, 
+"vopros_no_answer":{
+"v1":"'$\\\\bar{A} \\\\cup B$, $A \\\\cap \\\\bar{B}$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$'",
+"v2":"'$A \\\\setminus \\\\bar{B}$, $\\\\bar{B} \\\\setminus A$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$'",
+"v3":"'$\\\\bar{A} \\\\Delta B$,  $B \\\\setminus \\\\bar{A}$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$'",
+"v4":"'$A \\\\cup \\\\bar{B}$, $\\\\bar{A} \\\\setminus B$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$'"
+         }, 
+"vopros_no_answer1":{
+"v1":"'$\\\\bar{A} \\\\cup B$, $A \\\\cap \\\\bar{B}$,\\\\\\\\ $A='+RB(str(D))+'$,\\\\\\\\ $B='+RB(str(E))+'$'",
+"v2":"'$A \\\\setminus \\\\bar{B}$, $\\\\bar{B} \\\\setminus A$,\\\\\\\\ $A='+RB(str(D))+'$,\\\\\\\\ $B='+RB(str(E))+'$'",
+"v3":"'$\\\\bar{A} \\\\Delta B$,  $B \\\\setminus \\\\bar{A}$,\\\\\\\\ $A='+RB(str(D))+'$,\\\\\\\\ $B='+RB(str(E))+'$'",
+"v4":"'$A \\\\cup \\\\bar{B}$, $\\\\bar{A} \\\\setminus B$,\\\\\\\\ $A='+RB(str(D))+'$,\\\\\\\\ $B='+RB(str(E))+'$'"
+         }, 
+"vopros_no_answer0":{
+"v1":"'$\\\\bar{A} \\\\cup B$, $A \\\\cap \\\\bar{B}$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$, $U='+RB(str(C1))+'$'",
+"v2":"'$A \\\\setminus \\\\bar{B}$, $\\\\bar{B} \\\\setminus A$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$, $U='+RB(str(C1))+'$'",
+"v3":"'$\\\\bar{A} \\\\Delta B$,  $B \\\\setminus \\\\bar{A}$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$, $U='+RB(str(C1))+'$'",
+"v4":"'$A \\\\cup \\\\bar{B}$, $\\\\bar{A} \\\\setminus B$, $A='+RB(str(D))+'$, $B='+RB(str(E))+'$, $U='+RB(str(C1))+'$'"
+         }, 
+"param":{
+         "A0":"random.randint(1,3)",
+         "A1":"[i for i in range(A0,A0+5)]",
+         "B1":"[i for i in range(A0+3,A0+7)]",
+         "C0":"list(set(A1)|set(B1))",
+         "C1":"[i for i in range(1,10)]",
+         "C11":"[i for i in range(min(C0)-1,max(C0)+2)]",
+         "D":"Shuf(A1)",
+         "D1":"set(C1)-set(D)",
+         "E":"Shuf(B1)",
+         "E1":"set(C1)-set(E)",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"RB('{}, {}'.format(list(D1|set(E)),list(set(D)&E1)))",
+         "o2":"RB('{}, {}'.format(list(set(D)-E1),list(E1-set(D))))",
+         "o3":"RB('{}, {}'.format(list(D1^set(E)),list(set(D)-E1)))",
+         "o4":"RB('{}, {}'.format(list(set(D)|E1),list(D1-set(E))))"
+        }
+}

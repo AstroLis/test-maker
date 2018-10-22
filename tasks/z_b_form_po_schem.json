@@ -1,0 +1,23 @@
+{
+"title":"Формула по схеме",
+"chapter":"Булевы функции. Логические схемы",
+"titleb":"Анализ логических схем",
+"zadacha":"'Выберите булеву функцию, $f(x_1,x_2,x_3,x_4)$, соответствующую схеме \\n\\n'",
+"task_no_answer":"Запишите булеву функцию $f(x_1,x_2,x_3,x_4)$, соответствующую схеме ",
+"answer_style":"'line'",
+"vopros":{
+          "v1":"' \\\\includegraphics[]{'+A2[1]+'} '"         
+         }, 
+"param":{
+         "A1":"random.randint(1,8)",
+         "A2":"tree_bool_tm.MakeFormulaTM(number_of_element=5,number_of_vars=4)",
+         "A3":"0",
+         "A4":"0",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'${}$'.format(A2[0][0])"        
+        }
+}

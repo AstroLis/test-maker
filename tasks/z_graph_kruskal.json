@@ -1,0 +1,23 @@
+{
+"title":"Алгоритм Крускала",
+"chapter":"Теория графов. Задачи на графах",
+"titleb":"Построение минимального остовного дерева",
+"zadacha":"'Для графа G, заданного матрицей весов, найдите матрицу весов минимального остовного дерева методом Крускала'",
+"task_no_answer":"Для графа G, заданного матрицей весов, найдите матрицу весов минимального остовного дерева методом Крускала",
+"task_style":"na4",
+"answer_style":"'qa_blockm'",
+"vopros":{
+          "v1":"'\\\\footnotesize '+MakeMatrix(A2,baks=2)+''"
+         }, 
+"vopros_no_answer":{
+          "v1":"'\\\\footnotesize '+MakeMatrix(A2,baks=2)+''"
+         }, 
+"param":{
+         "A1":"graph_tm.NewGraph(6,6,sym=True)",
+         "A2":"copy.copy(A1.smezh)",
+         "A3":"np.array(A1.kruskal())"
+         },
+"otvet":{
+         "o1":"'\\\\scriptsize '+MakeMatrix(A3)+''"
+        }
+}
