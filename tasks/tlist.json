@@ -162,6 +162,8 @@
                     "./tasks/z_norm_raspr2.json",
                     "./tasks/z_matozh_gr.json",
                     "./tasks/z_fraspr_nepr.json",
+                    "./tasks/z_fraspr_nepr_mo.json",
+                    "./tasks/z_fraspr_nepr_param.json",
                     "./tasks/z_matozh.json",
                     "./tasks/z_matozh_table.json",
                     "./tasks/z_matozh_table_2d.json",
