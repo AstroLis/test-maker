@@ -151,6 +151,7 @@
                     "./tasks/z_bern_pua.json",
                     "./tasks/z_clas-ver.json",
                     "./tasks/z_poln_ver3.json",
+                    "./tasks/teor_ver/z_poln_ver_no_byes.json", 
                     "./tasks/z_poln_ver_byes.json",
                     "./tasks/z_graph.json",
                     "./tasks/z_shcem.json",
