@@ -127,13 +127,17 @@ def graph_repr(path_to,directed=1,v_nams=[]):
         # simple binary tree
 # in this implementation, a node is inserted between an existing node and the root
 class NewGraph:
-    def __init__(self,d=5,n=5,sym=False):
+    def __init__(self,d=5,n=5,sym=False,st=(-1,-1)):
         if sym:
             a=np.random.randint(n, size=(d, d))
             self.smezh=np.tril(a,-1) + np.tril(a, -1).T
         else:
             self.smezh=np.random.randint(n, size=(d, d))
-
+        if st[0]>-1:
+            self.smezh[:,st[0]]=0
+            self.smezh[st[1],:]=0
+            for i in range(len(self.smezh)):
+                self.smezh[i,i]=0
         print(self.smezh)
 
     def RemoveEdge(self):
@@ -175,7 +179,12 @@ class NewGraph:
         G=nx.from_numpy_matrix(self.smezh,create_using=nx.MultiDiGraph())
         return nx.single_source_dijkstra(G,i)
         #return nx.bidirectional_dijkstra(G,i)
-
+    def max_flow(self,ii,jj):
+        G = nx.DiGraph()
+        for i in range(len(self.smezh)):
+            for j in range(len(self.smezh)):
+                G.add_edge(i,j,capacity=self.smezh[i][j])
+        return nx.maximum_flow_value(G, ii, jj)
 
 def grAnd(m1,m2):
     n=m1.shape[0]
@@ -827,6 +836,15 @@ def FindPathsForFixedLenght(N,n,i,j):
     return (tmp[0],mm[i,j])    
     #print(nm)
 
+
+    
+#g1=np.array([[][]) 
+#gr1=NewGraph(2,2)
+#print(gr1)
+#print(gr1.smezh)
+#print(gr1.max_flow(0,1))
+#print(MakeMatrix(gr1.smezh))
+    
 
 #a=MakeGraphTM(nv=4,directed=1,calc_random_path=0,weighted=0,filter_zero=0,random_weights=0,v_nams=[],paint_fl=1)
 #print(a)
