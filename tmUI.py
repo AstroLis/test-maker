@@ -459,7 +459,7 @@ def make_exam_page_head(TName,Nz,ii):
  th.append("Утверждаю\\\\ ")
  th.append("Заведующий кафедрой\\\\ ")
  th.append("\\underline{\\hskip 3cm}~~Е.~Рябоконь\\\\ ")
- th.append("<<~~~~~>>~~мая~~2018~г.\\\\ ")
+ th.append("<<~~~~~>>~~марта~~2019~г.\\\\ ")
  th.append("\\vspace{8pt}  ")
  th.append("\\end{minipage}\\\\ ")
  th.append("\\hline\n") 
