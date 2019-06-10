@@ -347,7 +347,7 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     
     if not bAnswer:
         rt.append(quest[0]+'\n\n')
-        return (rt,otvs[0])
+        return (rt,otvs[ncu0])
      
     if len(otvs) > len(set(otvs)):
         return ([],"")

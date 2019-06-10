@@ -1,0 +1,25 @@
+{
+"title":"Максимальный поток в сети4",
+"chapter":"Теория графов. Задачи на графах",
+"titleb":"Нахождение максимального потока в сети",
+"zadacha":"'Для орграфа, заданного матрицей весов, найдите максимальный поток сети между источником '+str(A01+1)+' и стоком '+str(A02+1)+'.'",
+"task_no_answer":"Для графа G, заданного матрицей весов, найдите матрицу весов минимального остовного дерева методом Крускала",
+"task_style":"na4",
+"answer_style":"'qa_blockm'",
+"vopros":{
+          "v1":"'\\\\footnotesize '+MakeMatrix(A2,baks=2)+''"
+         }, 
+"vopros_no_answer":{
+          "v1":"'\\\\footnotesize '+MakeMatrix(A2,baks=2)+''"
+         }, 
+"param":{
+         "A01":"random.randint(0,2)",
+         "A02":"A01+1",
+         "A1":"graph_tm.NewGraph(4,9,sym=True,st=(A01,A02))",
+         "A2":"copy.copy(A1.smezh)",
+         "A3":"A1.max_flow(A01,A02)"
+         },
+"otvet":{
+         "o1":"str(A3)"
+        }
+}
