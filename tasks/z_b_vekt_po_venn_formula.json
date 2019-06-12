@@ -1,0 +1,19 @@
+{
+"title":"Вектор значений по Венну (БФ) Формулф ТМ",
+"zadacha":"'Обозначим булевыми переменными $x_1=(a \\\\in A)$, $x_2=(a \\\\in B)$, $x_3=(a \\\\in C)$. Выберите вектор значений, соответствующующий выражению:'+NL+NL",
+"answer_style":"'line'",
+"vopros":{
+          "v1":"'$'+A4+'$'"         
+         }, 
+"param":{
+         "A1":"random.randint(0,2)",
+         "A2":"bool_num_term(2,7,3)",
+         "A4":"tree_bool_tm.DStrFromNboolSet(A2,number_of_vars=3,knf=A1)",
+         "A5":"0",
+         "A6":"0",
+         "A7":"0"                  
+        },
+"otvet":{
+         "o1":"'\\\\texttt{{({:08b})}}'.format(Ninv(A2,8))"         
+        }
+}
