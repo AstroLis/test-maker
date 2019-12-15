@@ -1146,26 +1146,36 @@ def PaintSDNFGraph(isdnf,knf=False,number_of_vars=3,mark_vert=True,doubl_gr=Fals
 
 
 def MakeZazhigalkin(nA=5,nV=4):
- va=[i for i in range(0,16)]
+ nB=2**nV
+ va=[i for i in range(0,nB)]
  random.shuffle(va)
  rva=va[0:nA]
  strZ=''
  nZ=0
- vGr=[[],
+ vGr4=[[],
       [0],[1],[2],[3],
       [0,1],[0,2],[0,3],[1,2],[1,3],[2,3],
       [0,1,2],[0,1,3],[0,2,3],[1,2,3],
       [0,1,2,3]]
+ vGr3=[[], 
+      [0],[1],[2],
+      [0,1],[0,2],[1,2],
+      [0,1,2]]
+ if nV==3:
+    vGr=vGr3
+ if nV==4:
+    vGr=vGr4
+ 
  ffl=1     
- for i in range(0,16):
+ for i in range(0,nB):
      if i in rva:
-        term=pow(2,16)-1
+        term=pow(2,nB)-1
         sterm=''
         for j in vGr[i]:
            sterm+=varNames[j]
-           term=DoOper('\\wedge',term,varVal[j])
+           term=DoOper('\\wedge',term,varVal[j],nB)
         if sterm=='': sterm='1'
-        nZ=DoOper('\\oplus',nZ,term)
+        nZ=DoOper('\\oplus',nZ,term,nB)
         if ffl :
             strZ+=sterm
             ffl=0

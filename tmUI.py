@@ -30,7 +30,7 @@ def powerset(s):
  
 def bool_num_term(n,m,nv=3):
  idig=pow(2,nv)
- print('start bool_num_term:',n,m)
+ print('start bool_num_term:',n,m,nv)
  a=random.randint(n,m)
  bits=[i<a for i in range(0,idig)]
  random.shuffle(bits)
@@ -39,10 +39,11 @@ def bool_num_term(n,m,nv=3):
     for i in range(0,idig):
         ii+=bits[i]*pow(2,i*2+1)
         ii+=bits[i]*pow(2,i*2)
+    print('({:08b})'.format(ii)) 
  if nv==4:       
     for i in range(0,idig):
         ii+=bits[i]*pow(2,i)
- print('({:016b})'.format(ii)) 
+    print('({:016b})'.format(ii)) 
  return ii
 
 def Shuf(x):
@@ -55,9 +56,15 @@ def RB(s):
  
 def Ninv(iPerf,l=16):
  ff=0
- for i in range(0,l):
-  ff+=(iPerf%2)*pow(2,l-1-i)
-  iPerf=iPerf>>1
+ if l==16:
+    for i in range(0,l):
+        ff+=(iPerf%2)*pow(2,l-1-i)
+        iPerf=iPerf>>1
+ if l==8:
+    for i in range(0,l):
+        ff+=(iPerf%2)*pow(2,l-1-i)
+        iPerf=iPerf>>2
+        
  return ff
  
  
@@ -776,7 +783,7 @@ def make_exam(*args):
         f.write("\n\\vspace{8pt plus 0pt minus 8pt}")
         f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
         #fsolv.write("Вариант: "+str(iii)+"\n")
-        fsolv.write("\n\nВариант: "+str(iii)+":  ")
+        fsolv.write("\n\nВариант: "+str(iii)+":  \n\n")
         i=0
         qlist=[int(a) for a in list(stacked_quests.keys())]
         print(qlist)
@@ -792,7 +799,7 @@ def make_exam(*args):
             task = ParseTask(tname,bAnswer)
             filt_sc=[x.replace('includegraphics[]','includegraphics[scale=0.6]') for x in task[0]]
             f.writelines(filt_sc)
-            fsolv.write(str(i)+":"+str(task[1])+" ")
+            fsolv.write(str(i)+":"+str(task[1])+" \n\n")
             f.write("\n\\end{minipage}\n")
         fsolv.write("\n")
         f.write("\\end{enumerate}\n")

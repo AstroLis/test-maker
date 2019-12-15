@@ -127,7 +127,7 @@ def graph_repr(path_to,directed=1,v_nams=[]):
         # simple binary tree
 # in this implementation, a node is inserted between an existing node and the root
 class NewGraph:
-    def __init__(self,d=5,n=5,sym=False,st=(-1,-1)):
+    def __init__(self,d=5,n=5,sym=False,st=(-1,-1),add_edge=(-1,-1)):
         if sym:
             a=np.random.randint(n, size=(d, d))
             self.smezh=np.tril(a,-1) + np.tril(a, -1).T
@@ -138,6 +138,8 @@ class NewGraph:
             self.smezh[st[1],:]=0
             for i in range(len(self.smezh)):
                 self.smezh[i,i]=0
+        if add_edge[0]>-1:
+            self.smezh[add_edge[0],add_edge[1]]+=1
         print(self.smezh)
 
     def RemoveEdge(self):
@@ -161,10 +163,9 @@ class NewGraph:
         return (self.RemoveNodeI(i,m),i + 1)
     def MergeNodeIJDel(self,i,j):
         m=copy.copy(self.smezh)
-        m[i, j]=0
-        m[j, i]=0
         m[:, i]=m[:,i]+m[:,j]
         m[i, :] = m[i, :] + m[j, :]
+        m[i, i]-=1
         return self.RemoveNodeI(j,m)
     def MergeNodeIJ(self,i,j):
         m=copy.copy(self.smezh)
