@@ -834,7 +834,7 @@ def make_test(*args):
         f.writelines(make_page_head(test_name,l2.size(),iii))
         f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
         #fsolv.write("Вариант: "+str(iii)+"\n")
-        fsolv.write("\n\nВариант: "+str(iii)+":  ")
+        fsolv.write("\n\nВариант: "+str(iii)+":  \n\n")
         i=0
         for tkey_name in l2.get(0, END):
             i=i+1
@@ -845,7 +845,7 @@ def make_test(*args):
                 f.write('\n'+task_data[tkey_name]["task_no_answer"]+'\n\n')
             task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
-            fsolv.write(str(i)+":"+str(task[1])+" ")
+            fsolv.write(str(i)+":"+str(task[1])+" \n\n")
             f.write("\n\\end{minipage}\n")
         fsolv.write("\n")
         f.write("\\end{enumerate}\n")
