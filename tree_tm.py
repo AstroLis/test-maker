@@ -2,6 +2,7 @@ import random
 import numpy as np
 import networkx as nx
 from shutil import copyfile
+from sympy.combinatorics.prufer import Prufer
 from pyx import *
 
 # simple binary tree
@@ -10,6 +11,7 @@ class BinaryTree():
     id_count=1
     probs={}
     probs_all=[]
+    edges=[]
     ccc=canvas.canvas()
     bx = 0.8
     by = 0.4
@@ -19,6 +21,7 @@ class BinaryTree():
       self.rootid = BinaryTree.id_count
       BinaryTree.probs[self.rootid]=[]
       BinaryTree.id_count+=1
+      BinaryTree.edges=[]
       self.dimx=0
       self.dimy=0
       self.type=0
@@ -66,8 +69,17 @@ def paintTree(tree,lvl,x1,y1,bText=False):
     #print(("tree type",tree.type))
     
     m=0.1
+    ch=chr(96+tree.rootid)
+    sh=-0.3
+    #qwertyuiopasdfghjklzxcvbnm
+    if ch in 'idfhjklb':
+        sh-=0.05
+    if ch in 'qweryuopasgzxcvnm':
+        sh+=0.02
+    
     if tree != None:
         BinaryTree.ccc.fill(path.circle(x1,y1,m))
+        BinaryTree.ccc.text(x1,y1+sh, ch, [text.size(1),text.mathmode, text.vshift.mathaxis,text.halign.boxcenter])
         if(not tree.type):
           return
         else:
@@ -77,7 +89,9 @@ def paintTree(tree,lvl,x1,y1,bText=False):
            lvl=lvl*0.5
            BinaryTree.ccc.stroke(path.line(x1,y1,x0,y2))
            BinaryTree.ccc.stroke(path.line(x1,y1,x2,y2))
+           BinaryTree.edges.append([tree.rootid-1,tree.left.rootid-1])
            paintTree(tree.getLeftChild(),lvl,x0,y2,bText)
+           BinaryTree.edges.append([tree.rootid-1,tree.right.rootid-1])
            paintTree(tree.getRightChild(),lvl,x2,y2,bText)
 def MakeTreeTM(number_of_element=10,bText=False):
  number_of_chemes=10
@@ -100,15 +114,17 @@ def MakeTreeTM(number_of_element=10,bText=False):
  print(BinaryTree.id_count)    
  lvl=4
  paintTree(myTree1, lvl, 0, 5,bText)
+ pruf=Prufer(BinaryTree.edges).prufer_repr
+ pruf=[chr(97+k) for k in pruf]
 # print(BinaryTree.probs)
  BinaryTree.ccc.writeEPSfile("./tex/tree"+str(v_cou))
 # BinaryTree.ccc.writePDFfile("tree"+str(v_cou))
  vc=open('var_count','w')
  vc.write(str(v_cou))
  vc.close()
- return ("tree"+str(v_cou)+".eps",BinaryTree.probs)
+ return ("tree"+str(v_cou)+".eps",BinaryTree.probs,pruf)
 def RadDiam(N=10,bText=False):
- (fn,gr)=MakeTreeTM(N,bText)
+ (fn,gr,pruf)=MakeTreeTM(N,bText)
  print(gr)
  grl=len(gr)
  mm=np.zeros((grl,grl))
@@ -129,7 +145,7 @@ def RadDiam(N=10,bText=False):
  print('exc:',exc)
  print(mn,mx)
  print(cluben,perif)
- return (fn,(int(mn),int(mx),len(cluben),len(perif)))
+ return (fn,(int(mn),int(mx),len(cluben),len(perif)),pruf)
 def MakeForrest(): 
  v_cou=0 
  tex_file=open('tree'+str(v_cou)+'.tex','w')
@@ -160,7 +176,7 @@ def MakeForrest():
     
  tex_file.write("\\end{document}\n")
  
-#RadDiam(11) 
+#print(RadDiam(11))
 #MakeForrest() 
 #tr=MakeTreeTM(10)
 
