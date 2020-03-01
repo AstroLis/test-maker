@@ -60,7 +60,7 @@ class BinaryTree():
        else:
         self.left.randTree()
         self.right.randTree()
-def paintTree(tree,lvl,x1,y1):
+def paintTree(tree,lvl,x1,y1,bText=False):
     #print("paintTree")
     #print((lvl,x1,y1))
     #print(("tree type",tree.type))
@@ -77,9 +77,9 @@ def paintTree(tree,lvl,x1,y1):
            lvl=lvl*0.5
            BinaryTree.ccc.stroke(path.line(x1,y1,x0,y2))
            BinaryTree.ccc.stroke(path.line(x1,y1,x2,y2))
-           paintTree(tree.getLeftChild(),lvl,x0,y2)
-           paintTree(tree.getRightChild(),lvl,x2,y2)
-def MakeTreeTM(number_of_element=10):
+           paintTree(tree.getLeftChild(),lvl,x0,y2,bText)
+           paintTree(tree.getRightChild(),lvl,x2,y2,bText)
+def MakeTreeTM(number_of_element=10,bText=False):
  number_of_chemes=10
  BinaryTree.id_count=1
  varc=open('var_count','r')
@@ -99,7 +99,7 @@ def MakeTreeTM(number_of_element=10):
      myTree1.randTree()
  print(BinaryTree.id_count)    
  lvl=4
- paintTree(myTree1, lvl, 0, 5)
+ paintTree(myTree1, lvl, 0, 5,bText)
 # print(BinaryTree.probs)
  BinaryTree.ccc.writeEPSfile("./tex/tree"+str(v_cou))
 # BinaryTree.ccc.writePDFfile("tree"+str(v_cou))
@@ -107,8 +107,8 @@ def MakeTreeTM(number_of_element=10):
  vc.write(str(v_cou))
  vc.close()
  return ("tree"+str(v_cou)+".eps",BinaryTree.probs)
-def RadDiam(N=10):
- (fn,gr)=MakeTreeTM(N)
+def RadDiam(N=10,bText=False):
+ (fn,gr)=MakeTreeTM(N,bText)
  print(gr)
  grl=len(gr)
  mm=np.zeros((grl,grl))

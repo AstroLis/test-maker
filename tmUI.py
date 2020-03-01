@@ -340,10 +340,16 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
           otvs.append(EvalAnswer(data['param'],data[otvet]['o1']))
     elif (len(data[vopros])==2):
      if not bAnswer and 'vopros_no_answer' in data:
-      random.shuffle(vo)
-      quest.append(str(eval(parser.expr(data[vopros][vo[0][0]]).compile()))+'\n\n')
-      otvs.append(str(eval(parser.expr( data[otvet][vo[0][1]] ).compile())))
-      otvs.append(str(eval(parser.expr( data[otvet][vo[1][1]] ).compile())))
+      #random.shuffle(vo)
+      if random.randint(0,2)==0:
+        quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
+        otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
+      else:
+        quest.append(str(eval(parser.expr(data[vopros]['v2']).compile()))+'\n\n')
+        otvs.append(str(eval(parser.expr( data[otvet]['o2'] ).compile())))
+#      quest.append(str(eval(parser.expr(data[vopros][vo[0][0]]).compile()))+'\n\n')
+#      otvs.append(str(eval(parser.expr( data[otvet][vo[0][1]] ).compile())))
+     # otvs.append(str(eval(parser.expr( data[otvet][vo[1][1]] ).compile())))
      else: 
       quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
       otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
@@ -623,17 +629,139 @@ def make_book_head(TName):
  th.append("%Тест генератора сборника "+str(datetime.datetime.now()))
  return th
 
-def make_book_head0(TName):
+def make_book_head_solv(TName,fname):
  th=[]
- th.append("\\documentclass[12pt]{article}\n")
+ th.append("\\documentclass[10pt,a5paper]{extbook}\n")
  th.append("\\usepackage{graphicx}\n")
  th.append("\\usepackage{amsmath}\n")
- th.append("\\usepackage[left=0.5cm,right=1cm,top=0cm,bottom=2cm,bindingoffset=0cm]{geometry}\n")
+ th.append("\\usepackage{layout}\n")
+ th.append("\\usepackage{mathtools}\n")
+# th.append("\\usepackage[left=1.5cm,right=1.5cm,top=2cm,bottom=1.5cm,bindingoffset=0cm]{geometry}\n")
+ th.append("\\usepackage[]{geometry}\n")
  th.append("\\usepackage[russian]{babel}\n")
- th.append("\\begin{document}\n")
- th.append("Тест сборника сборка"+str(datetime.datetime.now()))
- return th
+ th.append("\\usepackage{fancyhdr}\n")
+ th.append("\\usepackage{enumitem}\n")
+ th.append("\\usepackage{rotating}")
+ th.append("\\usepackage{supertabular}") 
+ th.append("\\usepackage{multirow}")
+ th.append("\\usepackage{multicol}\n")
+ th.append("\\setlength{\\columnseprule}{0.4pt}\n")
+ th.append("\\usepackage{chngcntr}\n")
+ th.append("\\usepackage{titlesec}\n")
+ th.append("\\usepackage{titletoc}\n")
+ th.append("\\usepackage{tocloft}\n")
+# th.append("\\usepackage{esvect}\n")
+
+ th.append("\\setlength{\\parindent}{0ex}\n")
  
+ th.append("\\setlength{\\headsep}{10pt}\n") 
+ th.append("\\setlength{\\topmargin}{-21pt}\n") 
+ th.append("\\setlength{\\oddsidemargin}{-21pt}\n") 
+ th.append("\\setlength{\\evensidemargin}{-21pt}\n") 
+ th.append("\\setlength{\\textwidth}{112mm}\n") 
+# th.append("\\setlength{\\textheight}{174mm}\n")
+ th.append("\\setlength{\\textheight}{473pt}\n")
+
+ th.append("\\pagestyle{fancy}\n")
+
+ #th.append("\\let\\Oldpart\\part\n")
+ th.append("\\newcommand{\\parttitle}{}\n")
+ #th.append("\\renewcommand{\\part}[1]{\\Oldpart{#1}\\renewcommand{\\parttitle}{#1}}\n")
+ th.append("\\newcommand{\\chaptertitle}{}\n")
+
+ th.append("\\renewcommand{\\thechapter}{~}\n")
+ th.append("\\renewcommand{\\thepart}{~}\n")
+
+ th.append("\\counterwithout{section}{chapter}\n")
+
+ th.append("\\addto\\captionsrussian{\\renewcommand{\\chaptername}{Часть}}\n")
+
+ th.append("\\titleformat{\\chapter}{\\large\\bfseries}{ }{3pt}{\\centering\\large\\bfseries}\n")
+
+ th.append("\\titleclass{\\part}{straight}\n")
+ th.append("\\titleclass{\\chapter}{straight}\n")
+ th.append("\\titleclass{\\section}{straight}\n")
+ th.append("\\titlespacing*{\\part}{0pt}{0pt}{0pt}\n")
+ th.append("\\titlespacing*{\\chapter}{0pt}{0pt}{-5pt}\n")
+ th.append("\\titlespacing*{\\section}{0pt}{0pt}{0pt}\n")
+
+ th.append("\\titleformat{\\section}{\\bfseries}{\\thesection.~}{0pt}{\\bfseries}\n")
+ th.append("\\titleformat{\\part}{\\Large\\bfseries}{}{3pt}{\centering\Large\\bfseries}\n")
+ th.append("\\titleformat{\\chapter}{\\large\\bfseries}{}{3pt}{\centering\large\\bfseries}\n")
+
+ th.append("\\renewcommand{\\chaptermark}[1]{}\n")
+ th.append("\\renewcommand{\\sectionmark}[1]{\\markright{\\textbf{\\thesection.}~#1}}\n")
+
+
+ th.append("\\renewcommand\\cftchapafterpnum{}\n")
+ th.append("\\renewcommand\\cftsecafterpnum{}\n")
+
+
+ th.append("\\fancypagestyle{fancy1}{ % \n")
+ th.append("\\renewcommand{\\headrule}{\\vspace{2pt}\\hrule height 0.5pt \\vspace{1pt}\\hrule height 1pt}\n")
+ th.append("\\fancyhead[CE]{\\small \\parttitle. \\chaptertitle}\n")
+ th.append("\\fancyhead[CO]{\\small \\rightmark}\n")
+ th.append("\\fancyhead[LE]{\\small \\bf{\\thepage}}\n")
+ th.append("\\fancyhead[RO]{\\small \\bf{\\thepage}}\n")
+ th.append("\\fancyhead[RE]{}\n")
+ th.append("\\fancyhead[LO]{}\n")
+ th.append("\\fancyfoot[C]{}}\n")
+ 
+ th.append("\\fancypagestyle{plain1}{%\n")
+ th.append("\\fancyhf{} \n")
+ th.append("\\renewcommand{\\headrule}{\\vspace{2pt}\\hrule height 0.5pt \\vspace{1pt}\\hrule height 1pt}\n")
+ th.append("\\fancyhead[CE]{}\n")
+ th.append("\\fancyhead[CO]{}\n")
+ th.append("\\fancyhead[LE]{\\small \\bf{\\thepage}}\n")
+ th.append("\\fancyhead[RO]{\\small \\bf{\\thepage}}\n")
+ th.append("\\fancyhead[RE]{}\n")
+ th.append("\\fancyhead[LO]{}\n")
+ th.append("\\fancyfoot[C]{} }\n")
+
+ th.append("\\fancypagestyle{empty1}{%\n")
+ th.append("\\fancyhf{} \n")
+ th.append("\\renewcommand{\\headrule}{}\n")
+ th.append("\\fancyfoot[C]{} }\n")
+ 
+ th.append("\\setenumerate{label=\\textbf{\\thesection.\\arabic*.}}\n")
+ th.append("\\renewcommand\\thesection{\\arabic{section}}\n")
+
+ th.append("\\setlength{\\arraycolsep}{1pt}\n")
+ th.append("\\setlength{\\tabcolsep}{2pt}\n")
+ th.append("\\setlength{\\parskip}{\\baselineskip}\n")
+
+ th.append("\\setlength{\\cftbeforetoctitleskip}{0pt}\n")
+ th.append("\\setlength{\\cftaftertoctitleskip}{4pt}\n")
+ th.append("\\setlength{\\cftbeforepartskip}{4pt}\n")
+ th.append("\\setlength{\\cftbeforechapskip}{0pt}\n")
+ th.append("\\setlength{\\cftbeforesecskip}{0pt}\n")
+ th.append("\\setlength{\\cftchapindent}{-20pt}\n")
+ th.append("\\setlength{\\cftsecindent}{-2pt}\n")
+ 
+ th.append("\\addto\\captionsrussian{\\renewcommand{\\contentsname}{\\hfill О\\,Г\\,Л\\,А\\,В\\,Л\\,Е\\,Н\\,И\\,Е\\hfill}}\n")
+ th.append("\\renewcommand{\\cfttoctitlefont}{\\large\\bfseries}\n")
+ th.append("\\renewcommand{\\cftaftertoctitle}{ }\n")
+ th.append("\\renewcommand{\\cftsecpresnum}{ }\n")
+ th.append("\\renewcommand{\\cftsecaftersnum}{.}\n")
+ th.append("\\renewcommand{\\cftpartfont}{\\hfil\\large\\bfseries\hspace{10pt}}\n")
+ th.append("\\renewcommand{\\cftchapleader}{\\cftdotfill{\\cftdotsep}}\n")
+ th.append("\\cftpagenumbersoff{part}\n")
+ th.append("\\renewcommand{\\cftaftertoctitle}{\\thispagestyle{empty1}}\n")
+ 
+ th.append("\\begin{document}\n")
+# th.append("\\layout\n")
+ th.append("\\pagestyle{plain1}\n")
+# th.append("\\tableofcontents\n")
+# th.append("\\clearpage\n")
+ th.append("\\pagestyle{fancy1}\n")
+
+ th.append("%Тест генератора сборника "+str(datetime.datetime.now()))
+ 
+ th.append("\n\n\\part{"+fname+"}\n")
+ th.append("\\gdef\parttitle{"+fname+"}\n")
+ th.append("\\gdef\chaptertitle{"+fname+"}\n") 
+ return th
+
  
 def add_task(*args):
  l2.insert('end',l1.get(l1.curselection()))
@@ -686,7 +814,8 @@ def make_book(*args):
     f = open("./tex/"+test_name+'.tex', 'w')
     f.writelines(make_book_head(test_name))
     fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
-    fsolv.writelines(make_book_head(test_name))
+    fsolv.writelines(make_book_head_solv(test_name,test_name.replace('_','\_')))
+
     j={tkey_name:0 for tkey_name in l2.get(0, END)}
     ch_name0=''
     p_name0=''
@@ -769,7 +898,8 @@ def make_exam(*args):
     f = open("./tex/"+test_name+'.tex', 'w')
     f.writelines(make_test_head(test_name,l2.size()))
     fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
-    fsolv.writelines(make_book_head(test_name))
+    fsolv.writelines(make_book_head_solv(test_name,test_name.replace('_','\_')))
+
     quests=list(l2.get(0, END))
     numbers=list(l3.get(0, END))
     stacked_quests={}
@@ -836,12 +966,13 @@ def make_test(*args):
     f = open("./tex/"+test_name+'.tex', 'w')
     f.writelines(make_test_head(test_name,l2.size()))
     fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
-    fsolv.writelines(make_book_head(test_name))
+    fsolv.writelines(make_book_head_solv(test_name,test_name.replace('_','\_')))
+
     for iii in range(1, ntests):
         f.writelines(make_page_head(test_name,l2.size(),iii))
         f.write("\\begin{enumerate}[leftmargin=*,wide, labelwidth=!,labelindent=10pt,nosep]\n")
         #fsolv.write("Вариант: "+str(iii)+"\n")
-        fsolv.write("\n\nВариант: "+str(iii)+":  \n\n")
+        fsolv.write("\n\nВариант: "+str(iii)+":  ")
         i=0
         for tkey_name in l2.get(0, END):
             i=i+1
@@ -852,7 +983,11 @@ def make_test(*args):
                 f.write('\n'+task_data[tkey_name]["task_no_answer"]+'\n\n')
             task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
-            fsolv.write(str(i)+":"+str(task[1])+" \n\n")
+            if bAnswer:
+                fsolv.write(str(i)+":"+str(task[1])+" ")
+            else:
+                fsolv.write(str(i)+":"+str(task[1])+"\n\n")
+            
             f.write("\n\\end{minipage}\n")
         fsolv.write("\n")
         f.write("\\end{enumerate}\n")
