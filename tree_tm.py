@@ -68,8 +68,9 @@ def paintTree(tree,lvl,x1,y1,bText=False):
     #print((lvl,x1,y1))
     #print(("tree type",tree.type))
     
-    m=0.1
-    ch=chr(96+tree.rootid)
+    m=0.05
+#    ch=chr(96+tree.rootid)
+    ch=str(tree.rootid)
     sh=-0.3
     #qwertyuiopasdfghjklzxcvbnm
     if ch in 'idfhjklb':
@@ -115,7 +116,8 @@ def MakeTreeTM(number_of_element=10,bText=False):
  lvl=4
  paintTree(myTree1, lvl, 0, 5,bText)
  pruf=Prufer(BinaryTree.edges).prufer_repr
- pruf=[chr(97+k) for k in pruf]
+# pruf=[chr(97+k) for k in pruf]
+ pruf=[k+1 for k in pruf]
 # print(BinaryTree.probs)
  BinaryTree.ccc.writeEPSfile("./tex/tree"+str(v_cou))
 # BinaryTree.ccc.writePDFfile("tree"+str(v_cou))

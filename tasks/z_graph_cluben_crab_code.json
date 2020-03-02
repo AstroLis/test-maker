@@ -2,17 +2,33 @@
 "title":"Графы - кодирование",
 "chapter":"Теория графов. Маршруты в графах, деревья",
 "titleb":"Код Прюфера",
-"zadacha":"'Найдите найдите код Прюфера для дерева'+NL",
-"answer_style":"'line'",
+"zadacha":"'Вычислите код Прюфера для дерева и выберите соответствующую сумму его значений'+NL",
+"task_no_answer":"Вычислите код Прюфера для дерева ",
+
+"answer_style__":"'line'",
+"answer_style":"'one_line'",
 "vopros":{
-          "v1":"'\\\\centering{\\\\includegraphics[]{'+A1[0]+'}}'"
+          "v1":"'\\\\centering{\\\\includegraphics[scale=0.8]{'+A1[0]+'}}'",
+          "v2":""
          }, 
-"param":{
-         "A0":"random.randint(9,11)",
-         "A1":"tree_tm.RadDiam(A0,True)",
-         "A7":"0"
+"vopros_no_answer":{
+          "v1":"'\\\\centering{\\\\includegraphics[scale=0.8]{'+A1[0]+'}}'",
+          "v2":""
+         }, 
+"const_param":{
+         "A0":"7",
+         "A1":"tree_tm.RadDiam(A0,True)"
         },
+"param":{
+         "A2":"random.randint(20,29)*2+1"
+        },
+        
 "otvet":{
-         "o1":"str(A1[2]).replace('\\'','')"
+         "o1":"str(np.sum(A1[2]))",
+         "o2":"str(A2)"
+        },
+"otvet_no_answer":{
+         "o1":"str(A1[2]).replace('\\'','')",
+         "o2":"str(A2)"
         }
 }
