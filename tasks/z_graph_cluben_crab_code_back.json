@@ -1,0 +1,17 @@
+{
+"title":"Графы - декодирование",
+"chapter":"Теория графов. Маршруты в графах, деревья",
+"titleb":"Код Прюфера, декодирование",
+"zadacha":"'Восстановите дерево по коду Прюфера'+NL",
+"answer_style":"'line'",
+"vopros":{
+         "v1":"str(A1[2]).replace('\\'','')"
+         }, 
+"param":{
+         "A0":"7",
+         "A1":"tree_tm.RadDiam(A0,True)"
+        },
+"otvet":{
+          "o1":"'\\\\centering{\\\\includegraphics[scale=0.8]{'+A1[0]+'}}'"
+        }
+}

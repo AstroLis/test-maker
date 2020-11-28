@@ -68,7 +68,7 @@ def Ninv(iPerf,l=16):
  return ff
  
  
-def MakeTable(xyT,xHead,yHead,data,ff=2):
+def MakeTable(xyT,xHead,yHead,data,ff='{:4.2f}'):
  tb=''
  tb+=('\\begin{tabular}{|c|')
  for x in xHead:
@@ -82,7 +82,7 @@ def MakeTable(xyT,xHead,yHead,data,ff=2):
  for y in yHead:
   tb+=(str(y))
   for x in xHead:
-   tb+=('&'+'{:4.2f}'.format(data[id]))
+   tb+=('&'+ff.format(data[id]))
    id=id+1
   tb+=('\\\\ \\hline')
  tb+=('\\end{tabular}')
