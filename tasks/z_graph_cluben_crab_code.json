@@ -13,7 +13,7 @@
          }, 
 "vopros_no_answer":{
           "v1":"'\\\\centering{\\\\includegraphics[scale=0.8]{'+A1[0]+'}}'",
-          "v2":""
+          "v2":"''"
          }, 
 "const_param":{
          "A0":"7",

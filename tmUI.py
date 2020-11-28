@@ -339,14 +339,14 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
      for i in range(2,5):
           otvs.append(EvalAnswer(data['param'],data[otvet]['o1']))
     elif (len(data[vopros])==2):
-     if not bAnswer and 'vopros_no_answer' in data:
+     if not bAnswer: # and 'vopros_no_answer' in data:
       #random.shuffle(vo)
-      if random.randint(0,2)==0:
-        quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
-        otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
-      else:
-        quest.append(str(eval(parser.expr(data[vopros]['v2']).compile()))+'\n\n')
-        otvs.append(str(eval(parser.expr( data[otvet]['o2'] ).compile())))
+#      if random.randint(0,2)==0:
+       quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
+       otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
+#      else:
+#        quest.append(str(eval(parser.expr(data[vopros]['v2']).compile()))+'\n\n')
+#        otvs.append(str(eval(parser.expr( data[otvet]['o2'] ).compile())))
 #      quest.append(str(eval(parser.expr(data[vopros][vo[0][0]]).compile()))+'\n\n')
 #      otvs.append(str(eval(parser.expr( data[otvet][vo[0][1]] ).compile())))
      # otvs.append(str(eval(parser.expr( data[otvet][vo[1][1]] ).compile())))
@@ -472,7 +472,7 @@ def make_exam_page_head(TName,Nz,ii):
  th.append("Утверждаю\\\\ ")
  th.append("Заведующий кафедрой\\\\ ")
  th.append("\\underline{\\hskip 3cm}~~Е.~Рябоконь\\\\ ")
- th.append("<<~~~~~>>~~марта~~2019~г.\\\\ ")
+ th.append("04 марта~~2020~г.\\\\ ")
  th.append("\\vspace{8pt}  ")
  th.append("\\end{minipage}\\\\ ")
  th.append("\\hline\n") 
