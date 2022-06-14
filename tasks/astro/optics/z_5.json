@@ -1,0 +1,17 @@
+{
+"title":"5",
+"zadacha":"'ѕоказатель преломлени€ некоторого вещества равен {}. ќпределите скорость света в этом веществе.'.format(A1/10)",
+"vopros":{
+          "v1":"''"
+         }, 
+"param":{
+         "A1":"random.randint(11,20)",
+         "A2":"random.randint(10,20)",
+         "A3":"random.randint(10,20)",
+         "A4":"random.randint(2,10)",
+         "A5":"random.randint(30,60)"
+        },
+"otvet":{
+         "o1":"'{:6.2f}'.format(300000000/A1*10)"
+        }
+}
