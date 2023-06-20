@@ -465,22 +465,20 @@ def make_exam_page_head(TName,Nz,ii):
  th.append("\\vspace{8pt} \\centering")
  th.append("{\\bf Билет \\textnumero "+str(ii)+"}\\\\")
  th.append("3 кафедра \\\\")
- th.append("Дисциплина Д-0301-1")
+ th.append("Дисциплина Д3-503-03")
  th.append("\\end{minipage}&")
  th.append("\\begin{minipage}{0.3\\textwidth} ")
  th.append("\\vspace{8pt}  \\centering")
  th.append("Утверждаю\\\\ ")
  th.append("Заведующий кафедрой\\\\ ")
  th.append("\\underline{\\hskip 3cm}~~Е.~Рябоконь\\\\ ")
- th.append("04 марта~~2020~г.\\\\ ")
+ th.append("10 марта~2021~г.\\\\ ")
  th.append("\\vspace{8pt}  ")
  th.append("\\end{minipage}\\\\ ")
  th.append("\\hline\n") 
  th.append("\multicolumn{3}{|l|}{\\begin{minipage}[t][.9\\textheight]{\\linewidth} ")
  return th
- 
- 
- 
+  
 def make_test_head(TName,Nz):
  th=[]
  th.append("\\documentclass[12pt]{article}\n")
