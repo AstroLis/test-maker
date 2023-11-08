@@ -1013,12 +1013,13 @@ def make_test(*args):
             task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
 
-            question = moodlexport.Question("multichoice")
-            question.text('\n'.join(task[0]))
-            question.grade(1.0)
-            for ii in range (1,5):
-                question.answer(str(i), ii==int(task[1]))
-            question.addto(category)
+#            question = moodlexport.Question("multichoice")
+#            question.text('\n'.join(task[0]))
+#            question.grade(1.0)
+#            for ii in range (1,5):
+#                question.answer(str(i), ii==int(task[1]))
+#            question.addto(category)
+
 
             if bAnswer:
                 fsolv.write(str(i)+":"+str(task[1])+" ")
