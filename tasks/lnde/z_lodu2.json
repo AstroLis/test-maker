@@ -1,0 +1,21 @@
+{
+"title":"ЛОДУ2",
+"chapter":"ДУ",
+"titleb":"ЛОДУ2",
+"zadacha":"'Выберети выражение, удовлетворяющее уравнению: '",
+"vopros":{
+          "v1":"'$y\\'\\' {}{}y\\' {}{}y=0$'.format('+' if A3>=0 else '',A3,'+' if A4>=0 else '',A4)"
+         }, 
+"param":{
+         "A1":"np.random.randint(-10,5)",
+         "A2":"np.random.randint(A1+1,20)",
+         "A3":"-(A1+A2)",
+         "A4":"A1*A2",
+         "A5":"np.random.randint(2,10)",
+         "A6":"np.random.randint(2,10)",
+         "A7":"A2*A2"
+        },
+"otvet":{
+         "o1":"'$'+str(A5)+'{\\\\mathbf e}^{'+str(A1)+'x}+'+str(A6)+'{\\\\mathbf e}^{'+str(A2)+'x}$'"         
+        }
+}

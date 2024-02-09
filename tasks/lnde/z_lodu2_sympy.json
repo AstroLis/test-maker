@@ -1,0 +1,26 @@
+{
+"title":"ЛОДУ2 sympy",
+"chapter":"ДУ",
+"titleb":"ЛОДУ2 sympy",
+"zadacha":"'Выберите выражение, удовлетворяющее уравнению: '",
+"vopros":{
+          "v1":"'$'+sympy.latex(B1)+' = 0$'"
+         }, 
+"answer_style":"'qa_line'",                  
+"param":{
+         "A1":"np.random.randint(-10,5)",
+         "A2":"np.random.randint(A1+1,20)",
+         "A3":"-(A1+A2)",
+         "A4":"A1*A2",
+         "A5":"np.random.randint(2,10)",
+         "A6":"np.random.randint(2,10)",
+         "A7":"A2*A2",
+		 "A8":"sympy.Function('y')",
+		 "A9":"sympy.symbols('x')",
+		 "B1":"sympy.Derivative(A8(A9), A9, A9)+A3*sympy.Derivative(A8(A9), A9) + A4*A8(A9)",
+		 "B2":"sympy.dsolve(B1)"         
+        },
+"otvet":{
+         "o1":"'$'+sympy.latex(B2)+'$'"         
+        }
+}

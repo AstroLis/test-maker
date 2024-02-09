@@ -4,6 +4,7 @@ import os
 import json,random,parser,math,datetime,copy
 import codecs
 import moodlexport
+import sympy
 
 import numpy as np
 sys.path.append('./tree_tm.py')
@@ -126,6 +127,17 @@ def MakeMatrix(data,ff=2,baks=1):
      tb+='$'
  return tb
  
+def numprint(x,coef=''):
+	res=''
+	if x==0:
+		return ''	
+	if x==1:
+		return '+'+coef
+	if x==-1:
+		return '-'+coef		
+	if x>0:
+		return '+'+str(x)+coef
+	return str(x)+coef		
 
 def MakeNormalDistr(a,sigm):
  return "$$ f_X(x)=\\frac{1}{"+(str(sigm) if sigm!=1 else "")+" \\sqrt{2 \\pi}} \\cdot e^{- \\frac{"+(("(x"+("-"+str(a) if a>0 else "+"+str(-a))+")^2") if a!=0 else ("x^2"))+"}{"+str(2*sigm*sigm)+"}} $$"

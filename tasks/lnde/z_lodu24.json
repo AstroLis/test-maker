@@ -1,0 +1,42 @@
+{
+"title":"ЛОДУ2 - 4",
+"chapter":"ДУ",
+"titleb":"ЛОДУ2 - 4",
+"zadacha":"'Выберите функцию, удовлетворяющее уравнению: '",
+"vopros":{
+          "v1":"'$y\\'\\' {} {}=0$'.format(numprint(A3,'y\\''),numprint(A4,'y'))",
+          "v2":"'$y\\'\\' {} {}=0$'.format(numprint(A7,'y\\''),numprint(A8,'y'))",
+          "v3":"'$y\\'\\' {} {}=0$'.format(numprint(B1,'y\\''),numprint(B2,'y'))",
+          "v4":"'$y\\'\\' {} {}=0$'.format(numprint(B3,'y\\''),numprint(B4,'y'))"
+         }, 
+"answer_style":"'qa_line'",         
+"param":{
+         "A1":"np.random.randint(-10,5)",
+         "A12":"np.random.randint(1,10)",
+         "A2":"A12 if A12 != A1 else A12+1",         
+         "A3":"-(A1+A2)",
+         "A4":"A1*A2",
+         "A5":"np.random.randint(2,10)",
+         "A6":"np.random.randint(2,10)",
+         "A7":"-2*A1",
+         "A8":"A1*A1",
+         "B1":"A7",
+         "B2":"A1*A1+A2*A2",
+         "B3":"-A7",
+         "B4":"A1*A1+A2*A2",
+         "R1":"np.random.randint(2,10)",
+         "R2":"np.random.randint(2,10)",
+         "R3":"np.random.randint(2,10)",
+         "R4":"np.random.randint(2,10)",
+         "R5":"np.random.randint(2,10)",
+         "R6":"np.random.randint(2,10)",
+         "R7":"np.random.randint(2,10)",
+         "R8":"np.random.randint(2,10)"
+        },
+"otvet":{
+         "o1":"'$y(x)='+str(R1)+'{\\\\mathbf e}^{'+str(A1)+'x}+'+str(R5)+'{\\\\mathbf e}^{'+str(A2)+'x}$'",
+         "o2":"'$y(x)='+str(R2)+'{\\\\mathbf e}^{'+str(A1)+'x}+'+str(R6)+'x{\\\\mathbf e}^{'+str(A1)+'x}$'",
+         "o3":"'$y(x)={\\\\mathbf e}^{'+str(A1)+'x}(' +str(R3)+'{\\\\mathbf{cos}}('+str(A2)+'x)+'+str(R7)+'{\\\\mathbf{cos}}('+str(A2)+'x))$'",
+         "o4":"'$y(x)={\\\\mathbf e}^{'+str(-A1)+'x}(' +str(R4)+'{\\\\mathbf{cos}}('+str(A2)+'x)+'+str(R8)+'{\\\\mathbf{cos}}('+str(A2)+'x))$'"
+        }
+}
