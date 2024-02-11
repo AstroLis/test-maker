@@ -2,6 +2,9 @@
 from tkinter import ttk
 import os
 import json,random,parser,math,datetime,copy
+import codecs
+import moodlexport
+
 import numpy as np
 sys.path.append('./tree_tm.py')
 sys.path.append('./graph_tm.py')
@@ -16,6 +19,7 @@ import plot_fraspr_tm
 import scheme_tm
 import algebra_tm
 import tree_bool_tm
+import teorv_tm
 
 def Cnm(n,m):
  if n<m:
@@ -88,7 +92,19 @@ def MakeTable(xyT,xHead,yHead,data,ff='{:4.2f}'):
  tb+=('\\end{tabular}')
  return tb
 
+def MakeVector(data,ff=2,baks=1):
+    tb='('
+    for x in data:
+        if(x>=0):    
+            tb+=('{:g},'.format(x))
+        else:
+            tb+=('\\text{-}'+'{:g},'.format(-x))   
+    tb=tb[:-1]
+    return tb+')'
+    
+
 def MakeMatrix(data,ff=2,baks=1):
+ print(data)
  tb=''
  for j in range (0,baks):
      tb+='$'
@@ -792,7 +808,14 @@ def remove_all_task(*args):
  
 def select_theme(*args):
    #task_data={}
+   if l0.curselection()==():
+       return
    l1.delete(0, END)
+   print(l0.curselection())
+  # l0.
+   #print(l0.get(l0.curselection()))
+
+  # exit(0)
    for tname in theme_data[l0.get(l0.curselection())]:     
     z=open(tname,"r")
     zz=z.read()
@@ -809,9 +832,9 @@ def make_book(*args):
     with open('book_count', 'w') as f:
      f.write(str(bc+1))
  
-    f = open("./tex/"+test_name+'.tex', 'w')
+    f = codecs.open("./tex/"+test_name+'.tex', 'w', "utf-8-sig")
     f.writelines(make_book_head(test_name))
-    fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
+    fsolv = codecs.open("./tex/"+test_name+'_solv.tex', 'w', "utf-8-sig")
     fsolv.writelines(make_book_head_solv(test_name,test_name.replace('_','\_')))
 
     j={tkey_name:0 for tkey_name in l2.get(0, END)}
@@ -961,10 +984,16 @@ def make_test(*args):
     with open('book_count', 'w') as f:
      f.write(str(bc+1))
     test_name=result_file_name.get()+'_'+str(bc)
-    f = open("./tex/"+test_name+'.tex', 'w')
+    #f = open("./tex/"+test_name+'.tex', 'w')
+    f = codecs.open("./tex/"+test_name+'.tex', 'w', "utf-8-sig")
     f.writelines(make_test_head(test_name,l2.size()))
-    fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
+#    fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
+    fsolv = codecs.open("./tex/"+test_name+'_solv.tex', 'w', "utf-8-sig")
     fsolv.writelines(make_book_head_solv(test_name,test_name.replace('_','\_')))
+
+    category = moodlexport.Category(test_name)
+
+
 
     for iii in range(1, ntests):
         f.writelines(make_page_head(test_name,l2.size(),iii))
@@ -981,6 +1010,15 @@ def make_test(*args):
                 f.write('\n'+task_data[tkey_name]["task_no_answer"]+'\n\n')
             task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
+
+#            question = moodlexport.Question("multichoice")
+#            question.text('\n'.join(task[0]))
+#            question.grade(1.0)
+#            for ii in range (1,5):
+#                question.answer(str(i), ii==int(task[1]))
+#            question.addto(category)
+
+
             if bAnswer:
                 fsolv.write(str(i)+":"+str(task[1])+" ")
             else:
@@ -994,6 +1032,7 @@ def make_test(*args):
     f.close()
     fsolv.write("\\end{document}\n")
     fsolv.close()
+    category.save()
     tex_cmp = open('./tex/cmp_tex.bat', 'w')
     tex_cmp.write('latex "' + test_name + '.tex"\n')
     tex_cmp.write('dvips  "' + test_name + '.dvi"\n')
