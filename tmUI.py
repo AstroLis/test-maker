@@ -73,7 +73,7 @@ def Ninv(iPerf,l=16):
  return ff
  
  
-def MakeTable(xyT,xHead,yHead,data,ff=2):
+def MakeTable(xyT,xHead,yHead,data,ff='{:4.2f}'):
  tb=''
  tb+=('\\begin{tabular}{|c|')
  for x in xHead:
@@ -87,7 +87,7 @@ def MakeTable(xyT,xHead,yHead,data,ff=2):
  for y in yHead:
   tb+=(str(y))
   for x in xHead:
-   tb+=('&'+'{:4.2f}'.format(data[id]))
+   tb+=('&'+ff.format(data[id]))
    id=id+1
   tb+=('\\\\ \\hline')
  tb+=('\\end{tabular}')
@@ -367,14 +367,14 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
      for i in range(2,5):
           otvs.append(EvalAnswer(data['param'],data[otvet]['o1']))
     elif (len(data[vopros])==2):
-     if not bAnswer and 'vopros_no_answer' in data:
+     if not bAnswer: # and 'vopros_no_answer' in data:
       #random.shuffle(vo)
-      if random.randint(0,2)==0:
-        quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
-        otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
-      else:
-        quest.append(str(eval(parser.expr(data[vopros]['v2']).compile()))+'\n\n')
-        otvs.append(str(eval(parser.expr( data[otvet]['o2'] ).compile())))
+#      if random.randint(0,2)==0:
+       quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
+       otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
+#      else:
+#        quest.append(str(eval(parser.expr(data[vopros]['v2']).compile()))+'\n\n')
+#        otvs.append(str(eval(parser.expr( data[otvet]['o2'] ).compile())))
 #      quest.append(str(eval(parser.expr(data[vopros][vo[0][0]]).compile()))+'\n\n')
 #      otvs.append(str(eval(parser.expr( data[otvet][vo[0][1]] ).compile())))
      # otvs.append(str(eval(parser.expr( data[otvet][vo[1][1]] ).compile())))
@@ -493,22 +493,20 @@ def make_exam_page_head(TName,Nz,ii):
  th.append("\\vspace{8pt} \\centering")
  th.append("{\\bf Билет \\textnumero "+str(ii)+"}\\\\")
  th.append("3 кафедра \\\\")
- th.append("Дисциплина Д-0301-1")
+ th.append("Дисциплина Д3-503-03")
  th.append("\\end{minipage}&")
  th.append("\\begin{minipage}{0.3\\textwidth} ")
  th.append("\\vspace{8pt}  \\centering")
  th.append("Утверждаю\\\\ ")
  th.append("Заведующий кафедрой\\\\ ")
  th.append("\\underline{\\hskip 3cm}~~Е.~Рябоконь\\\\ ")
- th.append("<<~~~~~>>~~марта~~2019~г.\\\\ ")
+ th.append("10 марта~2021~г.\\\\ ")
  th.append("\\vspace{8pt}  ")
  th.append("\\end{minipage}\\\\ ")
  th.append("\\hline\n") 
  th.append("\multicolumn{3}{|l|}{\\begin{minipage}[t][.9\\textheight]{\\linewidth} ")
  return th
- 
- 
- 
+  
 def make_test_head(TName,Nz):
  th=[]
  th.append("\\documentclass[12pt]{article}\n")
@@ -1025,12 +1023,13 @@ def make_test(*args):
             task = ParseTask(tname,bAnswer)
             f.writelines(task[0])
 
-            question = moodlexport.Question("multichoice")
-            question.text('\n'.join(task[0]))
-            question.grade(1.0)
-            for ii in range (1,5):
-                question.answer(str(i), ii==int(task[1]))
-            question.addto(category)
+#            question = moodlexport.Question("multichoice")
+#            question.text('\n'.join(task[0]))
+#            question.grade(1.0)
+#            for ii in range (1,5):
+#                question.answer(str(i), ii==int(task[1]))
+#            question.addto(category)
+
 
             if bAnswer:
                 fsolv.write(str(i)+":"+str(task[1])+" ")

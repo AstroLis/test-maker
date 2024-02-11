@@ -3,11 +3,14 @@
 "chapter":"Булевы функции. Нормальные формы",
 "titleb":"Нахождение вектора значений по СКНФ",
 "zadacha":"'Для булевой функции $f(x_1,x_2,x_3,x_4)=({})$ запишите вектор значений'.format(A2)",
-"task_no_answer":"'Для булевой функции $f(x_1,x_2,x_3,x_4)=({})$ выберите вектор значений'.format(A2)",
+"task_no_answer":"Запишите вектор значения для булевой функции ",
 "answer_style":"'block'",
 "vopros":{
           "v1":"''"
          }, 
+"vopros_no_answer":{
+          "v1":"'$f(x_1,x_2,x_3,x_4)=({})$'.format(A2)"
+         },
 "param":{
          "A1":"bool_num_term(12,12,nv=4)",
          "A2":"tree_bool_tm.DStrFromNbool(A1,4,knf=True)",
@@ -18,6 +21,9 @@
          "A7":"0"                  
         },
 "otvet":{
+         "o1":"'\\\\texttt{{({:016b})}}'.format(Ninv(A1))"         
+        },
+"otvet_no_answer":{
          "o1":"'\\\\texttt{{({:016b})}}'.format(Ninv(A1))"         
         }
 }
