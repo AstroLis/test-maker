@@ -928,9 +928,9 @@ def make_exam(*args):
     with open('book_count', 'w') as f:
      f.write(str(bc+1))
     test_name=result_file_name.get()+'_'+str(bc)
-    f = open("./tex/"+test_name+'.tex', 'w')
+    f = codecs.open("./tex/"+test_name+'.tex', 'w', "utf-8-sig")
     f.writelines(make_test_head(test_name,l2.size()))
-    fsolv = open("./tex/"+test_name+'_solv.tex', 'w')
+    fsolv = codecs.open("./tex/"+test_name+'_solv.tex', 'w', "utf-8-sig")
     fsolv.writelines(make_book_head_solv(test_name,test_name.replace('_','\_')))
 
     quests=list(l2.get(0, END))

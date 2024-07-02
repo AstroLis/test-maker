@@ -202,8 +202,11 @@
                     "./tasks/z_ispr_skvo2.json",
                     "./tasks/z_viborka.json",
                     "./tasks/z_chis_har_sl_pr.json",
-                    "./tasks/z_tv_markov.json",
+                    "./tasks/z_tv_markov_m2.json",
+                    "./tasks/z_tv_markov_m3.json",
                     "./tasks/z_tv_markov1.json",
+                    "./tasks/z_tv_markov1_m2.json",
+                    "./tasks/z_tv_markov2_m2.json",
                     "./tasks/z_tv_markov2.json"
                 ]                       
 }
