@@ -1,9 +1,11 @@
 ﻿from tkinter import *
 from tkinter import ttk
 import os
-import json,random,parser,math,datetime,copy
+import json,random,math,datetime,copy
 import codecs
 import moodlexport
+import sys
+import ast
 
 import numpy as np
 sys.path.append('./tree_tm.py')
@@ -142,8 +144,13 @@ def EvalParams(dParams,**kwargs):
      pars[A]=eval(A,globals())
      print(pars[A])
     return pars 
-def EvalAnswerCore(dAnsw,**kwargs):
-    return str(eval(parser.expr( dAnsw ).compile()))    
+#def EvalAnswerCore(dAnsw,**kwargs):
+#    return str(eval(ast.expr( dAnsw ).compile()))    
+    
+def EvalAnswerCore(dAnsw, **kwargs):
+#    return str(eval(ast.parse(dAnsw, mode='eval').body))
+    return str(eval(compile(ast.parse(dAnsw, mode='eval'), filename='<string>', mode='eval')))
+    
 def EvalAnswer(dParams,dAnsw):
     pp=EvalParams(dParams)
     return EvalAnswerCore(dAnsw,**pp)
@@ -299,7 +306,18 @@ def MakeQAStyle(quest,ans,style):
       qa.append(ans[i])
       qa.append('\\end{minipage}\n')      
     return qa
-  
+
+def eval_expr(expression):
+    # Parse the expression using ast.parse()
+    parsed_expr = ast.parse(expression, mode='eval')
+
+    # Evaluate the parsed expression using eval()
+    result = eval(compile(parsed_expr, '<string>', 'eval'))
+
+    # Append the result to the rt list as a string
+    return str(result)
+    
+
 def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     rt=[]
     NL='\n\n'
@@ -315,10 +333,18 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
         rt.append('\\begin{minipage}[]{0.55\\linewidth}\n')
     print(data['zadacha'])
     if not bAnswer and 'task_no_answer' in data:
-        #rt.append(str(eval(parser.expr( data['task_no_answer'] ).compile()))+'\n')
+        #rt.append(str(eval(ast.expr( data['task_no_answer'] ).compile()))+'\n')
         pass
     else:
-        rt.append(str(eval(parser.expr( data['zadacha'] ).compile()))+'\n')
+        # Assuming data['zadacha'] contains the expression
+        expression = data['zadacha']
+        # Parse the expression using ast.parse()
+        parsed_expr = ast.parse(expression, mode='eval')
+        # Evaluate the parsed expression using eval()
+        result = eval(compile(parsed_expr, '<string>', 'eval'))
+        # Append the result to the rt list as a string
+        rt.append(str(result) + '\n')    
+#        rt.append(str(eval(ast.expr( data['zadacha'] ).compile()))+'\n')
     if na:
         rt.append('\\end{minipage}\n')      
     otvs = []
@@ -338,40 +364,33 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     vo = list(zip(vv, oo))
     quest=[]
     answ=[]
-    if(len(vv)>4):
-     random.shuffle(vv)
-     rt.append(str(eval(parser.expr(data[vopros][vv[qnum]]).compile())) + '\n\n')
-     return (rt, '')
-    elif(len(vv)==4):
-     #vv=['v1','v2','v3','v4']
-     if not randAns:
-      random.shuffle(vo)
-     quest.append(str(eval(parser.expr(data[vopros][vo[qnum][0]]).compile())))
-     for o in oo:
-      otvs.append(str(eval(parser.expr( data[otvet][o] ).compile())))
-    elif (len(data[vopros])==1):
-     quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
-     otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
-     for i in range(2,5):
-          otvs.append(EvalAnswer(data['param'],data[otvet]['o1']))
-    elif (len(data[vopros])==2):
-     if not bAnswer: # and 'vopros_no_answer' in data:
-      #random.shuffle(vo)
-#      if random.randint(0,2)==0:
-       quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
-       otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
-#      else:
-#        quest.append(str(eval(parser.expr(data[vopros]['v2']).compile()))+'\n\n')
-#        otvs.append(str(eval(parser.expr( data[otvet]['o2'] ).compile())))
-#      quest.append(str(eval(parser.expr(data[vopros][vo[0][0]]).compile()))+'\n\n')
-#      otvs.append(str(eval(parser.expr( data[otvet][vo[0][1]] ).compile())))
-     # otvs.append(str(eval(parser.expr( data[otvet][vo[1][1]] ).compile())))
-     else: 
-      quest.append(str(eval(parser.expr(data[vopros]['v1']).compile()))+'\n\n')
-      otvs.append(str(eval(parser.expr( data[otvet]['o1'] ).compile())))
-      for i in range(2,5):
-          otvs.append(EvalAnswer(data['param'],data[otvet]['o2']))
-
+    if len(vv) > 4:
+        random.shuffle(vv)
+        rt.append(eval_expr(data[vopros][vv[qnum]]))
+        return (rt, '')
+    
+    elif len(vv) == 4:
+        if not randAns:
+            random.shuffle(vo)
+        quest.append(eval_expr(data[vopros][vo[qnum][0]]))
+        for o in oo:
+            otvs.append(eval_expr(data[otvet][o]))
+    
+    elif len(data[vopros]) == 1:
+        quest.append(eval_expr(data[vopros]['v1']))
+        otvs.append(eval_expr(data[otvet]['o1']))
+        for i in range(2, 5):
+            otvs.append(EvalAnswer(data['param'], data[otvet]['o1']))
+    
+    elif len(data[vopros]) == 2:
+        if not bAnswer:  # and 'vopros_no_answer' in data:
+            quest.append(eval_expr(data[vopros]['v1']))
+            otvs.append(eval_expr(data[otvet]['o1']))
+        else:
+            quest.append(eval_expr(data[vopros]['v1']))
+            otvs.append(eval_expr(data[otvet]['o1']))
+            for i in range(2, 5):
+                otvs.append(EvalAnswer(data['param'], data[otvet]['o2']))
     ncu0=oo.index(vo[qnum][1])    #number of correct answer    
     
     if not bAnswer:
@@ -817,7 +836,7 @@ def select_theme(*args):
 
   # exit(0)
    for tname in theme_data[l0.get(l0.curselection())]:     
-    z=open(tname,"r")
+    z=open(tname,"r",encoding='cp1251')
     zz=z.read()
     data=json.loads(zz)
     ttitle=str(data['title'])
@@ -1131,7 +1150,7 @@ ttk.Label(mainframe, text="Задача:").grid(column=0+col0, row=-1+row0, stic
 #for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
 root.grid_columnconfigure(0, weight=1)
 root.grid_rowconfigure(0, weight=1)
-jz=open("./tasks/tlist.json","r")
+jz=open("./tasks/tlist.json","r",encoding='utf8')
 jzz=jz.read()
 themdata=json.loads(jzz)
 task_data={}

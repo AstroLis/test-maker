@@ -1,10 +1,10 @@
 {
-"1. Основы теории вероятностей":["./tasks/z_bern1.json","./tasks/z_clas-ver.json","./tasks/z_bern_pua.json","./tasks/z_opera_sobit.json","./tasks/z_opera_sobit_sozhn.json","./tasks/z_poln_ver.json","./tasks/z_poln_ver2.json","./tasks/z_poln_ver3.json","./tasks/z_poln_ver_byes.json","./tasks/z_slozh_umnozh.json","./tasks/z_slozh_umnozh2.json","./tasks/z_graph.json","./tasks/z_shcem.json","./tasks/z_shcem2.json"],
-"2. Случайные величины":["./tasks/z_pl_raspr_exp.json","./tasks/z_norm_raspr.json","./tasks/z_norm_raspr2.json","./tasks/z_matozh_gr.json","./tasks/z_fraspr_nepr.json","./tasks/z_matozh.json","./tasks/z_matozh_table.json","./tasks/z_matozh_table_2d.json","./tasks/z_pl_raspr_ravn.json"],
-"3. Математическая статистика":["./tasks/z_ispr_skvo2.json","./tasks/z_ispr_skvo.json","./tasks/z_ispr_dispr.json","./tasks/z_viborka.json","./tasks/z_viborka2.json"],
-"4. Случайные процессы":["./tasks/z_chis_har_sl_pr.json"],
-"5. Теоретические вопросы":["./tasks/Teor_tv1.json","./tasks/Teor_tv2.json","./tasks/Teor_tv4.json","./tasks/Teor_tv5.json"],
-"6. Теория множеств":[ 
+"1. РћСЃРЅРѕРІС‹ С‚РµРѕСЂРёРё РІРµСЂРѕСЏС‚РЅРѕСЃС‚РµР№":["./tasks/z_bern1.json","./tasks/z_clas-ver.json","./tasks/z_bern_pua.json","./tasks/z_opera_sobit.json","./tasks/z_opera_sobit_sozhn.json","./tasks/z_poln_ver.json","./tasks/z_poln_ver2.json","./tasks/z_poln_ver3.json","./tasks/z_poln_ver_byes.json","./tasks/z_slozh_umnozh.json","./tasks/z_slozh_umnozh2.json","./tasks/z_graph.json","./tasks/z_shcem.json","./tasks/z_shcem2.json"],
+"2. РЎР»СѓС‡Р°Р№РЅС‹Рµ РІРµР»РёС‡РёРЅС‹":["./tasks/z_pl_raspr_exp.json","./tasks/z_norm_raspr.json","./tasks/z_norm_raspr2.json","./tasks/z_matozh_gr.json","./tasks/z_fraspr_nepr.json","./tasks/z_matozh.json","./tasks/z_matozh_table.json","./tasks/z_matozh_table_2d.json","./tasks/z_pl_raspr_ravn.json"],
+"3. РњР°С‚РµРјР°С‚РёС‡РµСЃРєР°СЏ СЃС‚Р°С‚РёСЃС‚РёРєР°":["./tasks/z_ispr_skvo2.json","./tasks/z_ispr_skvo.json","./tasks/z_ispr_dispr.json","./tasks/z_viborka.json","./tasks/z_viborka2.json"],
+"4. РЎР»СѓС‡Р°Р№РЅС‹Рµ РїСЂРѕС†РµСЃСЃС‹":["./tasks/z_chis_har_sl_pr.json"],
+"5. РўРµРѕСЂРµС‚РёС‡РµСЃРєРёРµ РІРѕРїСЂРѕСЃС‹":["./tasks/Teor_tv1.json","./tasks/Teor_tv2.json","./tasks/Teor_tv4.json","./tasks/Teor_tv5.json"],
+"6. РўРµРѕСЂРёСЏ РјРЅРѕР¶РµСЃС‚РІ":[ 
                        "./tasks/z_graph_marsh_types.json",
                        "./tasks/z_b_form_po_trtab.json",
                        "./tasks/z_mnozh_boolean_zorich.json",
@@ -44,14 +44,14 @@
                        "./tasks/z_graph_cluben_crab_code_back.json", 
                        "./tasks/z_graph_dijkstra1.json"
                        ],
-"Временно":["./tasks/z_oper_mnozh.json",
+"Р’СЂРµРјРµРЅРЅРѕ":["./tasks/z_oper_mnozh.json",
             "./tasks/z_oper_mnozh_o1.json",
             "./tasks/z_mnozh_otnosheniya.json",
             "./tasks/z_mnozh_decart.json",
             "./tasks/z_karnaught.json",
             "./tasks/z_algebra.json"
             ],
-"Сборник с ответами":[
+"РЎР±РѕСЂРЅРёРє СЃ РѕС‚РІРµС‚Р°РјРё":[
                        "./tasks/z_mnozh_incl.json",
                        "./tasks/z_mnozh_boolean.json",
                        "./tasks/z_oper_mnozh_o2.json",
@@ -113,7 +113,7 @@
                      "./tasks/z_b_zazhig_po_opt.json",
                      "./tasks/z_b_shef-pirs_po_dnf.json"
     ],            
-"7. Булевы функции":["./tasks/z_trtab.json",
+"7. Р‘СѓР»РµРІС‹ С„СѓРЅРєС†РёРё":["./tasks/z_trtab.json",
                      "./tasks/z_b_sdnf_po_venn.json",
                      "./tasks/z_b_vekt_po_venn.json",                      
                      "./tasks/z_b_venn_po_vekt.json",                      
@@ -146,7 +146,7 @@
                      "./tasks/z_b_shef_po_dnf.json",
                      "./tasks/z_b_zazhig_po_opt.json"
                      ],
-"Теория по ДМ":[
+"РўРµРѕСЂРёСЏ РїРѕ Р”Рњ":[
                     "./tasks/DM1.json",
                     "./tasks/DM2.json",
                     "./tasks/DM3.json",
@@ -154,7 +154,7 @@
                     "./tasks/DM5.json",
                     "./tasks/DM6.json"
                 ],                       
-"Сборник по ТВ":[
+"РЎР±РѕСЂРЅРёРє РїРѕ РўР’":[
                     "./tasks/teor_ver/z_meeting.json",
                     "./tasks/teor_ver/z_poln_ver_combi0.json", 
                     "./tasks/teor_ver/z_poln_ver_combi1.json",
