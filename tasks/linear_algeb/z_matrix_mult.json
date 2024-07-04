@@ -1,0 +1,21 @@
+{
+"title":"Умножение матриц",
+"chapter":"Линейная алгебра. Матрицы",
+"titleb":"Умножение матриц",
+"zadacha":"'Даны две матрицы, найдите их произведение:'",
+"vopros":{
+          "v1":"MakeMatrix(A1) + ', ' +MakeMatrix(A2)"
+         }, 
+"param":{
+         "A1":"np.random.randint(1,10,(2,2))",
+         "A2":"np.random.randint(1,10,(2,2))",
+         "A3":"np.dot(A1,A2)",
+         "A4":"random.randint(1,4)",
+         "A5":"random.randint(1,4)",
+         "A6":"(10-A4-A5)",
+         "A7":"A2*A2"
+        },
+"otvet":{
+         "o1":"MakeMatrix(A3)"         
+        }
+}

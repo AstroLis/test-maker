@@ -1,0 +1,17 @@
+{
+"title":"Линейные системы 3",
+"chapter":"Линейная алгебра. Матрицы",
+"titleb":"Линейные системы",
+"zadacha":"'Найдите решение системы: '",
+"vopros":{
+          "v1":"'Ax = b, {} где A={}, b={}'.format(NL,MakeMatrix(A1),MakeMatrix(A3))"
+         }, 
+"param":{
+         "A1":"np.random.randint(1,10,(3,3))",
+         "A2":"np.random.randint(1,10,(3,1))",
+         "A3":"np.dot(A1,A2)"
+        },
+"otvet":{
+         "o1":"MakeMatrix(A2)"         
+        }
+}

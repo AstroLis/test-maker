@@ -153,7 +153,24 @@
                     "./tasks/DM4.json",
                     "./tasks/DM5.json",
                     "./tasks/DM6.json"
-                ],                       
+                ],                                         
+"ЛНДЕ":         [
+					"./tasks/lnde/z_lodu2.json",
+					"./tasks/lnde/z_lodu24.json",
+					"./tasks/lnde/z_lodu2_sympy.json",
+					"./tasks/lnde/z_lodu2_sympy2.json",
+					"./tasks/lnde/z_lodu2_sympy4.json",
+					"./tasks/lnde/z_lodu2_sympy3.json"
+					],       
+"Матричная алгебра":[
+					"./tasks/linear_algeb/z_matrix_sum.json",
+					"./tasks/linear_algeb/z_matrix_mult.json",
+					"./tasks/linear_algeb/z_matrix_det.json",
+					"./tasks/linear_algeb/z_matrix_det2.json",
+					"./tasks/linear_algeb/z_matrix_linear_syst3.json",
+					"./tasks/linear_algeb/z_matrix_linear_syst.json",
+					"./tasks/linear_algeb/z_matrix_linear.json"
+					],                    
 "Сборник по ТВ":[
                     "./tasks/teor_ver/z_meeting.json",
                     "./tasks/teor_ver/z_poln_ver_combi0.json", 
@@ -185,8 +202,11 @@
                     "./tasks/z_ispr_skvo2.json",
                     "./tasks/z_viborka.json",
                     "./tasks/z_chis_har_sl_pr.json",
-                    "./tasks/z_tv_markov.json",
+                    "./tasks/z_tv_markov_m2.json",
+                    "./tasks/z_tv_markov_m3.json",
                     "./tasks/z_tv_markov1.json",
+                    "./tasks/z_tv_markov1_m2.json",
+                    "./tasks/z_tv_markov2_m2.json",
                     "./tasks/z_tv_markov2.json"
                 ]                       
 }

@@ -1,0 +1,21 @@
+{
+"title":"Линейные операции с матрицами",
+"chapter":"Линейная алгебра. Матрицы",
+"titleb":"Линейные операции",
+"zadacha":"'Вычислите: '",
+"vopros":{
+          "v1":"'${}\\\\cdot A + {} \\\\cdot B$, {} где A={}, B={}'.format(A3,A4,NL,MakeMatrix(A1),MakeMatrix(A2))"
+         }, 
+"param":{
+         "A1":"np.random.randint(1,10,(2,2))",
+         "A2":"np.random.randint(1,10,(2,2))",
+         "A3":"np.random.randint(-10,10)",
+         "A4":"np.random.randint(2,10)",
+         "A5":"A3*A1+A4*A2",
+         "A6":"(10-A4-A5)",
+         "A7":"A2*A2"
+        },
+"otvet":{
+         "o1":"MakeMatrix(A5)"         
+        }
+}
