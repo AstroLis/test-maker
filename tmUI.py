@@ -95,12 +95,13 @@ def MakeTable(xyT,xHead,yHead,data,ff='{:4.2f}'):
  return tb
 
 def MakeVector(data,ff=2,baks=1):
+    form='{:.'+str(ff)+'g},'
     tb='('
     for x in data:
         if(x>=0):    
-            tb+=('{:g},'.format(x))
+            tb+=(form.format(x))
         else:
-            tb+=('\\text{-}'+'{:g},'.format(-x))   
+            tb+=('\\text{-}'+form.format(-x))   
     tb=tb[:-1]
     return tb+')'
     
@@ -308,11 +309,13 @@ def MakeQAStyle(quest,ans,style):
     return qa
 
 def eval_expr(expression):
+    NL='\n\n'
+    SL='\\'
     # Parse the expression using ast.parse()
     parsed_expr = ast.parse(expression, mode='eval')
 
     # Evaluate the parsed expression using eval()
-    result = eval(compile(parsed_expr, '<string>', 'eval'))
+    result = eval(compile(parsed_expr, '<string>', 'eval'),globals(), locals())
 
     # Append the result to the rt list as a string
     return str(result)
@@ -341,7 +344,7 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
         # Parse the expression using ast.parse()
         parsed_expr = ast.parse(expression, mode='eval')
         # Evaluate the parsed expression using eval()
-        result = eval(compile(parsed_expr, '<string>', 'eval'))
+        result = eval(compile(parsed_expr, '<string>', 'eval'),globals(), locals())
         # Append the result to the rt list as a string
         rt.append(str(result) + '\n')    
 #        rt.append(str(eval(ast.expr( data['zadacha'] ).compile()))+'\n')
@@ -364,6 +367,8 @@ def ParseTaskWithParams(data,bAnswer,randAns,compl,**kwargs):
     vo = list(zip(vv, oo))
     quest=[]
     answ=[]
+    current_context = {**globals(), **locals()}
+
     if len(vv) > 4:
         random.shuffle(vv)
         rt.append(eval_expr(data[vopros][vv[qnum]]))

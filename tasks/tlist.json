@@ -207,6 +207,8 @@
                     "./tasks/z_tv_markov1.json",
                     "./tasks/z_tv_markov1_m2.json",
                     "./tasks/z_tv_markov2_m2.json",
-                    "./tasks/z_tv_markov2.json"
+                    "./tasks/z_tv_markov2.json",
+                    "./tasks/z_tv_markov_cont1.json",
+                    "./tasks/z_tv_markov_cont1_2x2.json"
                 ]                       
 }
