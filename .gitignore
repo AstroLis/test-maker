@@ -13,3 +13,5 @@
 __pycache_*
 *.rar
 *.xml
+*.svg
+*.emf

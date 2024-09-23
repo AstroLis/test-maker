@@ -1,0 +1,23 @@
+{
+  "title": "Деление дробей",
+  "chapter": "Математика. Дроби",
+  "titleb": "Операции с дробями",
+  "zadacha": "'Вычислите: '",
+  "vopros": {
+    "v1": "'$\\\\frac{' + str(A3) + '}{' + str(A4) + '} \\\\div \\\\frac{' + str(C1) + '}{' + str(C2) + '}$'"
+
+  },
+  "param": {
+    "A1": "random.randint(1, 10)",
+    "A2": "random.randint(1, 10)",
+    "B1": "random.randint(1, 10)",
+    "B2": "random.randint(1, 10)",
+    "A3": "random.randint(1, 10)",
+    "A4": "random.randint(1, 10)",
+    "C1": "random.randint(1, 10)",
+    "C2": "random.randint(1, 10)"
+  },
+  "otvet": {
+    "o1": "'$\\\\frac{' + str(A3 * C2) + '}{' + str(A4 * C1) + '}$'"
+  }
+}

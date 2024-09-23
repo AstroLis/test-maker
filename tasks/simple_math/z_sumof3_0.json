@@ -1,0 +1,17 @@
+{
+  "title": "Сложение трех чисел",
+  "chapter": "Математика. Арифметика",
+  "titleb": "Сложение чисел",
+  "zadacha": "'Вычислите: '",
+  "vopros": {
+    "v1": "'${} + {} + {}$'.format(A1, A2, A3)"
+  },
+  "param": {
+    "A1": "random.randint(1, 10)",
+    "A2": "random.randint(10, 20)",
+    "A3": "random.randint(20, 30)"
+  },
+  "otvet": {
+    "o1": "'{}'.format(A1 + A2 + A3)"
+  }
+}

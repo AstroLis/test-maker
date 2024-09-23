@@ -1,0 +1,19 @@
+{
+  "title": "Сумма различных степеней целого числа",
+  "chapter": "Математика. Степени",
+  "titleb": "Операции с возведением в степень",
+  "zadacha": "'Вычислите: '",
+  "vopros": {
+    "v1": "'${}^{} + {}^{} + {}^{}$'.format(A1,P1,A1,P2,A1,P3)"
+  },
+  "param": {
+    "A1": "random.randint(1, 10)",
+    "P1": "random.randint(0, 4)",
+    "P2": "random.randint(0, 4)",
+    "P3": "random.randint(0, 4)",
+    "P4": "random.randint(2, 5)"
+  },
+  "otvet": {
+    "o1": "'{}'.format(A1 ** P1 + A1 ** P2 + A1 ** P3)"
+  }
+}

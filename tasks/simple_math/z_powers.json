@@ -1,0 +1,24 @@
+{
+  "title": "Произведение степеней целого числа",
+  "chapter": "Математика. Степени",
+  "titleb": "Операции с возведением в степень",
+  "zadacha": "'Вычислите: '",
+  "vopros": {
+    "v1": "'${}^{{ {} }} \\\\cdot {}^{{ {} }} \\\\cdot {}^{{ {} }} \\\\cdot {}^{{ {} }}$'.format(A1,P1,A1,P2,A1,P3,A1,P4)",
+    "v2": ""
+  },
+  "const_param": {
+	"A1": "random.randint(1, 10)"
+	},
+  "param": {
+    "P1": "random.randint(0, 9)",
+    "P2": "random.randint(-9, 0)",
+    "P3": "random.randint(0, 9)",
+    "P4": "random.randint(-9, 0)",
+    "P5": "random.randint(-25, 25)"
+  },
+  "otvet": {
+    "o1": "'${}^{{ {} }}$'.format(A1, P1 + P2 + P3 + P4)",
+    "o2": "'${}^{{ {} }}$'.format(A1, P5)"
+  }
+}

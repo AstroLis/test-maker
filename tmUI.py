@@ -1146,10 +1146,12 @@ root.grid_rowconfigure(0, weight=1)
 jz=open("./tasks/tlist.json","r")
 jzz=jz.read()
 themdata=json.loads(jzz)
+print(themdata)
 task_data={}
 theme_data={}
 for theme in sorted(list(themdata.keys())):
     ttitle=str(theme)
+    print(ttitle)
     l0.insert('end',ttitle)
     theme_data[ttitle]=themdata[theme]
 root.mainloop()
