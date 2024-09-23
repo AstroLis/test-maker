@@ -1,0 +1,23 @@
+{
+  "title": "Сумма различных отрицательных степеней отрицательного числа",
+  "chapter": "Математика. Степени",
+  "titleb": "Операции с возведением в степень",
+  "zadacha": "'Вычислите: '",
+  "vopros": {
+    "v1": "'$({})^{{ {} }} + ({})^{{ {} }} + ({})^{{ {} }}$'.format(A1,P1,A1,P2,A1,P3)"
+  },
+  "param": {
+    "A1": "random.randint(-5, -2)",
+    "P1": "random.randint(-3, 0)",
+    "P2": "random.randint(-3, 0)",
+    "P3": "random.randint(-3, 0)",
+    "P4": "random.randint(2, 5)",
+    "Pm": "np.abs(np.min([P1,P2,P3]))",
+    "R1_den":"A1**Pm",
+    "R1_num":"A1**(Pm+P1)+A1**(Pm+P2)+A1**(Pm+P3)",
+    "Sgn":"'-' if np.sign(R1_den*R1_num)<0 else ''"
+  },
+  "otvet": {
+    "o1": "'$ '+Sgn+' \\\\frac{' + str(np.abs(R1_num)) + '}{' + str(np.abs(R1_den)) + '}$'"
+  }
+}

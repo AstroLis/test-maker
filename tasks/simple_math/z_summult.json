@@ -1,0 +1,18 @@
+{
+  "title": "Сложение и умножение целых чисел",
+  "chapter": "Математика. Арифметика",
+  "titleb": "Операции с целыми числами",
+  "zadacha": "'Вычислите: '",
+  "vopros": {
+    "v1": "'${} + {} \\\\times ({} - {})$'.format(A1, A2, A3, A4)"
+  },
+  "param": {
+    "A1": "random.randint(-10, 10)",
+    "A2": "random.randint(1, 10)",
+    "A3": "random.randint(-10, 10)",
+    "A4": "random.randint(1, 10)"
+  },
+  "otvet": {
+    "o1": "'{}'.format(A1 + A2 * (A3 - A4))"
+  }
+}

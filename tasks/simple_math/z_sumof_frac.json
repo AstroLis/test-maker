@@ -1,0 +1,25 @@
+{
+  "title": "Сложение и вычитание дробей",
+  "chapter": "Математика. Дроби",
+  "titleb": "Операции с дробями",
+  "zadacha": "'Вычислите: '",
+  "vopros": {
+    "v1": "'$\\\\frac{' + str(A1) + '}{' + str(A2) + '} + \\\\frac{' + str(A3) + '}{' + str(A4) + '}$'"
+  },
+  "param": {
+    "A1": "random.randint(1, 10)",
+    "A2": "random.randint(1, 10)",
+    "A3": "random.randint(1, 10)",
+    "A4": "random.randint(1, 10)",
+    "AN1": "np.lcm(A2, A4)",
+    "B1": "(AN1 // A2) * A1",
+    "B2": "(AN1 // A4) * A3",
+    "BS1": "B1 + B2",
+    "G1": "np.gcd(BS1, AN1)",
+    "R1_num": "BS1 // G1",
+    "R1_den": "AN1 // G1"
+  },
+  "otvet": {
+    "o1": "'$\\\\frac{' + str(R1_num) + '}{' + str(R1_den) + '}$'"
+  }
+}

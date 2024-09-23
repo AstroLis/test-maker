@@ -1,0 +1,17 @@
+{
+  "title": "Сложение и умножение десятичных чисел",
+  "chapter": "Математика. Десятичные дроби",
+  "titleb": "Операции с десятичными дробями",
+  "zadacha": "'Вычислите: '",
+  "vopros": {
+    "v1": "'${} + {} \\\\times {}$'.format(A1, A2, A3)"
+  },
+  "param": {
+    "A1": "round(random.uniform(0.1, 10.0), 1)",
+    "A2": "round(random.uniform(0.1, 10.0), 1)",
+    "A3": "round(random.uniform(0.1, 10.0), 1)"
+  },
+  "otvet": {
+    "o1": "'{:.2f}'.format(A1 + A2 * A3)"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "title": "Формулы сокращенного умножения кв. сум.",
+  "chapter": "Алгебра. Формулы сокращенного умножения",
+  "titleb": "Формулы сокращенного умножения",
+  "zadacha": "'Используйте формулы сокращенного умножения: '",
+  "vopros": {
+    "v1": "'$({} + {})^2$'.format(A1,B)",    
+    "v2": ""
+  },
+  "const_param": {
+	"A": "[np.random.randint(0,10),np.random.randint(11,20)]",
+    "A1": "'abcdefghijklmnopqrstuxyz'[A[0]]",
+    "B": "'abcdefghijklmnopqrstuxyz'[A[1]]",
+    "H": "'h'",
+    "O1": "'${}^2 + 2{}{} + {}^2$'.format(A1,A1,B,B)",
+    "O2": "['${}^2 - 2{}{} + {}^2$'.format(A1,A1,B,B),'${}^2 - {}^2$'.format(A1,B),'${}^2 + {}^2$'.format(A1,B)]"
+  },
+  "param": {
+	  "R1":"np.random.randint(0,3)"
+  },
+  "otvet": {
+    "o1": "O1",
+    "o2": "O2[R1]"
+  }
+}

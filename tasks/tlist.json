@@ -210,5 +210,29 @@
                     "./tasks/z_tv_markov2.json",
                     "./tasks/z_tv_markov_cont1.json",
                     "./tasks/z_tv_markov_cont1_2x2.json"
-                ]                       
+                ],
+"Простые задачи":[
+					"./tasks/simple_math/z_sork_umnozh.json",
+					"./tasks/simple_math/z_sork_umnozh_1.json",
+					"./tasks/simple_math/z_sork_umnozh_2.json",
+					"./tasks/simple_math/z_sork_umnozh_3.json",
+					"./tasks/simple_math/z_powers.json",
+					"./tasks/simple_math/z_powers_frac.json",
+					"./tasks/simple_math/z_powers_simple.json",
+					"./tasks/simple_math/z_powers_neg_simple.json",
+					"./tasks/simple_math/z_powers_neg1_simple.json",
+					"./tasks/simple_math/z_powers_neg2_simple.json",
+					"./tasks/simple_math/z_sumof_frac_dec4.json",
+					"./tasks/simple_math/z_sumof_frac_dec4_1.json",
+					"./tasks/simple_math/z_sumof_frac_dec4_2.json",
+					"./tasks/simple_math/z_sumof_frac_dec4_3.json",
+					"./tasks/simple_math/z_sumof_frac_dec4_4.json",
+					"./tasks/simple_math/z_sumof_frac_dec.json",
+					"./tasks/simple_math/z_divof_frac.json",
+					"./tasks/simple_math/z_multof_frac.json",
+					"./tasks/simple_math/z_sumof_frac.json",
+					"./tasks/simple_math/z_summult.json",
+					"./tasks/simple_math/z_sumof3_0.json",
+					"./tasks/simple_math/z_sumof3.json"
+]                       
 }
