@@ -157,6 +157,7 @@
 "ЛНДЕ":         [
 					"./tasks/lnde/z_lodu2.json",
 					"./tasks/lnde/z_lodu24.json",
+                    "./tasks/lnde/z_simple_dif_eq.json",
 					"./tasks/lnde/z_lodu2_sympy.json",
 					"./tasks/lnde/z_lodu2_sympy2.json",
 					"./tasks/lnde/z_lodu2_sympy4.json",
@@ -170,6 +171,14 @@
 					"./tasks/linear_algeb/z_matrix_linear_syst3.json",
 					"./tasks/linear_algeb/z_matrix_linear_syst.json",
 					"./tasks/linear_algeb/z_matrix_linear.json"
+					],                    
+"Преобразования Лапласа":[
+					"./tasks/laplace/z_laplace1.json",
+					"./tasks/laplace/z_laplace2.json",
+					"./tasks/laplace/z_laplace3.json",
+					"./tasks/laplace/z_laplace_i1.json",
+					"./tasks/laplace/z_laplace_i2.json",
+					"./tasks/laplace/z_laplace_i3.json"
 					],                    
 "Сборник по ТВ":[
                     "./tasks/teor_ver/z_meeting.json",

@@ -1,0 +1,16 @@
+{
+"title":"Преобразования Лапласа обратно 2",
+"chapter":"Преобразования Лапласа",
+"titleb":"Преобразования Лапласа туда",
+"zadacha":"'Восстановите оригинал по данному изображению:'",
+"answer_style":"'line_item'",
+"vopros":{
+          "v1":"'${}$'.format(sympy.latex((A1[1])))"
+         }, 
+"param":{
+         "A1":"laplace_tm.make_laplace_task(num=2)"
+        },
+"otvet":{
+         "o1":"'${}$'.format(sympy.latex((A1[0])))"
+        }
+}

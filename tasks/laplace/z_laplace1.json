@@ -1,0 +1,16 @@
+{
+"title":"Преобразования Лапласа туда 1",
+"chapter":"Преобразования Лапласа",
+"titleb":"Преобразования Лапласа туда",
+"zadacha":"'Найдите Лапласов образ выражения:'",
+"answer_style":"'line_item'",
+"vopros":{
+          "v1":"'${}$'.format(sympy.latex((A1[0])))"
+         }, 
+"param":{
+         "A1":"laplace_tm.make_laplace_task(num=1)"
+        },
+"otvet":{
+         "o1":"'${}$'.format(sympy.latex((A1[1])))"
+        }
+}

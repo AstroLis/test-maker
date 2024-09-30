@@ -6,14 +6,23 @@ import codecs
 import moodlexport
 import sys
 import ast
-
+import sympy
+import sympy.abc
 import numpy as np
+
+#sympy.init_printing()
+
+#sympy.print_latex(sympy.abc.x)
+print(sympy.latex(sympy.abc.x))
+#exit(0)
+
 sys.path.append('./tree_tm.py')
 sys.path.append('./graph_tm.py')
 sys.path.append('./plot_fraspr_tm.py')
 sys.path.append('./scheme_tm.py')
 sys.path.append('./algebra_tm.py')
 sys.path.append('./tree_bool_tm.py')
+sys.path.append('./laplace_tm.py')
 
 import graph_tm
 import tree_tm
@@ -22,6 +31,7 @@ import scheme_tm
 import algebra_tm
 import tree_bool_tm
 import teorv_tm
+import laplace_tm
 
 def Cnm(n,m):
  if n<m:

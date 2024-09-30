@@ -1,0 +1,36 @@
+{
+        "title": "Дифференциальное уравнение первого порядка",
+        "chapter": "Математика. Дифференциальные уравнения",
+        "titleb": "Решение дифференциальных уравнений",
+        "zadacha": "'Решите дифференциальное уравнение: '",
+        "answer_style":"'qa_line'",
+        "vopros": {
+          "v1": "'${} = 0$'.format(sympy.latex(P+Q*sympy.abc.y.diff(sympy.abc.x, evaluate=False)))",
+          "v2": "''"
+        },
+        "const_param":{     
+                "A1":"np.random.randint(1,7)",
+                "A2":"np.random.randint(1,7)",
+                "A3":"np.random.randint(1,7)",
+                "B1":"np.random.randint(1,7)",
+                "B2":"np.random.randint(1,7)",
+                "B3":"np.random.randint(1,7)",
+                "P": "eval(random.choice(['sympy.abc.x**A1', 'sympy.exp(A1*sympy.abc.x)', 'sympy.sin(A1*sympy.abc.x+A2)', 'sympy.cos(A1*sympy.abc.x+A2)', '(A1*sympy.abc.x**A3 + A2)']))",
+          "Pint": "sympy.integrate(P, sympy.abc.x)",
+          "Q": "eval(random.choice(['sympy.abc.y**B1', 'sympy.exp(B1*sympy.abc.y)', 'sympy.sin(B1*sympy.abc.y+B2)', 'sympy.cos(B1*sympy.abc.y+B2)', '(B1*sympy.abc.y**A3 + B2)']))",
+          "Qint": "sympy.integrate(Q, sympy.abc.y)",
+          "R1":"sympy.integrate(P, sympy.abc.x) + Q.diff(sympy.abc.y)",
+          "R2":"P.diff(sympy.abc.x) + Q.diff(sympy.abc.y)",
+          "R3":"P.diff(sympy.abc.x) + sympy.integrate(Q,sympy.abc.y)",
+          "R4":"[0,R1,R2,R3]",
+          "R5":"-1"
+        },
+        "param": {
+                "R5":"R5+1"
+        },
+        "otvet": {
+          "o1": "'${} = C$'.format(sympy.latex(Pint+Qint))",
+          "o2": "'${} = C$'.format(sympy.latex(R4[R5]))"
+        }
+}
+      
